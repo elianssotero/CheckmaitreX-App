@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Navigate,
@@ -5,21 +6,17 @@ import {
   Routes,
 } from 'react-router-dom'
 
-function HomePage() {
-  return (
-    <main>
-      <h1>CheckmaîtréX</h1>
-      <p>Official Chess Platform</p>
-    </main>
-  )
-}
+import AppLayout from './layouts/AppLayout'
+import HomePage from './pages/HomePage'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/" element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
