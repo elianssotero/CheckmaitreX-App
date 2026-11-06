@@ -8,6 +8,7 @@ import {
 
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
+import CorporatePage from './pages/CorporatePage'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="corporate" element={<CorporatePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
