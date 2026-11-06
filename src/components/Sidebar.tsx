@@ -11,6 +11,7 @@ import {
   ShoppingBag,
   BarChart3,
   Settings,
+  Building2,
 } from 'lucide-react'
 
 const navigation = [
@@ -35,6 +36,7 @@ const navigation = [
   {
     title: 'COMPANY',
     items: [
+      { label: 'Corporate Management', path: '/corporate', icon: Building2 },
       { label: 'Shop', path: '/shop', icon: ShoppingBag },
       { label: 'Settings', path: '/settings', icon: Settings },
     ],
@@ -47,12 +49,8 @@ function Sidebar() {
       <div className="sidebar-brand">
         <div className="sidebar-brand-mark">C</div>
         <div>
-          <div className="sidebar-brand-name">
-            CheckmaîtréX
-          </div>
-          <div className="sidebar-brand-caption">
-            OFFICIAL PLATFORM
-          </div>
+          <div className="sidebar-brand-name">CheckmaîtréX</div>
+          <div className="sidebar-brand-caption">OFFICIAL PLATFORM</div>
         </div>
       </div>
 
