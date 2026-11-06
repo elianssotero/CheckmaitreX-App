@@ -3,11 +3,8 @@ import { useMemo, useState } from 'react'
 import {
   Activity,
   ArrowDownRight,
-  ArrowRight,
-  ArrowUpRight,
   Building2,
   CalendarDays,
-  CheckCircle2,
   ChevronRight,
   CircleDollarSign,
   ClipboardList,
