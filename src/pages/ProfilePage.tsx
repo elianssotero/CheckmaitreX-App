@@ -77,10 +77,20 @@ function ProfilePage() {
           <div className="cx-profile-identity-top">
             <div className="cx-profile-photo">
               {profile.profilePhoto ? (
-                <img src={profile.profilePhoto} alt="Profile" />
-              ) : (
-                <CircleUserRound size={58} />
-              )}
+                            <div className="cx-profile-name-area">
+              <h1>
+                {profile.title && (
+                  <span className="cx-profile-title">{profile.title}</span>
+                )}
+                <span className="cx-profile-account-name">
+                  {profile.accountName}
+                </span>
+                <span className="cx-profile-country-flag">
+                  {profile.countryFlag}
+                </span>
+              </h1>
+              <span>{profile.username}</span>
+              <span className="cx-profile-location">{profile.location}</span>
             </div>
 
             <div className="cx-profile-name-area">
