@@ -15,11 +15,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AppLayout />}>
+          <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="corporate" element={<CorporatePage />} />
+          <Route path="more" element={<MorePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
+         </Route>
       </Routes>
     </BrowserRouter>
   )
