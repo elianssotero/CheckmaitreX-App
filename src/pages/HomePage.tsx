@@ -195,6 +195,7 @@ function getGreeting() {
 }
 
 function HomePage() {
+  const navigate = useNavigate()
   const [greeting, setGreeting] = useState(getGreeting)
   const [featureIndex, setFeatureIndex] = useState(0)
   const featureTrackRef = useRef<HTMLDivElement>(null)
@@ -252,9 +253,13 @@ function HomePage() {
     <div className="cx-home">
       <header className="cx-topbar">
         <div className="cx-user-area">
-          <button className="cx-avatar" aria-label="Player profile">
-            <CircleUserRound size={25} />
-          </button>
+          <button
+  className="cx-avatar"
+  aria-label="Player profile"
+  onClick={() => navigate('/profile')}
+>
+  <CircleUserRound size={25} />
+</button>
 
           <div className="cx-user-details">
             <div className="cx-player-name-line">
