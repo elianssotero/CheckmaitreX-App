@@ -136,6 +136,7 @@ function StatusLabel({ status }: { status: Status }) {
 export default function MaitronXAssistant({
   recentActivity = null,
   fullPage = false,
+  homepageMode = false,
 }: Props) {
   const navigate = useNavigate()
 
@@ -394,9 +395,12 @@ export default function MaitronXAssistant({
       handleDoubleTap()
     } else {
       singleTapRef.current = window.setTimeout(() => {
-        singleTapRef.current = null
-        setShowPrompts((previous) => !previous)
-      }, 270)
+  singleTapRef.current = null
+
+  if (!homepageMode) {
+    setShowPrompts((previous) => !previous)
+  }
+}, 270)
     }
   }
 
