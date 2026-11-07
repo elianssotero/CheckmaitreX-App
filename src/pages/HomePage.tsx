@@ -332,6 +332,7 @@ function HomePage() {
           </div>
         </section>
 
+        
         <section className="cx-section">
           <div className="cx-section-heading">
             <div>
@@ -345,17 +346,18 @@ function HomePage() {
           <div className="cx-rating-track">
             {ratings.map((rating) => (
               <article className="cx-rating-card" key={rating.name}>
-           <img
-            className="cx-rating-icon"
-            src={rating.icon}
-            alt={`${rating.name} icon`}
-            width={24}
-            height={24}
-          />
-                <span className="cx-rating-name">{rating.name}</span>
                 <div className="cx-rating-icon">
-  <RatingIcon name={rating.name} />
-</div>
+                  <RatingIcon name={rating.name} />
+                </div>
+
+                <span className="cx-rating-name">{rating.name}</span>
+                <strong>{rating.rating}</strong>
+                <span className="cx-rating-label">Rating</span>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="cx-section">
           <div className="cx-section-heading">
             <div>
@@ -366,6 +368,7 @@ function HomePage() {
               View all <ChevronRight size={15} />
             </button>
           </div>
+
 
           <div className="cx-friends-track">
             {visibleFriends.map((friend) => (
