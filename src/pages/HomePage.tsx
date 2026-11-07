@@ -189,17 +189,8 @@ function RatingIcon({ name }: { name: string }) {
 
 
 function HomePage() {
-  const navigate = useNavigate( 
+  const navigate = useNavigate() 
   const featureTrackRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const updateGreeting = () => setGreeting(getGreeting())
-
-    const interval = window.setInterval(updateGreeting, 60_000)
-
-    return () => window.clearInterval(interval)
-  }, [])
-
   const updateFeatureIndex = () => {
     const track = featureTrackRef.current
     if (!track) return
