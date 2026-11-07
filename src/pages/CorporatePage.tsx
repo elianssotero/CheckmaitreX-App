@@ -2,7 +2,9 @@
 import { useMemo, useState } from 'react'
 import {
   Activity,
-  ArrowDownRight,
+  import {
+  ArrowRight,
+} from 'lucide-react'
   Building2,
   CalendarDays,
   ChevronRight,
