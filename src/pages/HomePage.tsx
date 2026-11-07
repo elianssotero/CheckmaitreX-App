@@ -294,14 +294,6 @@ function HomePage() {
                 >
                   <div className="cx-feature-top">
                     <span>{feature.label}</span>
-                    {feature.title === 'Puzzles' ? (
-  <img
-    src="/icons/puzzles/puzzle.png"
-    alt="Puzzles"
-    width={23}
-    height={23}
-    className="cx-feature-image-icon"
-  />
 {feature.title === 'Puzzles' ? (
   <img
     src="/icons/puzzles/puzzle.png"
@@ -312,7 +304,7 @@ function HomePage() {
   />
 ) : (
   <Icon size={23} />
-)}
+)}          
                   </div>
 
                   <div className="cx-feature-bottom">
@@ -361,13 +353,9 @@ function HomePage() {
             height={24}
           />
                 <span className="cx-rating-name">{rating.name}</span>
-                <strong>{rating.rating}</strong>
-                <span className="cx-rating-label">Rating</span>
-              </article>
-            ))}
-          </div>
-        </section>
-
+                <div className="cx-rating-icon">
+  <RatingIcon name={rating.name} />
+</div>
         <section className="cx-section">
           <div className="cx-section-heading">
             <div>
