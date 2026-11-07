@@ -29,7 +29,7 @@ const navigation = [
   {
     title: 'COMPETITION & COMMUNITY',
     items: [
-      { label: 'Tournaments', path: '/tournaments', icon: Trophy },
+      { label: 'More', path: '/more', icon: AlignJustify },
       { label: 'Community', path: '/community', icon: Users },
       { label: 'Ratings', path: '/ratings', icon: BarChart3 },
     ],
