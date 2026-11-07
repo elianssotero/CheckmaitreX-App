@@ -104,22 +104,16 @@ const games = [
   },
 ]
 
+function RatingIcon({ name }: { name: string }) 
+}
+
 function getGreeting() {
   const hour = new Date().getHours()
 
-function RatingIcon({ name }: { name: string }) {
-  const common = {
-    width: 25,
-    height: 25,
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.7,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true as const,
-  }
-
+  if (hour >= 5 && hour < 12) return 'Good Morning'
+  if (hour >= 12 && hour < 18) return 'Good Afternoon'
+  return 'Good Evening'
+}
   switch (name) {
     case 'Bullet':
       return (
