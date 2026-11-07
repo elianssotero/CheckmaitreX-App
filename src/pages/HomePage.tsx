@@ -107,6 +107,72 @@ const games = [
 function getGreeting() {
   const hour = new Date().getHours()
 
+function RatingIcon({ name }: { name: string }) {
+  const common = {
+    width: 25,
+    height: 25,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.7,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true as const,
+  }
+
+  switch (name) {
+    case 'Bullet':
+      return (
+        <svg {...common}>
+          <path d="M13 2 5 13h6l-1 9 9-12h-6l1-8Z" />
+        </svg>
+      )
+
+    case 'Blitz':
+      return (
+        <svg {...common}>
+          <path d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z" />
+        </svg>
+      )
+
+    case 'Rapid':
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l4 2" />
+          <path d="M9 2h6" />
+        </svg>
+      )
+
+    case 'Classical':
+      return (
+        <svg {...common}>
+          <path d="M7 21h10M8 18h8l-1-3H9l-1 3Z" />
+          <path d="M9 15V8l3-4 3 4v7" />
+          <path d="M7 8h10M10 8V5m4 3V5" />
+        </svg>
+      )
+
+    case 'Daily':
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
+      )
+
+    case 'All Stats':
+      return (
+        <svg {...common}>
+          <path d="M4 20V10m5 10V4m5 16v-7m5 7V7" />
+          <path d="M2 20h20" />
+        </svg>
+      )
+
+    default:
+      return null
+  }
+}
   if (hour >= 5 && hour < 12) return 'Good Morning'
   if (hour >= 12 && hour < 18) return 'Good Afternoon'
   return 'Good Evening'
