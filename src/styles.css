@@ -2087,3 +2087,53 @@ svg {
     font-size: 9px;
   }
 }
+/* PROFILE PAGE - ADDITIONAL DETAILS */
+
+.cx-profile-edit-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(217, 180, 91, 0.5);
+  border-radius: 50%;
+  color: var(--cx-gold);
+  background: rgba(11, 11, 13, 0.8);
+}
+
+.cx-profile-name-area h1 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cx-profile-name-area h1 span {
+  display: inline;
+  margin: 0;
+}
+
+.cx-profile-title {
+  color: var(--cx-gold) !important;
+  font-size: 12px !important;
+  font-weight: 800;
+}
+
+.cx-profile-account-name {
+  color: var(--cx-text) !important;
+  font-size: inherit !important;
+}
+
+.cx-profile-country-flag {
+  font-size: 16px !important;
+}
+
+.cx-profile-location {
+  display: block !important;
+  margin-top: 4px !important;
+  color: var(--cx-muted) !important;
+  font-size: 11px !important;
+}
