@@ -3,13 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Mic,
   MicOff,
-  Volume2,
-  Wifi,
-  WifiOff,
-  Brain,
   Moon,
-  ArrowUpRight,
-  X,
   ShieldCheck,
 } from 'lucide-react'
 
