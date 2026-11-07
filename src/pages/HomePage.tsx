@@ -357,7 +357,7 @@ function HomePage() {
                     <div className="cx-section-heading">
             <div>
               <span className="cx-overline">YOUR CHESS PERFORMANCE</span>
-              <h2>Your Ratings</h2>
+              <h2>Ratings</h2>
             </div>
             <button className="cx-text-link">
               View all <ChevronRight size={15} />
