@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MaitronXAssistant from '../components/MaitronXAssistant'
 import {
@@ -187,18 +187,9 @@ function RatingIcon({ name }: { name: string }) {
   }
 }
 
-function getGreeting() {
-  const hour = new Date().getHours()
-
-  if (hour >= 5 && hour < 12) return 'Good Morning'
-  if (hour >= 12 && hour < 18) return 'Good Afternoon'
-  return 'Good Evening'
-}
 
 function HomePage() {
-  const navigate = useNavigate()
-  const [greeting, setGreeting] = useState(getGreeting)
-  const [featureIndex, setFeatureIndex] = useState(0)
+  const navigate = useNavigate( 
   const featureTrackRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
