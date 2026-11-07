@@ -9,6 +9,7 @@ type Message = {
 
 function MaitronXAssistant() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
   const [draft, setDraft] = useState('')
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -26,11 +27,7 @@ function MaitronXAssistant() {
 
     setMessages((current) => [
       ...current,
-      {
-        id: Date.now(),
-        from: 'you',
-        text: message,
-      },
+      { id: Date.now(), from: 'you', text: message },
       {
         id: Date.now() + 1,
         from: 'maitronx',
@@ -39,6 +36,8 @@ function MaitronXAssistant() {
     ])
 
     setDraft('')
+    setIsSpeaking(true)
+    window.setTimeout(() => setIsSpeaking(false), 1800)
   }
 
   return (
@@ -67,6 +66,8 @@ function MaitronXAssistant() {
 
         .mx-character-stage {
           position: relative;
+          display: grid;
+          place-items: center;
           width: 100%;
           aspect-ratio: 1.2 / 1;
           overflow: hidden;
@@ -74,44 +75,100 @@ function MaitronXAssistant() {
           border-radius: 16px;
           background:
             radial-gradient(ellipse at center,
-              rgba(130,25,28,.25),
+              rgba(130,25,28,.22),
               rgba(217,180,91,.08) 48%,
               #0b0b0d 78%);
         }
 
-        .mx-character-stage img {
-          position: relative;
-          z-index: 2;
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          object-position: center top;
-          transform-origin: center 82%;
-          animation: mx-idle 4.5s ease-in-out infinite;
-        }
-
         .mx-aura {
           position: absolute;
-          inset: 15%;
+          width: 68%;
+          height: 68%;
           border-radius: 50%;
-          background: rgba(217,180,91,.12);
-          filter: blur(25px);
+          background: rgba(217,180,91,.19);
+          filter: blur(27px);
           animation: mx-glow 3.5s ease-in-out infinite;
         }
 
-        @keyframes mx-idle {
-          0%, 100% {
-            transform: translateY(0) scale(1);
-          }
-          50% {
-            transform: translateY(-5px) scale(1.012, 1.018);
-          }
+        .mx-avatar {
+          position: relative;
+          z-index: 2;
+          width: 88%;
+          max-height: 100%;
+          overflow: visible;
+          animation: mx-float 4s ease-in-out infinite;
+        }
+
+        .mx-head {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: mx-head-tilt 7s ease-in-out infinite;
+        }
+
+        .mx-eye-glow {
+          animation: mx-eye-pulse 3s ease-in-out infinite;
+        }
+
+        .mx-pupil {
+          animation: mx-look 6s ease-in-out infinite;
+        }
+
+        .mx-eyelid {
+          transform-box: fill-box;
+          transform-origin: center top;
+          animation: mx-blink 5s infinite;
+        }
+
+        .mx-mouth {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: mx-mouth-idle 3s ease-in-out infinite;
+        }
+
+        .mx-widget.is-speaking .mx-mouth {
+          animation: mx-talk  .19s ease-in-out infinite alternate;
+        }
+
+        @keyframes mx-float {
+          0%, 100% { transform: translateY(2px); }
+          50% { transform: translateY(-6px); }
+        }
+
+        @keyframes mx-head-tilt {
+          0%, 35%, 65%, 100% { transform: rotate(0deg); }
+          45% { transform: rotate(-2deg); }
+          55% { transform: rotate(2deg); }
         }
 
         @keyframes mx-glow {
-          0%, 100% { opacity: .35; }
-          50% { opacity: .85; }
+          0%, 100% { opacity: .35; transform: scale(.9); }
+          50% { opacity: .85; transform: scale(1.12); }
+        }
+
+        @keyframes mx-eye-pulse {
+          0%, 100% { opacity: .75; }
+          50% { opacity: 1; }
+        }
+
+        @keyframes mx-look {
+          0%, 30%, 100% { transform: translateX(0); }
+          40%, 55% { transform: translateX(3px); }
+          65%, 80% { transform: translateX(-2px); }
+        }
+
+        @keyframes mx-blink {
+          0%, 43%, 47%, 100% { transform: scaleY(0); }
+          45% { transform: scaleY(1); }
+        }
+
+        @keyframes mx-mouth-idle {
+          0%, 100% { transform: scaleY(1); }
+          50% { transform: scaleY(.72); }
+        }
+
+        @keyframes mx-talk {
+          from { transform: scaleY(.45); }
+          to { transform: scaleY(1.5); }
         }
 
         .mx-meta {
@@ -267,13 +324,8 @@ function MaitronXAssistant() {
             gap: 4px;
           }
 
-          .mx-name {
-            font-size: 10px;
-          }
-
-          .mx-greeting {
-            font-size: 9px;
-          }
+          .mx-name { font-size: 10px; }
+          .mx-greeting { font-size: 9px; }
 
           .mx-open-button {
             padding: 8px 5px;
@@ -291,20 +343,177 @@ function MaitronXAssistant() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .mx-character-stage img,
-          .mx-aura {
-            animation: none;
+          .mx-avatar,
+          .mx-head,
+          .mx-aura,
+          .mx-eye-glow,
+          .mx-pupil,
+          .mx-eyelid,
+          .mx-mouth {
+            animation: none !important;
           }
         }
       `}</style>
 
-      <div className="mx-widget">
+      <div className={`mx-widget ${isSpeaking ? 'is-speaking' : ''}`}>
         <div className="mx-character-stage">
           <div className="mx-aura" />
-          <img
-            src="/ai-assistant/maitronx-v1.jpg"
-            alt="MaîtronX V1 chess guardian"
-          />
+
+          <svg
+            className="mx-avatar"
+            viewBox="0 0 240 190"
+            role="img"
+            aria-label="Animated MaîtronX AI chatbot head"
+          >
+            <defs>
+              <linearGradient id="mx-helmet" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#39302a" />
+                <stop offset="48%" stopColor="#111114" />
+                <stop offset="100%" stopColor="#050506" />
+              </linearGradient>
+
+              <linearGradient id="mx-gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#fff0b0" />
+                <stop offset="50%" stopColor="#d9b45b" />
+                <stop offset="100%" stopColor="#8b6228" />
+              </linearGradient>
+
+              <radialGradient id="mx-face">
+                <stop offset="0%" stopColor="#343037" />
+                <stop offset="100%" stopColor="#111014" />
+              </radialGradient>
+
+              <filter id="mx-glow-filter">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <g className="mx-head">
+              {/* Outer helmet */}
+              <path
+                d="M43 142 L34 91 Q31 35 82 24 L120 10 L158 24 Q209 35 206 91 L197 142 L177 162 L63 162 Z"
+                fill="url(#mx-helmet)"
+                stroke="url(#mx-gold)"
+                strokeWidth="3"
+              />
+
+              {/* Crown */}
+              <path
+                d="M83 27 L92 9 L108 22 L120 4 L132 22 L148 9 L157 27"
+                fill="#171419"
+                stroke="url(#mx-gold)"
+                strokeWidth="3"
+                strokeLinejoin="round"
+              />
+
+              <path
+                d="M94 27 L120 15 L146 27"
+                fill="none"
+                stroke="#d9b45b"
+                strokeWidth="2"
+              />
+
+              {/* Side armor */}
+              <path
+                d="M42 83 L22 98 L34 137 L54 145 L57 111 Z"
+                fill="#171419"
+                stroke="#b68d43"
+                strokeWidth="2"
+              />
+
+              <path
+                d="M198 83 L218 98 L206 137 L186 145 L183 111 Z"
+                fill="#171419"
+                stroke="#b68d43"
+                strokeWidth="2"
+              />
+
+              {/* Face plate */}
+              <path
+                d="M60 66 Q60 47 82 43 L120 36 L158 43 Q180 47 180 66 L174 126 Q170 151 120 157 Q70 151 66 126 Z"
+                fill="url(#mx-face)"
+                stroke="#80602e"
+                strokeWidth="2"
+              />
+
+              {/* Brow detail */}
+              <path
+                d="M75 69 L104 61 L120 65 L136 61 L165 69"
+                fill="none"
+                stroke="#d9b45b"
+                strokeWidth="2"
+                opacity=".8"
+              />
+
+              {/* Eye glow */}
+              <g className="mx-eye-glow" filter="url(#mx-glow-filter)">
+                <path
+                  d="M76 86 Q91 72 108 87 L104 100 Q90 108 78 98 Z"
+                  fill="#d9b45b"
+                  opacity=".95"
+                />
+                <path
+                  d="M132 87 Q149 72 164 86 L162 98 Q149 108 136 100 Z"
+                  fill="#d9b45b"
+                  opacity=".95"
+                />
+              </g>
+
+              {/* Pupils */}
+              <g className="mx-pupil">
+                <ellipse cx="93" cy="91" rx="5" ry="7" fill="#fff5cf" />
+                <ellipse cx="147" cy="91" rx="5" ry="7" fill="#fff5cf" />
+              </g>
+
+              {/* Eyelids */}
+              <g className="mx-eyelid">
+                <path d="M75 82 Q92 69 109 83 L107 96 L77 96 Z" fill="#242027" />
+                <path d="M131 83 Q148 69 165 82 L163 96 L133 96 Z" fill="#242027" />
+              </g>
+
+              {/* Nose detail */}
+              <path
+                d="M116 99 L111 113 L120 117 L129 113 L124 99"
+                fill="none"
+                stroke="#9a783c"
+                strokeWidth="1.5"
+                opacity=".7"
+              />
+
+              {/* Animated mouth */}
+              <path
+                className="mx-mouth"
+                d="M103 132 Q120 140 137 132"
+                fill="none"
+                stroke="#e2bb68"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+
+              {/* Gold cheek details */}
+              <path d="M68 112 L83 118" stroke="#d9b45b" strokeWidth="2" />
+              <path d="M172 112 L157 118" stroke="#d9b45b" strokeWidth="2" />
+
+              {/* Lower helmet edge */}
+              <path
+                d="M66 143 Q120 169 174 143"
+                fill="none"
+                stroke="url(#mx-gold)"
+                strokeWidth="3"
+              />
+
+              {/* Center jewel */}
+              <path
+                d="M120 25 L127 32 L120 39 L113 32 Z"
+                fill="#d9b45b"
+                filter="url(#mx-glow-filter)"
+              />
+            </g>
+          </svg>
         </div>
 
         <div className="mx-meta">
