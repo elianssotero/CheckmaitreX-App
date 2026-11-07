@@ -1288,11 +1288,10 @@ svg {
     font-size: 18px;
   }
 
-  .cx-home .cx-rating-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
-  }
-
+    .cx-home .cx-rating-track {
+    grid-auto-columns: 150px;
+    gap: 10px;
+    }
   .cx-home .cx-rating-card {
     min-height: 120px;
     padding: 14px;
