@@ -349,13 +349,10 @@ function HomePage() {
         
         <section className="cx-section">
           <div className="cx-section-heading">
-            <div>
-              <h2>Your Ratings</h2>
-            </div>
-            <button className="cx-text-link">
-              View all <ChevronRight size={15} />
-            </button>
-          </div>
+  <div>
+    <span className="cx-overline">YOUR CHESS PERFORMANCE</span>
+    <h2>Ratings</h2>
+  </div>
 
           <div className="cx-rating-track">
             {ratings.map((rating) => (
@@ -416,7 +413,7 @@ function HomePage() {
         <section className="cx-section cx-history-section">
           <div className="cx-section-heading">
             <div>
-              <span className="cx-overline">RECENT ACTIVITY</span>
+              <span className="cx-overline">YOUR RECENT ACTIVITY</span>
               <h2>Game History</h2>
             </div>
             <button className="cx-text-link">
