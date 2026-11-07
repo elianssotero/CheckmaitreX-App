@@ -288,16 +288,14 @@ function HomePage() {
         </div>
       </header>
        <main>
-        <section className="cx-section">   
-            </div>
-            <MaitronXAssistant />
-          </div>
+  <section className="cx-section">
+    <MaitronXAssistant />
 
-          <div
-            className="cx-feature-track"
-            ref={featureTrackRef}
-            onScroll={updateFeatureIndex}
-          >
+    <div
+      className="cx-feature-track"
+      ref={featureTrackRef}
+      onScroll={updateFeatureIndex}
+    >
 
             {features.map((feature) => {
               const Icon = feature.icon
