@@ -77,13 +77,16 @@ function ProfilePage() {
               )}
             </div>
 
-            <div className="cx-profile-name-area">
-              <h1>{profile.accountName}</h1>
-              <span>{profile.username}</span>
+                      <div className="cx-profile-joined">
+            <CalendarDays size={15} />
+            <div className="cx-profile-joined-text">
+              <strong>{profile.joined}</strong>
+              <span>Joined</span>
             </div>
           </div>
+        </section>
 
-          <p className="cx-profile-bio">{profile.bio}</p>
+        <section className="cx-profile-stat-track">
 
           <div className="cx-profile-joined">
   <CalendarDays size={15} />
