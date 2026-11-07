@@ -299,8 +299,8 @@ function HomePage() {
               </p>
             </div>
           </div>
-<MaitronXAssistant />
           <div
+     <MaitronXAssistant />
             className="cx-feature-track"
             ref={featureTrackRef}
             onScroll={updateFeatureIndex}
