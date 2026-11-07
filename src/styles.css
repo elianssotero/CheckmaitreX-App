@@ -357,6 +357,32 @@ svg {
   flex-direction: column;
   gap: 5px;
 }
+.cx-home .cx-player-name-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.cx-home .cx-player-name {
+  color: var(--cx-text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.cx-home .cx-player-flair {
+  padding: 4px 8px;
+  border: 1px solid rgba(217, 180, 91, 0.35);
+  border-radius: 20px;
+  color: var(--cx-gold-light);
+  background: rgba(217, 180, 91, 0.09);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.cx-home .cx-user-streak {
+  margin-left: 2px;
+}
 
 .cx-home .cx-user-flair {
   color: var(--cx-gold-light);
