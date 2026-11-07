@@ -1,264 +1,464 @@
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+  Mic,
+  MicOff,
+  Volume2,
+  Wifi,
+  WifiOff,
+  Brain,
+  Moon,
+  ArrowUpRight,
+  X,
+  ShieldCheck,
+} from 'lucide-react'
 
 type Activity = {
-  type: "game" | "puzzle" | "lesson" | "tournament";
-  summary: string;
-};
+  type: 'game' | 'puzzle' | 'lesson' | 'tournament'
+  summary: string
+}
 
 type Props = {
-  recentActivity?: Activity | null;
-};
+  recentActivity?: Activity | null
+  fullPage?: boolean
+}
+
+type Status =
+  | 'online'
+  | 'listening'
+  | 'thinking'
+  | 'speaking'
+  | 'connecting'
+  | 'sleep'
+  | 'offline'
+  | 'error'
 
 type RecognitionResult = {
-  isFinal: boolean;
-  0: { transcript: string };
-};
+  isFinal: boolean
+  0: { transcript: string }
+}
 
 type RecognitionEvent = {
-  resultIndex: number;
-  results: ArrayLike<RecognitionResult>;
-};
+  resultIndex: number
+  results: ArrayLike<RecognitionResult>
+}
 
 type RecognitionError = {
-  error: string;
-};
+  error: string
+}
 
 type Recognition = {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  onresult: ((event: RecognitionEvent) => void) | null;
-  onerror: ((event: RecognitionError) => void) | null;
-  onend: (() => void) | null;
-  start(): void;
-  stop(): void;
-  abort(): void;
-};
+  continuous: boolean
+  interimResults: boolean
+  lang: string
+  onresult: ((event: RecognitionEvent) => void) | null
+  onerror: ((event: RecognitionError) => void) | null
+  onend: (() => void) | null
+  start(): void
+  stop(): void
+  abort(): void
+}
 
 declare global {
   interface Window {
-    SpeechRecognition?: new () => Recognition;
-    webkitSpeechRecognition?: new () => Recognition;
+    SpeechRecognition?: new () => Recognition
+    webkitSpeechRecognition?: new () => Recognition
   }
 }
 
-type Mode = "ready" | "listening" | "thinking";
-
 function getGreeting(activity?: Activity | null) {
   if (!activity) {
-    return "Hello! Nandito ako. Ano ang gusto mong pag-usapan ngayon?";
+    return 'Hello! Nandito ako. Ano ang gusto mong pag-usapan tungkol sa chess?'
   }
 
-  const greetings: Record<Activity["type"], string> = {
-    game: "Napansin kong naglaro ka kamakailan. ",
-    puzzle: "May bago kang puzzle activity. ",
-    lesson: "May chess lesson kang pinag-aralan. ",
-    tournament: "May tournament activity ka kamakailan. ",
-  };
+  const greetings: Record<Activity['type'], string> = {
+    game: 'Napansin ko ang recent game activity mo. ',
+    puzzle: 'May recent puzzle activity ka. ',
+    lesson: 'May recent chess lesson activity ka. ',
+    tournament: 'May recent tournament activity ka. ',
+  }
 
   return greetings[activity.type] +
     activity.summary +
-    " Gusto mo bang pag-usapan natin ito?";
+    ' Gusto mo ba itong pag-aralan natin?'
+}
+
+function getPrompts(activity?: Activity | null) {
+  if (!activity) {
+    return [
+      'Help me improve my chess.',
+      'Give me a chess tip.',
+      'Teach me a new opening.',
+    ]
+  }
+
+  const prompts: Record<Activity['type'], string[]> = {
+    game: [
+      'Review my recent game.',
+      'What should I improve?',
+      'Find my possible mistakes.',
+    ],
+    puzzle: [
+      'Explain the puzzle tactic.',
+      'Give me another challenge.',
+      'Teach me the pattern.',
+    ],
+    lesson: [
+      'Quiz me about this lesson.',
+      'Explain the main concept.',
+      'Give me a practical example.',
+    ],
+    tournament: [
+      'Help me prepare for a tournament.',
+      'Give me a preparation plan.',
+      'What should I focus on?',
+    ],
+  }
+
+  return prompts[activity.type]
+}
+
+function StatusLabel({ status }: { status: Status }) {
+  const labels: Record<Status, string> = {
+    online: 'ONLINE',
+    listening: 'LISTENING',
+    thinking: 'THINKING',
+    speaking: 'SPEAKING',
+    connecting: 'CONNECTING',
+    sleep: 'SLEEP MODE',
+    offline: 'OFFLINE',
+    error: 'ERROR',
+  }
+
+  return (
+    <span className={`mx-status mx-status-${status}`}>
+      <span className="mx-status-dot" />
+      {labels[status]}
+    </span>
+  )
 }
 
 export default function MaitronXAssistant({
   recentActivity = null,
+  fullPage = false,
 }: Props) {
-  const [mode, setMode] = useState<Mode>("ready");
+  const navigate = useNavigate()
+
+  const [status, setStatus] = useState<Status>(
+    navigator.onLine ? 'online' : 'offline'
+  )
   const [message, setMessage] = useState(() =>
     getGreeting(recentActivity)
-  );
-  const [transcript, setTranscript] = useState("");
-  const [notice, setNotice] = useState(
-    "Tapusin si MaîtronX para magsimula ng voice conversation."
-  );
-  const [active, setActive] = useState(false);
+  )
+  const [transcript, setTranscript] = useState('')
+  const [showPrompts, setShowPrompts] = useState(false)
+  const [showPermission, setShowPermission] = useState(false)
+  const [permissionError, setPermissionError] = useState('')
+  const [sleepMode, setSleepMode] = useState(false)
 
-  const recognitionRef = useRef<Recognition | null>(null);
-  const activeRef = useRef(false);
-  const restartRef = useRef<number | null>(null);
+  const recognitionRef = useRef<Recognition | null>(null)
+  const activeRef = useRef(false)
+  const longPressRef = useRef<number | null>(null)
+  const singleTapRef = useRef<number | null>(null)
+  const longPressedRef = useRef(false)
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
-    setMessage(getGreeting(recentActivity));
-  }, [recentActivity]);
+    setMessage(getGreeting(recentActivity))
+  }, [recentActivity])
+
+  useEffect(() => {
+    const handleOnline = () => {
+      if (!activeRef.current && !sleepMode) setStatus('online')
+    }
+
+    const handleOffline = () => {
+      setStatus('offline')
+    }
+
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [sleepMode])
 
   useEffect(() => {
     return () => {
-      activeRef.current = false;
-      if (restartRef.current !== null) {
-        window.clearTimeout(restartRef.current);
+      activeRef.current = false
+
+      if (longPressRef.current !== null) {
+        window.clearTimeout(longPressRef.current)
       }
-      recognitionRef.current?.abort();
-    };
-  }, []);
+
+      if (singleTapRef.current !== null) {
+        window.clearTimeout(singleTapRef.current)
+      }
+
+      recognitionRef.current?.abort()
+    }
+  }, [])
 
   function stopConversation() {
-    activeRef.current = false;
-    setActive(false);
-
-    if (restartRef.current !== null) {
-      window.clearTimeout(restartRef.current);
-      restartRef.current = null;
-    }
-
-    recognitionRef.current?.stop();
-    setMode("ready");
-    setNotice("Voice session ended.");
-    setMessage("Salamat sa pakikipag-usap. Nandito lang ako kapag gusto mong magpatuloy.");
+    activeRef.current = false
+    recognitionRef.current?.stop()
+    recognitionRef.current = null
+    setStatus(navigator.onLine ? 'online' : 'offline')
+    setTranscript('')
+    setMessage('Voice session ended. Nandito ako kapag gusto mong magpatuloy.')
   }
 
-  function startConversation() {
+  function startRecognition() {
     const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
+      window.SpeechRecognition || window.webkitSpeechRecognition
 
     if (!SpeechRecognition) {
-      setNotice("Hindi suportado ang voice recognition sa browser na ito.");
-      setMessage("Subukan ang updated Google Chrome at payagan ang microphone access.");
-      return;
+      setStatus('error')
+      setMessage(
+        'Hindi available ang voice recognition sa browser na ito. Gumamit ng updated browser na sumusuporta sa speech recognition.'
+      )
+      return
     }
 
     try {
-      const recognition = new SpeechRecognition();
+      const recognition = new SpeechRecognition()
 
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = "fil-PH";
+      recognition.continuous = true
+      recognition.interimResults = true
+      recognition.lang = 'fil-PH'
 
-      recognitionRef.current = recognition;
-      activeRef.current = true;
-      setActive(true);
-      setMode("listening");
-      setTranscript("");
-      setNotice("LISTENING · Magsalita nang natural.");
-      setMessage("Nakikinig ako. Magsalita ka nang natural.");
+      recognitionRef.current = recognition
+      activeRef.current = true
+
+      setStatus('listening')
+      setTranscript('')
+      setMessage('Nakikinig ako. Maaari kang magsalita nang natural.')
 
       recognition.onresult = (event) => {
-        let current = "";
-        let finalText = "";
+        let current = ''
+        let finalText = ''
 
         for (
           let i = event.resultIndex;
           i < event.results.length;
           i++
         ) {
-          const result = event.results[i];
-          const text = result[0].transcript;
+          const result = event.results[i]
+          const spokenText = result[0].transcript
 
           if (result.isFinal) {
-            finalText += text;
+            finalText += spokenText
           } else {
-            current += text;
+            current += spokenText
           }
         }
 
-        if (current) {
-          setTranscript(current);
-        }
+        if (current) setTranscript(current)
 
         if (finalText.trim()) {
-          const spoken = finalText.trim();
+          const spoken = finalText.trim()
 
-          setTranscript(spoken);
-          setMode("thinking");
-          setNotice("VOICE INPUT RECEIVED");
+          setTranscript(spoken)
+          setStatus('thinking')
           setMessage(
-            "Narinig ko ang sinabi mo: “" +
-            spoken +
-            "” Ang AI response at tunay na voice conversation ay ikokonekta natin sa backend."
-          );
+            `Narinig ko ang sinabi mo: “${spoken}”. Ang AI response ay ikokonekta pa sa CCC backend.`
+          )
 
           window.setTimeout(() => {
-            if (activeRef.current) {
-              setMode("listening");
-              setNotice("LISTENING · Maaari ka pang magsalita.");
-            }
-          }, 1200);
+            if (activeRef.current) setStatus('listening')
+          }, 1200)
         }
-      };
+      }
 
       recognition.onerror = (event) => {
         if (
-          event.error === "not-allowed" ||
-          event.error === "service-not-allowed"
+          event.error === 'not-allowed' ||
+          event.error === 'service-not-allowed'
         ) {
-          activeRef.current = false;
-          setActive(false);
-          setMode("ready");
-          setNotice("MICROPHONE ACCESS DENIED");
-          setMessage(
-            "Payagan muna ang microphone access sa browser settings."
-          );
-        } else if (event.error === "no-speech") {
-          setNotice("LISTENING · Maaari kang magsalita.");
+          activeRef.current = false
+          setStatus('error')
+          setMessage('Hindi naibigay ang microphone permission.')
+          setPermissionError(
+            'Hindi pinayagan ang microphone. Maaari mong baguhin ito sa site permissions ng browser.'
+          )
+        } else if (event.error === 'no-speech') {
+          setStatus('listening')
         } else {
-          setNotice("VOICE INPUT INTERRUPTED");
+          setStatus('error')
+          setMessage('Na-interrupt ang voice input. Maaari mong subukan muli.')
         }
-      };
+      }
 
       recognition.onend = () => {
         if (activeRef.current) {
-          restartRef.current = window.setTimeout(() => {
-            if (!activeRef.current) return;
-
-            try {
-              recognition.start();
-              setMode("listening");
-            } catch {
-              activeRef.current = false;
-              setActive(false);
-              setMode("ready");
-              setNotice("VOICE SESSION PAUSED");
-            }
-          }, 300);
+          try {
+            recognition.start()
+            setStatus('listening')
+          } catch {
+            activeRef.current = false
+            setStatus('error')
+          }
         }
-      };
+      }
 
-      recognition.start();
+      recognition.start()
     } catch {
-      activeRef.current = false;
-      setActive(false);
-      setMode("ready");
-      setNotice("VOICE INPUT UNAVAILABLE");
+      activeRef.current = false
+      setStatus('error')
+      setMessage('Hindi masimulan ang voice session.')
     }
   }
 
-  function toggleConversation() {
-    if (activeRef.current) {
-      stopConversation();
-    } else {
-      startConversation();
+  async function requestMicrophone() {
+    setPermissionError('')
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setPermissionError(
+        'Hindi suportado ang microphone access. Buksan ang website gamit ang secure HTTPS connection at updated browser.'
+      )
+      return
     }
+
+    try {
+      setStatus('connecting')
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      })
+
+      stream.getTracks().forEach((track) => track.stop())
+
+      setShowPermission(false)
+      startRecognition()
+    } catch {
+      setStatus('error')
+      setPermissionError(
+        'Hindi naibigay ang microphone permission. Tingnan ang browser site settings at subukan muli.'
+      )
+    }
+  }
+
+  function handleDoubleTap() {
+    if (activeRef.current) {
+      stopConversation()
+      return
+    }
+
+    if (sleepMode) {
+      setSleepMode(false)
+      setStatus('online')
+    }
+
+    setShowPermission(true)
+  }
+
+  function handlePointerDown(
+    event: React.PointerEvent<HTMLButtonElement>
+  ) {
+    longPressedRef.current = false
+    pointerStartRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+    }
+
+    longPressRef.current = window.setTimeout(() => {
+      longPressedRef.current = true
+
+      if (!fullPage) {
+        navigate('/maitronx')
+      }
+    }, 650)
+  }
+
+  function handlePointerUp(
+    event: React.PointerEvent<HTMLButtonElement>
+  ) {
+    if (longPressRef.current !== null) {
+      window.clearTimeout(longPressRef.current)
+      longPressRef.current = null
+    }
+
+    if (longPressedRef.current) return
+
+    const start = pointerStartRef.current
+
+    if (start) {
+      const distance = Math.hypot(
+        event.clientX - start.x,
+        event.clientY - start.y
+      )
+
+      if (distance > 15) return
+    }
+
+    if (singleTapRef.current !== null) {
+      window.clearTimeout(singleTapRef.current)
+      singleTapRef.current = null
+      handleDoubleTap()
+    } else {
+      singleTapRef.current = window.setTimeout(() => {
+        singleTapRef.current = null
+        setShowPrompts((previous) => !previous)
+      }, 270)
+    }
+  }
+
+  function handlePointerCancel() {
+    if (longPressRef.current !== null) {
+      window.clearTimeout(longPressRef.current)
+      longPressRef.current = null
+    }
+  }
+
+  function selectPrompt(prompt: string) {
+    setMessage(prompt)
+    setShowPrompts(false)
+    setStatus('online')
+  }
+
+  function toggleSleepMode() {
+    if (activeRef.current) stopConversation()
+
+    const next = !sleepMode
+    setSleepMode(next)
+    setStatus(next ? 'sleep' : navigator.onLine ? 'online' : 'offline')
+    setMessage(
+      next
+        ? 'Naka-Sleep Mode ako. Maaari mo akong i-activate anumang oras.'
+        : getGreeting(recentActivity)
+    )
   }
 
   return (
-    <div className={`mx-widget mx-${mode}`}>
+    <section className={`mx-assistant ${fullPage ? 'mx-full-page' : ''}`}>
       <style>{`
-        .mx-widget {
+        .mx-assistant {
           width: 100%;
-          max-width: 650px;
-          margin: auto;
+          color: #f3f1eb;
+          font-family: inherit;
+        }
+
+        .mx-assistant * { box-sizing: border-box; }
+
+        .mx-widget {
           display: flex;
           align-items: center;
-          gap: 18px;
-          font-family: inherit;
+          gap: 16px;
+          width: 100%;
+          max-width: 760px;
+          margin: auto;
         }
 
         .mx-chat {
           flex: 1;
           min-width: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 11px;
         }
 
         .mx-bubble {
-          width: 100%;
-          box-sizing: border-box;
           padding: 15px;
-          border: 1px solid rgba(217,180,91,.4);
+          border: 1px solid rgba(217,180,91,.38);
           border-radius: 16px 16px 16px 5px;
           background: linear-gradient(145deg,#211e1c,#111114);
           color: #e8e1d3;
@@ -276,41 +476,30 @@ export default function MaitronXAssistant({
           font-weight: 800;
         }
 
-        .mx-button {
+        .mx-prompts {
           display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 15px;
-          min-height: 40px;
-          border: 1px solid #b18a42;
-          border-radius: 10px;
-          background: #211c14;
-          color: #f0d48a;
+          flex-wrap: wrap;
+          gap: 7px;
+          margin-top: 10px;
+        }
+
+        .mx-prompt {
+          padding: 8px 10px;
+          border: 1px solid #d9b45b45;
+          border-radius: 20px;
+          color: #e7d4a7;
+          background: #1a1712;
           font-size: 10px;
-          font-weight: 800;
-          cursor: pointer;
+          text-align: left;
         }
 
-        .mx-button.active {
-          background: #d9b45b;
-          color: #15120c;
-        }
-
-        .mx-button:focus-visible,
-        .mx-head-button:focus-visible {
-          outline: 2px solid #f0d48a;
-          outline-offset: 4px;
-        }
-
-        .mx-notice {
-          color: #969087;
-          font-size: 9px;
-          line-height: 1.5;
+        .mx-prompt:hover {
+          border-color: #d9b45b;
+          background: #292216;
         }
 
         .mx-transcript {
-          width: 100%;
-          box-sizing: border-box;
+          margin-top: 9px;
           padding: 9px 11px;
           border-radius: 9px;
           background: #ffffff08;
@@ -326,12 +515,19 @@ export default function MaitronXAssistant({
         }
 
         .mx-head-button {
+          display: block;
           width: 100%;
           padding: 0;
           border: 0;
+          border-radius: 18px;
           background: transparent;
           cursor: pointer;
+          touch-action: pan-y;
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
         }
+
+        .mx-head-button:focus { outline: none; }
 
         .mx-stage {
           display: grid;
@@ -340,17 +536,22 @@ export default function MaitronXAssistant({
           aspect-ratio: 1;
           border: 1px solid #d9b45b55;
           border-radius: 18px;
-          background: radial-gradient(
-            circle,
-            #8a632b44,
-            #161316 70%,
-            #0b0b0d
-          );
-          transition: box-shadow .3s;
+          background: radial-gradient(circle,#8a632b44,#161316 70%,#0b0b0d);
+          transition: box-shadow .3s, border-color .3s;
         }
 
-        .mx-listening .mx-stage {
-          box-shadow: 0 0 25px #d9b45b44;
+        .mx-status-listening .mx-stage {
+          box-shadow: 0 0 25px #d9b45b55;
+          border-color: #d9b45b;
+        }
+
+        .mx-status-thinking .mx-stage {
+          box-shadow: 0 0 24px #8b75c955;
+        }
+
+        .mx-status-sleep .mx-stage {
+          opacity: .55;
+          filter: saturate(.4);
         }
 
         .mx-avatar {
@@ -372,7 +573,8 @@ export default function MaitronXAssistant({
           margin-top: 8px;
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          align-items: center;
+          gap: 5px;
         }
 
         .mx-name {
@@ -381,15 +583,151 @@ export default function MaitronXAssistant({
           font-weight: 800;
         }
 
-        .mx-state {
-          color: #999187;
+        .mx-status {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          color: #a9a39a;
           font-size: 9px;
+          font-weight: 800;
           letter-spacing: 1px;
         }
 
-        .mx-listening .mx-state,
-        .mx-thinking .mx-state {
+        .mx-status-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #999;
+        }
+
+        .mx-status-online .mx-status-dot { background: #55bd83; }
+        .mx-status-listening .mx-status-dot { background: #d9b45b; }
+        .mx-status-thinking .mx-status-dot { background: #a48be5; }
+        .mx-status-speaking .mx-status-dot { background: #55bd83; }
+        .mx-status-connecting .mx-status-dot { background: #d9b45b; }
+        .mx-status-offline .mx-status-dot { background: #888; }
+        .mx-status-error .mx-status-dot { background: #e16d6d; }
+
+        .mx-full-page {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        .mx-full-page .mx-widget {
+          align-items: flex-start;
+          gap: 28px;
+        }
+
+        .mx-full-page .mx-character {
+          flex-basis: 220px;
+          width: 220px;
+        }
+
+        .mx-full-page .mx-bubble {
+          font-size: 14px;
+          padding: 20px;
+        }
+
+        .mx-full-page .mx-prompt {
+          font-size: 12px;
+          padding: 10px 13px;
+        }
+
+        .mx-tools {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-top: 16px;
+        }
+
+        .mx-tool {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          padding: 9px 12px;
+          border: 1px solid #d9b45b40;
+          border-radius: 10px;
+          color: #e6d4aa;
+          background: #1a1712;
+          font-size: 10px;
+          font-weight: 700;
+        }
+
+        .mx-tool:disabled { opacity: .5; }
+
+        .mx-permission-backdrop {
+          position: fixed;
+          z-index: 999;
+          inset: 0;
+          display: grid;
+          place-items: center;
+          padding: 20px;
+          background: #000b;
+          backdrop-filter: blur(8px);
+        }
+
+        .mx-permission-card {
+          width: 100%;
+          max-width: 360px;
+          padding: 24px;
+          border: 1px solid #d9b45b66;
+          border-radius: 18px;
+          background: linear-gradient(145deg,#211e1c,#101013);
+          box-shadow: 0 20px 70px #0009;
+        }
+
+        .mx-permission-icon {
+          display: grid;
+          place-items: center;
+          width: 48px;
+          height: 48px;
+          margin-bottom: 16px;
+          border: 1px solid #d9b45b66;
+          border-radius: 14px;
           color: #e5bd68;
+          background: #d9b45b13;
+        }
+
+        .mx-permission-card h3 {
+          margin: 0 0 8px;
+          color: #f3e4bd;
+          font-size: 17px;
+        }
+
+        .mx-permission-card p {
+          color: #aaa39a;
+          font-size: 12px;
+          line-height: 1.7;
+        }
+
+        .mx-permission-actions {
+          display: flex;
+          gap: 9px;
+          margin-top: 18px;
+        }
+
+        .mx-permission-actions button {
+          flex: 1;
+          padding: 11px;
+          border: 1px solid #d9b45b66;
+          border-radius: 10px;
+          color: #16120b;
+          background: #d9b45b;
+          font-size: 11px;
+          font-weight: 800;
+        }
+
+        .mx-permission-actions .mx-cancel {
+          color: #c9c1b3;
+          background: #ffffff08;
+          border-color: #ffffff20;
+        }
+
+        .mx-error {
+          margin-top: 10px;
+          color: #e58c8c;
+          font-size: 11px;
+          line-height: 1.5;
         }
 
         @keyframes mx-float {
@@ -411,7 +749,16 @@ export default function MaitronXAssistant({
           .mx-widget { gap: 10px; }
           .mx-character { flex-basis: 105px; width: 105px; }
           .mx-bubble { padding: 11px; font-size: 10px; }
-          .mx-button { padding: 9px 10px; font-size: 9px; }
+          .mx-full-page .mx-widget {
+            flex-direction: column-reverse;
+            align-items: stretch;
+          }
+          .mx-full-page .mx-character {
+            flex-basis: auto;
+            width: 145px;
+            margin: 0 auto;
+          }
+          .mx-full-page .mx-bubble { font-size: 12px; }
         }
 
         @media(max-width:380px) {
@@ -427,140 +774,214 @@ export default function MaitronXAssistant({
         }
       `}</style>
 
-      <div className="mx-chat">
-        <div className="mx-bubble" aria-live="polite">
-          <span className="mx-bubble-name">MaîtronX</span>
-          {message}
+      <div className="mx-widget">
+        <div className="mx-chat">
+          <div className="mx-bubble" aria-live="polite">
+            <span className="mx-bubble-name">MaîtronX</span>
+            {message}
+          </div>
+
+          {showPrompts && (
+            <div className="mx-prompts">
+              {getPrompts(recentActivity).map((prompt) => (
+                <button
+                  type="button"
+                  className="mx-prompt"
+                  key={prompt}
+                  onClick={() => selectPrompt(prompt)}
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {transcript && (
+            <div className="mx-transcript" aria-live="polite">
+              <strong>Voice input:</strong> {transcript}
+            </div>
+          )}
+
+          <div className="mx-tools">
+            {activeRef.current ? (
+              <button
+                type="button"
+                className="mx-tool"
+                onClick={stopConversation}
+              >
+                <MicOff size={14} /> End voice
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="mx-tool"
+                onClick={() => setShowPermission(true)}
+              >
+                <Mic size={14} /> Voice
+              </button>
+            )}
+
+            {fullPage && (
+              <button
+                type="button"
+                className="mx-tool"
+                onClick={toggleSleepMode}
+              >
+                <Moon size={14} />
+                {sleepMode ? 'Wake MaîtronX' : 'Sleep Mode'}
+              </button>
+            )}
+          </div>
         </div>
 
-        {transcript && (
-          <div className="mx-transcript">
-            <strong>Voice input:</strong> {transcript}
-          </div>
-        )}
+        <div className="mx-character">
+          <button
+            type="button"
+            className="mx-head-button"
+            aria-label="Tap for prompts, double tap for voice, long press for full page"
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
+            onContextMenu={(event) => event.preventDefault()}
+          >
+            <div className="mx-stage">
+              <svg
+                className="mx-avatar"
+                viewBox="0 0 240 190"
+                role="img"
+                aria-label="MaîtronX animated head"
+              >
+                <defs>
+                  <linearGradient id="mx-metal" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#51402b" />
+                    <stop offset="55%" stopColor="#171419" />
+                    <stop offset="100%" stopColor="#08080a" />
+                  </linearGradient>
+                  <linearGradient id="mx-gold" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#fff0b0" />
+                    <stop offset="50%" stopColor="#d9b45b" />
+                    <stop offset="100%" stopColor="#8b6228" />
+                  </linearGradient>
+                </defs>
 
-        <button
-          type="button"
-          className={`mx-button ${active ? "active" : ""}`}
-          onClick={toggleConversation}
-          aria-pressed={active}
-        >
-          {active ? "■ End conversation" : "● Start conversation"}
-        </button>
-
-        <span className="mx-notice" aria-live="polite">
-          {notice}
-        </span>
-      </div>
-
-      <div className="mx-character">
-        <button
-          type="button"
-          className="mx-head-button"
-          onClick={toggleConversation}
-          aria-label={
-            active
-              ? "End MaîtronX voice session"
-              : "Start MaîtronX voice session"
-          }
-          aria-pressed={active}
-        >
-          <div className="mx-stage">
-            <svg
-              className="mx-avatar"
-              viewBox="0 0 240 190"
-              role="img"
-              aria-label="MaîtronX animated head"
-            >
-              <defs>
-                <linearGradient id="mx-metal" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#51402b" />
-                  <stop offset="55%" stopColor="#171419" />
-                  <stop offset="100%" stopColor="#08080a" />
-                </linearGradient>
-                <linearGradient id="mx-gold" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#fff0b0" />
-                  <stop offset="50%" stopColor="#d9b45b" />
-                  <stop offset="100%" stopColor="#8b6228" />
-                </linearGradient>
-              </defs>
-
-              <path
-                d="M43 142 L34 91 Q31 35 82 24 L120 10 L158 24 Q209 35 206 91 L197 142 L177 162 L63 162 Z"
-                fill="url(#mx-metal)"
-                stroke="url(#mx-gold)"
-                strokeWidth="3"
-              />
-
-              <path
-                d="M83 27 L92 9 L108 22 L120 4 L132 22 L148 9 L157 27"
-                fill="#171419"
-                stroke="url(#mx-gold)"
-                strokeWidth="3"
-              />
-
-              <path
-                d="M60 66 Q60 47 82 43 L120 36 L158 43 Q180 47 180 66 L174 126 Q170 151 120 157 Q70 151 66 126 Z"
-                fill="#211e25"
-                stroke="#80602e"
-                strokeWidth="2"
-              />
-
-              <g className="mx-eyes">
                 <path
-                  d="M76 86 Q91 72 108 87 L104 100 Q90 108 78 98 Z"
+                  d="M43 142 L34 91 Q31 35 82 24 L120 10 L158 24 Q209 35 206 91 L197 142 L177 162 L63 162 Z"
+                  fill="url(#mx-metal)"
+                  stroke="url(#mx-gold)"
+                  strokeWidth="3"
+                />
+
+                <path
+                  d="M83 27 L92 9 L108 22 L120 4 L132 22 L148 9 L157 27"
+                  fill="#171419"
+                  stroke="url(#mx-gold)"
+                  strokeWidth="3"
+                />
+
+                <path
+                  d="M60 66 Q60 47 82 43 L120 36 L158 43 Q180 47 180 66 L174 126 Q170 151 120 157 Q70 151 66 126 Z"
+                  fill="#211e25"
+                  stroke="#80602e"
+                  strokeWidth="2"
+                />
+
+                <g className="mx-eyes">
+                  <path
+                    d="M76 86 Q91 72 108 87 L104 100 Q90 108 78 98 Z"
+                    fill="#d9b45b"
+                  />
+                  <path
+                    d="M132 87 Q149 72 164 86 L162 98 Q149 108 136 100 Z"
+                    fill="#d9b45b"
+                  />
+                  <ellipse cx="93" cy="91" rx="5" ry="7" fill="#fff5cf" />
+                  <ellipse cx="147" cy="91" rx="5" ry="7" fill="#fff5cf" />
+                </g>
+
+                <path
+                  d="M116 99 L111 113 L120 117 L129 113 L124 99"
+                  fill="none"
+                  stroke="#9a783c"
+                  strokeWidth="1.5"
+                />
+
+                <path
+                  className="mx-mouth"
+                  d="M103 132 Q120 140 137 132"
+                  fill="none"
+                  stroke="#e2bb68"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+
+                <path
+                  d="M66 143 Q120 169 174 143"
+                  fill="none"
+                  stroke="url(#mx-gold)"
+                  strokeWidth="3"
+                />
+
+                <path
+                  d="M120 25 L127 32 L120 39 L113 32 Z"
                   fill="#d9b45b"
                 />
-                <path
-                  d="M132 87 Q149 72 164 86 L162 98 Q149 108 136 100 Z"
-                  fill="#d9b45b"
-                />
-                <ellipse cx="93" cy="91" rx="5" ry="7" fill="#fff5cf" />
-                <ellipse cx="147" cy="91" rx="5" ry="7" fill="#fff5cf" />
-              </g>
+              </svg>
+            </div>
+          </button>
 
-              <path
-                d="M116 99 L111 113 L120 117 L129 113 L124 99"
-                fill="none"
-                stroke="#9a783c"
-                strokeWidth="1.5"
-              />
-
-              <path
-                className="mx-mouth"
-                d="M103 132 Q120 140 137 132"
-                fill="none"
-                stroke="#e2bb68"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-
-              <path
-                d="M66 143 Q120 169 174 143"
-                fill="none"
-                stroke="url(#mx-gold)"
-                strokeWidth="3"
-              />
-
-              <path
-                d="M120 25 L127 32 L120 39 L113 32 Z"
-                fill="#d9b45b"
-              />
-            </svg>
+          <div className="mx-meta">
+            <span className="mx-name">MaîtronX</span>
+            <StatusLabel status={status} />
           </div>
-        </button>
-
-        <div className="mx-meta">
-          <span className="mx-name">MaîtronX</span>
-          <span className="mx-state">
-            {mode === "listening"
-              ? "● LISTENING"
-              : mode === "thinking"
-              ? "● THINKING"
-              : "● READY"}
-          </span>
         </div>
       </div>
-    </div>
-  );
-}
+
+      {showPermission && (
+        <div className="mx-permission-backdrop">
+          <div
+            className="mx-permission-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mx-permission-title"
+          >
+            <div className="mx-permission-icon">
+              <ShieldCheck size={25} />
+            </div>
+
+            <h3 id="mx-permission-title">Enable Voice Conversation</h3>
+
+            <p>
+              Kailangan ni MaîtronX ang microphone access para marinig ang
+              iyong boses. Ang permission request ng Android o browser ay
+              lalabas pagkatapos mong magpatuloy.
+            </p>
+
+            {permissionError && (
+              <div className="mx-error">{permissionError}</div>
+            )}
+
+            <div className="mx-permission-actions">
+              <button
+                type="button"
+                onClick={requestMicrophone}
+              >
+                Enable Microphone
+              </button>
+
+              <button
+                type="button"
+                className="mx-cancel"
+                onClick={() => {
+                  setShowPermission(false)
+                  setStatus(navigator.onLine ? 'online' : 'offline')
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  )
+                            }
