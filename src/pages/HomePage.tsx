@@ -58,12 +58,12 @@ const features = [
 ]
 
 const ratings = [
-  { name: 'Bullet', rating: '—', icon: '/icons/ratings/bullet.png' },
-  { name: 'Blitz', rating: '—', icon: '/icons/blitz.png' },
-  { name: 'Rapid', rating: '—', icon: '/icons/rapid.png' },
-  { name: 'Classical', rating: '—', icon: '/icons/ratings/classical.png' },
-  { name: 'Daily', rating: '—', icon: '/icons/ratings/daily.jpg' },
-  { name: 'All Stats', rating: '—', icon: '/icons/ratings/all-stats.png' },
+  { name: 'Bullet', rating: '—' },
+  { name: 'Blitz', rating: '—' },
+  { name: 'Rapid', rating: '—' },
+  { name: 'Classical', rating: '—' },
+  { name: 'Daily', rating: '—' },
+  { name: 'All Stats', rating: '—' },
 ]
 
 const friends = [
