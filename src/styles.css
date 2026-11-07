@@ -781,12 +781,19 @@ svg {
   transition: 0.2s ease;
 }
 
-..cx-home .cx-rating-icon {
-  width: 24px;
-  height: 24px;
+.cx-home .cx-rating-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
   margin-bottom: 9px;
-  object-fit: contain;
-  mix-blend-mode: screen;
+  color: var(--cx-gold);
+}
+
+.cx-home .cx-rating-icon svg {
+  width: 25px;
+  height: 25px;
 }
 
 .cx-home .cx-feature-image-icon {
