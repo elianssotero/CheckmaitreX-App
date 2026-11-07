@@ -8,6 +8,7 @@ import {
 
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
+import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
 
 function App() {
