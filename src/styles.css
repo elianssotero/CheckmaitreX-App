@@ -746,10 +746,21 @@ svg {
    9. RATINGS
 ------------------------- */
 
-.cx-home .cx-rating-grid {
+.cx-home .cx-rating-track {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: 170px;
   gap: 12px;
+  overflow-x: auto;
+  padding: 3px 2px 13px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: #48413a transparent;
+}
+
+.cx-home .cx-rating-track .cx-rating-card {
+  min-width: 0;
+  scroll-snap-align: start;
 }
 
 .cx-home .cx-rating-card {
