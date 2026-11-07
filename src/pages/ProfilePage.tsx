@@ -87,10 +87,13 @@ function ProfilePage() {
 
           <div className="cx-profile-joined">
             <CalendarDays size={15} />
-            <span>{profile.joined}</span>
-            <strong>Joined</strong>
-          </div>
-        </section>
+            <div className="cx-profile-joined">
+  <CalendarDays size={15} />
+  <div className="cx-profile-joined-text">
+    <strong>{profile.joined}</strong>
+    <span>Joined</span>
+  </div>
+</div>
 
         <section className="cx-profile-stat-track">
           <article className="cx-profile-stat">
