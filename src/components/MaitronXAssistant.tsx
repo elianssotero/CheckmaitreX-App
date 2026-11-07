@@ -15,6 +15,7 @@ type Activity = {
 type Props = {
   recentActivity?: Activity | null
   fullPage?: boolean
+  homepageMode?: boolean
 }
 
 type Status =
