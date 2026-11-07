@@ -1364,3 +1364,146 @@ svg {
     min-width: 53px;
   }
 }
+/* =========================
+   MORE PAGE
+========================= */
+
+.more-page {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  padding: 38px 34px;
+  margin: 0 auto;
+}
+
+.more-header {
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--cx-border);
+}
+
+.more-eyebrow {
+  color: var(--cx-gold);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.more-header h1 {
+  margin: 10px 0 7px;
+  font-size: clamp(27px, 4vw, 36px);
+  font-weight: 800;
+}
+
+.more-header p {
+  margin: 0;
+  color: var(--cx-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.more-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 30px;
+}
+
+.more-section h2 {
+  margin: 0 0 14px;
+  color: var(--cx-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.more-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 66px;
+  padding: 12px 15px;
+  background: var(--cx-surface);
+  border: 1px solid var(--cx-border);
+  border-radius: 11px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.more-item:hover {
+  background: var(--cx-surface-2);
+  border-color: rgba(217, 180, 91, 0.3);
+}
+
+.more-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  color: var(--cx-gold);
+  background: rgba(217, 180, 91, 0.09);
+  border-radius: 9px;
+}
+
+.more-item-label {
+  color: var(--cx-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.more-footer {
+  padding-top: 30px;
+  margin-top: 35px;
+  border-top: 1px solid var(--cx-border);
+  color: var(--cx-muted);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+@media (max-width: 760px) {
+  .more-page {
+    padding: 25px 17px;
+  }
+
+  .more-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .more-item {
+    min-height: 61px;
+    gap: 9px;
+    padding: 10px;
+  }
+
+  .more-item-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .more-item-label {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .more-page {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .more-grid {
+    gap: 7px;
+  }
+
+  .more-item {
+    padding: 8px;
+  }
+}
