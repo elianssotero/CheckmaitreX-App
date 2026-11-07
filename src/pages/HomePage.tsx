@@ -1,22 +1,22 @@
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
-  Bell,
-  Search,
   ChevronRight,
-  ChevronLeft,
   Puzzle,
   Bot,
   GraduationCap,
   BookOpen,
-  Flame,
   Trophy,
   Clock3,
   Crown,
   Swords,
-  X,
   CircleUserRound,
 } from 'lucide-react'
+
+const accountName = 'Player Name'
+
+// Ikonekta sa account profile kapag mayroon nang authentication.
+const playerFlair: string | null = null
 
 const features = [
   {
@@ -57,10 +57,11 @@ const features = [
 ]
 
 const ratings = [
-  { name: 'Bullet', rating: '—', icon: '⚡' },
-  { name: 'Blitz', rating: '—', icon: '♟' },
-  { name: 'Rapid', rating: '—', icon: '◷' },
+  { name: 'Daily', rating: '—', icon: '☀' },
   { name: 'Classical', rating: '—', icon: '♜' },
+  { name: 'Rapid', rating: '—', icon: '◷' },
+  { name: 'Blitz', rating: '—', icon: '♟' },
+  { name: 'Bullet', rating: '—', icon: '⚡' },
   { name: 'Chess960', rating: '—', icon: '♞' },
 ]
 
@@ -102,121 +103,105 @@ const games = [
   },
 ]
 
-function HomePage() {
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchText, setSearchText] = useState('')
-  const [notificationsOpen, setNotificationsOpen] = useState(false)
-  const [featureIndex, setFeatureIndex] = useState(0)
+function getGreeting() {
+  const hour = new Date().getHours()
 
-  const scrollFeatures = (direction: number) => {
-    setFeatureIndex((current) =>
-      Math.max(0, Math.min(features.length - 1, current + direction)),
-    )
+  if (hour >= 5 && hour < 12) return 'Good Morning'
+  if (hour >= 12 && hour < 18) return 'Good Afternoon'
+  return 'Good Evening'
+}
+
+function HomePage() {
+  const [greeting, setGreeting] = useState(getGreeting)
+  const [featureIndex, setFeatureIndex] = useState(0)
+  const featureTrackRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const updateGreeting = () => setGreeting(getGreeting())
+
+    const interval = window.setInterval(updateGreeting, 60_000)
+
+    return () => window.clearInterval(interval)
+  }, [])
+
+  const updateFeatureIndex = () => {
+    const track = featureTrackRef.current
+    if (!track) return
+
+    const cards = Array.from(track.children) as HTMLElement[]
+    if (!cards.length) return
+
+    let closestIndex = 0
+    let smallestDistance = Infinity
+
+    cards.forEach((card, index) => {
+      const distance = Math.abs(card.offsetLeft - track.scrollLeft - track.offsetLeft)
+
+      if (distance < smallestDistance) {
+        smallestDistance = distance
+        closestIndex = index
+      }
+    })
+
+    setFeatureIndex(closestIndex)
   }
 
-  const visibleFriends = friends
-    .filter((friend) => friend.status === 'online')
-    .concat(friends.filter((friend) => friend.status !== 'online'))
+  const goToFeature = (index: number) => {
+    const track = featureTrackRef.current
+    const card = track?.children[index] as HTMLElement | undefined
+
+    if (!track || !card) return
+
+    track.scrollTo({
+      left: card.offsetLeft - track.offsetLeft,
+      behavior: 'smooth',
+    })
+
+    setFeatureIndex(index)
+  }
+
+  const visibleFriends = [
+    ...friends.filter((friend) => friend.status === 'online'),
+    ...friends.filter((friend) => friend.status !== 'online'),
+  ]
 
   return (
     <div className="cx-home">
       <header className="cx-topbar">
         <div className="cx-user-area">
-          <button className="cx-avatar" aria-label="Profile">
+          <button className="cx-avatar" aria-label="Player profile">
             <CircleUserRound size={25} />
           </button>
 
           <div className="cx-user-details">
-            {/* Demo data: leave flair empty if user has no flair */}
-            <div className="cx-user-flair">CCC MEMBER</div>
-            <div className="cx-user-streak">
-              <Flame size={15} />
-              <strong>100</strong>
-              <span>day streak</span>
+            <div className="cx-player-name-line">
+              <strong className="cx-player-name">{accountName}</strong>
+
+              {playerFlair && (
+                <span className="cx-player-flair">{playerFlair}</span>
+              )}
             </div>
           </div>
-        </div>
-
-        <div className="cx-top-actions">
-          <button
-            className="cx-icon-button"
-            aria-label="Search"
-            onClick={() => {
-              setSearchOpen(!searchOpen)
-              setNotificationsOpen(false)
-            }}
-          >
-            {searchOpen ? <X size={20} /> : <Search size={20} />}
-          </button>
-
-          <button
-            className="cx-icon-button"
-            aria-label="Notifications"
-            onClick={() => {
-              setNotificationsOpen(!notificationsOpen)
-              setSearchOpen(false)
-            }}
-          >
-            <Bell size={20} />
-            <span className="cx-notification-dot" />
-          </button>
         </div>
       </header>
 
-      {searchOpen && (
-        <div className="cx-search-panel">
-          <Search size={18} />
-          <input
-            value={searchText}
-            onChange={(event) => setSearchText(event.target.value)}
-            placeholder="Search players, usernames or CCC ID..."
-            autoFocus
-          />
-          {searchText && (
-            <button onClick={() => setSearchText('')}>
-              <X size={16} />
-            </button>
-          )}
-        </div>
-      )}
-
-      {notificationsOpen && (
-        <div className="cx-notification-panel">
-          <div className="cx-panel-heading">
-            <strong>Notifications</strong>
-            <span>Demo</span>
-          </div>
-          <p>You are all caught up.</p>
-        </div>
-      )}
-
       <main className="cx-main-content">
         <section className="cx-feature-section">
-          <div className="cx-section-heading">
+          <div className="cx-section-heading cx-welcome-heading">
             <div>
               <span className="cx-overline">YOUR CHESS EXPERIENCE</span>
-              <h1>Welcome back.</h1>
-            </div>
-
-            <div className="cx-carousel-controls">
-              <button
-                aria-label="Previous"
-                onClick={() => scrollFeatures(-1)}
-                disabled={featureIndex === 0}
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                aria-label="Next"
-                onClick={() => scrollFeatures(1)}
-                disabled={featureIndex === features.length - 1}
-              >
-                <ChevronRight size={18} />
-              </button>
+              <h1>{greeting}</h1>
+              <p className="cx-welcome-account">
+                Welcome Back, <strong>{accountName}!</strong>
+              </p>
             </div>
           </div>
 
-          <div className="cx-feature-track">
+          <div
+            className="cx-feature-track"
+            ref={featureTrackRef}
+            onScroll={updateFeatureIndex}
+          >
             {features.map((feature) => {
               const Icon = feature.icon
 
@@ -241,13 +226,24 @@ function HomePage() {
               )
             })}
           </div>
+
+          <div className="cx-carousel-indicators" aria-label="Feature slides">
+            {features.map((feature, index) => (
+              <button
+                key={feature.title}
+                className={`cx-carousel-dot ${featureIndex === index ? 'active' : ''}`}
+                aria-label={`Go to ${feature.title}`}
+                aria-current={featureIndex === index ? 'true' : undefined}
+                onClick={() => goToFeature(index)}
+              />
+            ))}
+          </div>
         </section>
 
         <section className="cx-section">
           <div className="cx-section-heading">
             <div>
-              <span className="cx-overline">PERFORMANCE</span>
-              <h2>CCC Ratings</h2>
+              <h2>Your Ratings</h2>
             </div>
             <button className="cx-text-link">
               View all <ChevronRight size={15} />
@@ -290,9 +286,7 @@ function HomePage() {
                 </div>
 
                 <strong>{friend.name}</strong>
-                <span className="cx-friend-username">
-                  {friend.username}
-                </span>
+                <span className="cx-friend-username">{friend.username}</span>
                 <span className="cx-friend-rating">
                   {friend.rating} <span>Rating</span>
                 </span>
@@ -315,7 +309,7 @@ function HomePage() {
               <h2>Game History</h2>
             </div>
             <button className="cx-text-link">
-              View all games <ChevronRight size={15} />
+              View All CCC Games <ChevronRight size={15} />
             </button>
           </div>
 
@@ -351,8 +345,8 @@ function HomePage() {
         </section>
 
         <footer className="cx-home-footer">
-          <span>CHECKMAÎTRÉX CHESS CLUB</span>
-          <span>Official Chess Platform</span>
+          <span>CheckmaîtréX • All rights reserved.</span>
+          <span>Calculate. Conquer. Checkmate.</span>
         </footer>
       </main>
     </div>
