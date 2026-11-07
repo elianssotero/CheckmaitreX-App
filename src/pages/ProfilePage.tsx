@@ -67,7 +67,7 @@ function ProfilePage() {
       </div>
 
       <main className="cx-profile-content">
-        <        <section className="cx-profile-identity">
+              <section className="cx-profile-identity">
           <div className="cx-profile-identity-top">
             <div className="cx-profile-photo">
               {profile.profilePhoto ? (
