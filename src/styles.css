@@ -1534,8 +1534,6 @@ svg {
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 1;
-  max-height: 300px;
-  min-height: 125px;
   overflow: hidden;
   background: var(--cx-surface-2);
 }
