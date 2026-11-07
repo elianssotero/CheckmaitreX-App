@@ -1,193 +1,362 @@
 
+import { useState } from 'react'
 import {
-  Swords,
+  Bell,
+  Search,
+  ChevronRight,
+  ChevronLeft,
   Puzzle,
+  Bot,
   GraduationCap,
+  BookOpen,
+  Flame,
   Trophy,
   Users,
-  ArrowRight,
-  Play,
-  ChevronRight,
+  Clock3,
   Crown,
+  Swords,
+  X,
+  CircleUserRound,
+  MoreHorizontal,
 } from 'lucide-react'
 
-const quickActions = [
+const features = [
   {
-    title: 'Play Chess',
-    description: 'Start a chess game',
-    icon: Swords,
-    path: '/play',
-  },
-  {
-    title: 'Solve Puzzles',
-    description: 'Improve your tactics',
+    title: 'Puzzles',
+    description: 'Improve your tactical vision',
     icon: Puzzle,
-    path: '/puzzles',
+    label: 'TRAINING',
+    color: 'gold',
   },
   {
-    title: 'Learn Chess',
-    description: 'Explore chess lessons',
+    title: 'Play Bots',
+    description: 'Challenge chess personalities',
+    icon: Bot,
+    label: 'PLAY',
+    color: 'blue',
+  },
+  {
+    title: 'Play Coach',
+    description: 'Practice with your chess coach',
     icon: GraduationCap,
-    path: '/learn',
+    label: 'PRACTICE',
+    color: 'purple',
   },
   {
-    title: 'Tournaments',
-    description: 'Compete with players',
-    icon: Trophy,
-    path: '/tournaments',
+    title: 'Learn',
+    description: 'Explore chess lessons',
+    icon: BookOpen,
+    label: 'EDUCATION',
+    color: 'green',
+  },
+  {
+    title: 'Daily Puzzle',
+    description: 'A new challenge every day',
+    icon: Crown,
+    label: 'DAILY',
+    color: 'orange',
+  },
+]
+
+const ratings = [
+  { name: 'Bullet', rating: '—', icon: '⚡' },
+  { name: 'Blitz', rating: '—', icon: '♟' },
+  { name: 'Rapid', rating: '—', icon: '◷' },
+  { name: 'Classical', rating: '—', icon: '♜' },
+  { name: 'Chess960', rating: '—', icon: '♞' },
+]
+
+const friends = [
+  { name: 'PlayerOne', username: '@playerone', status: 'online', rating: 1842 },
+  { name: 'KnightMaster', username: '@knightmaster', status: 'online', rating: 1720 },
+  { name: 'ChessFan', username: '@chessfan', status: 'online', rating: 1650 },
+  { name: 'QueenSide', username: '@queenside', status: 'offline', rating: 1904 },
+  { name: 'EndgamePro', username: '@endgamepro', status: 'offline', rating: 2012 },
+]
+
+const games = [
+  {
+    opponent: 'Opponent One',
+    result: 'Victory',
+    color: 'win',
+    mode: 'Blitz',
+    time: '5 + 0',
+    date: 'Today',
+    rating: '+12',
+  },
+  {
+    opponent: 'Opponent Two',
+    result: 'Defeat',
+    color: 'loss',
+    mode: 'Rapid',
+    time: '10 + 0',
+    date: 'Yesterday',
+    rating: '-8',
+  },
+  {
+    opponent: 'Opponent Three',
+    result: 'Draw',
+    color: 'draw',
+    mode: 'Bullet',
+    time: '1 + 0',
+    date: 'Yesterday',
+    rating: '0',
   },
 ]
 
 function HomePage() {
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchText, setSearchText] = useState('')
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [featureIndex, setFeatureIndex] = useState(0)
+
+  const scrollFeatures = (direction: number) => {
+    setFeatureIndex((current) =>
+      Math.max(0, Math.min(features.length - 1, current + direction)),
+    )
+  }
+
+  const visibleFriends = friends
+    .filter((friend) => friend.status === 'online')
+    .concat(friends.filter((friend) => friend.status !== 'online'))
+
   return (
-    <div className="page-container home-page">
-      <header className="home-header">
-        <div>
-          <div className="home-eyebrow">
-            CHECKMAÎTRÉX COMPANY
-          </div>
-          <h1>
-            Welcome to <span>CheckmaîtréX</span>
-          </h1>
-          <p>
-            Your chess journey starts here.
-          </p>
-        </div>
+    <div className="cx-home">
+      <header className="cx-topbar">
+        <div className="cx-user-area">
+          <button className="cx-avatar" aria-label="Profile">
+            <CircleUserRound size={25} />
+          </button>
 
-        <button className="home-profile-button" type="button">
-          <Users size={18} />
-          <span>Community</span>
-        </button>
-      </header>
-
-      <section className="home-hero">
-        <div className="home-hero-content">
-          <div className="home-hero-label">
-            <Crown size={15} />
-            THE OFFICIAL CHESS PLATFORM
-          </div>
-
-          <h2>
-            Think. Play.
-            <br />
-            <span>Master the Game.</span>
-          </h2>
-
-          <p>
-            Play chess, sharpen your skills, explore new strategies,
-            and become part of the CheckmaîtréX community.
-          </p>
-
-          <div className="home-hero-actions">
-            <button className="btn btn-primary" type="button">
-              <Play size={17} fill="currentColor" />
-              Play Now
-            </button>
-
-            <button className="btn btn-secondary" type="button">
-              Explore Platform
-              <ArrowRight size={16} />
-            </button>
+          <div className="cx-user-details">
+            {/* Demo data: leave flair empty if user has no flair */}
+            <div className="cx-user-flair">CCC MEMBER</div>
+            <div className="cx-user-streak">
+              <Flame size={15} />
+              <strong>100</strong>
+              <span>day streak</span>
+            </div>
           </div>
         </div>
 
-        <div className="home-hero-decoration" aria-hidden="true">
-          <Crown size={112} strokeWidth={0.8} />
-        </div>
-      </section>
+        <div className="cx-top-actions">
+          <button
+            className="cx-icon-button"
+            aria-label="Search"
+            onClick={() => {
+              setSearchOpen(!searchOpen)
+              setNotificationsOpen(false)
+            }}
+          >
+            {searchOpen ? <X size={20} /> : <Search size={20} />}
+          </button>
 
-      <section className="home-section">
-        <div className="section-heading">
-          <div>
-            <h2>Quick Access</h2>
-            <p>Choose where you want to begin.</p>
-          </div>
-        </div>
-
-        <div className="quick-actions-grid">
-          {quickActions.map((action) => {
-            const Icon = action.icon
-
-            return (
-              <a
-                href={action.path}
-                className="quick-action-card"
-                key={action.title}
-              >
-                <div className="quick-action-icon">
-                  <Icon size={22} />
-                </div>
-
-                <div className="quick-action-info">
-                  <h3>{action.title}</h3>
-                  <p>{action.description}</p>
-                </div>
-
-                <ChevronRight
-                  className="quick-action-arrow"
-                  size={18}
-                />
-              </a>
-            )
-          })}
-        </div>
-      </section>
-
-      <section className="home-section">
-        <div className="section-heading">
-          <div>
-            <h2>Featured Activity</h2>
-            <p>Discover what's happening on the platform.</p>
-          </div>
-
-          <button className="home-text-link" type="button">
-            View All
-            <ArrowRight size={15} />
+          <button
+            className="cx-icon-button"
+            aria-label="Notifications"
+            onClick={() => {
+              setNotificationsOpen(!notificationsOpen)
+              setSearchOpen(false)
+            }}
+          >
+            <Bell size={20} />
+            <span className="cx-notification-dot" />
           </button>
         </div>
+      </header>
 
-        <div className="featured-activity-card">
-          <div className="featured-activity-content">
-            <span className="featured-activity-tag">
-              FEATURED
-            </span>
+      {searchOpen && (
+        <div className="cx-search-panel">
+          <Search size={18} />
+          <input
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+            placeholder="Search players, usernames or CCC ID..."
+            autoFocus
+          />
+          {searchText && (
+            <button onClick={() => setSearchText('')}>
+              <X size={16} />
+            </button>
+          )}
+        </div>
+      )}
 
-            <h3>Your Next Chess Challenge</h3>
+      {notificationsOpen && (
+        <div className="cx-notification-panel">
+          <div className="cx-panel-heading">
+            <strong>Notifications</strong>
+            <span>Demo</span>
+          </div>
+          <p>You are all caught up.</p>
+        </div>
+      )}
 
-            <p>
-              Explore puzzles, training activities, and competitive
-              opportunities designed to improve your game.
-            </p>
+      <main className="cx-main-content">
+        <section className="cx-feature-section">
+          <div className="cx-section-heading">
+            <div>
+              <span className="cx-overline">YOUR CHESS EXPERIENCE</span>
+              <h1>Welcome back.</h1>
+            </div>
 
-            <button className="btn btn-primary" type="button">
-              Explore Activities
-              <ArrowRight size={16} />
+            <div className="cx-carousel-controls">
+              <button
+                aria-label="Previous"
+                onClick={() => scrollFeatures(-1)}
+                disabled={featureIndex === 0}
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                aria-label="Next"
+                onClick={() => scrollFeatures(1)}
+                disabled={featureIndex === features.length - 1}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+
+          <div className="cx-feature-track">
+            {features.map((feature) => {
+              const Icon = feature.icon
+
+              return (
+                <article
+                  className={`cx-feature-card cx-${feature.color}`}
+                  key={feature.title}
+                >
+                  <div className="cx-feature-top">
+                    <span>{feature.label}</span>
+                    <Icon size={23} />
+                  </div>
+
+                  <div className="cx-feature-bottom">
+                    <h2>{feature.title}</h2>
+                    <p>{feature.description}</p>
+                    <span className="cx-feature-arrow">
+                      Explore <ChevronRight size={15} />
+                    </span>
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="cx-section">
+          <div className="cx-section-heading">
+            <div>
+              <span className="cx-overline">PERFORMANCE</span>
+              <h2>CCC Ratings</h2>
+            </div>
+            <button className="cx-text-link">
+              View all <ChevronRight size={15} />
             </button>
           </div>
 
-          <div className="featured-activity-symbol">
-            <Trophy size={76} strokeWidth={1} />
+          <div className="cx-rating-grid">
+            {ratings.map((rating) => (
+              <article className="cx-rating-card" key={rating.name}>
+                <span className="cx-rating-icon">{rating.icon}</span>
+                <span className="cx-rating-name">{rating.name}</span>
+                <strong>{rating.rating}</strong>
+                <span className="cx-rating-label">Rating</span>
+              </article>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="home-section home-community">
-        <div className="section-heading">
-          <div>
-            <h2>Community</h2>
-            <p>Connect with the CheckmaîtréX community.</p>
+        <section className="cx-section">
+          <div className="cx-section-heading">
+            <div>
+              <span className="cx-overline">YOUR NETWORK</span>
+              <h2>Friends</h2>
+            </div>
+            <button className="cx-text-link">
+              View all <ChevronRight size={15} />
+            </button>
           </div>
-        </div>
 
-        <div className="community-placeholder">
-          <Users size={30} />
-          <h3>Your chess community awaits.</h3>
-          <p>
-            Player profiles, friends, and community features
-            will be developed in this section.
-          </p>
-        </div>
-      </section>
+          <div className="cx-friends-track">
+            {visibleFriends.map((friend) => (
+              <article className="cx-friend-card" key={friend.username}>
+                <div className="cx-friend-avatar">
+                  <CircleUserRound size={31} />
+                  <span
+                    className={`cx-online-indicator ${
+                      friend.status === 'online' ? 'is-online' : ''
+                    }`}
+                  />
+                </div>
+
+                <strong>{friend.name}</strong>
+                <span className="cx-friend-username">
+                  {friend.username}
+                </span>
+                <span className="cx-friend-rating">
+                  {friend.rating} <span>Rating</span>
+                </span>
+                <span
+                  className={`cx-friend-status ${
+                    friend.status === 'online' ? 'online' : ''
+                  }`}
+                >
+                  {friend.status}
+                </span>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="cx-section cx-history-section">
+          <div className="cx-section-heading">
+            <div>
+              <span className="cx-overline">RECENT ACTIVITY</span>
+              <h2>Game History</h2>
+            </div>
+            <button className="cx-text-link">
+              View all games <ChevronRight size={15} />
+            </button>
+          </div>
+
+          <div className="cx-history-list">
+            {games.map((game, index) => (
+              <article className="cx-game-row" key={`${game.opponent}-${index}`}>
+                <div className={`cx-game-result ${game.color}`}>
+                  {game.result === 'Victory' ? (
+                    <Trophy size={18} />
+                  ) : (
+                    <Swords size={18} />
+                  )}
+                </div>
+
+                <div className="cx-game-opponent">
+                  <strong>{game.opponent}</strong>
+                  <span>{game.mode} · {game.time}</span>
+                </div>
+
+                <div className="cx-game-date">
+                  <Clock3 size={13} />
+                  {game.date}
+                </div>
+
+                <div className={`cx-game-rating ${game.color}`}>
+                  {game.rating}
+                </div>
+
+                <ChevronRight className="cx-game-arrow" size={17} />
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <footer className="cx-home-footer">
+          <span>CHECKMAÎTRÉX CHESS CLUB</span>
+          <span>Official Chess Platform</span>
+        </footer>
+      </main>
     </div>
   )
 }
