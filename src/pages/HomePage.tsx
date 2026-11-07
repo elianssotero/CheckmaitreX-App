@@ -118,12 +118,21 @@ function RatingIcon({ name }: { name: string }) {
   }
 
   switch (name) {
+    
     case 'Bullet':
       return (
         <svg {...common}>
-          <path d="M13 2 5 13h6l-1 9 9-12h-6l1-8Z" />
+          <path
+            d="M4 17.5 15.2 6.3c1.5-1.5 3.5-2 5.3-1.5.5 1.8 0 3.8-1.5 5.3L7.8 21.3 4 17.5Z"
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinejoin="round"
+          />
+          <path d="m7.8 13.7 2.5 2.5" stroke="#171717" strokeWidth="1.3" />
         </svg>
       )
+
 
     case 'Blitz':
       return (
@@ -141,14 +150,19 @@ function RatingIcon({ name }: { name: string }) {
         </svg>
       )
 
+    
     case 'Classical':
       return (
         <svg {...common}>
-          <path d="M7 21h10M8 18h8l-1-3H9l-1 3Z" />
-          <path d="M9 15V8l3-4 3 4v7" />
-          <path d="M7 8h10M10 8V5m4 3V5" />
+          <path d="M7 7V4.5h3V7m4 0V4.5h3V7" />
+          <rect x="3" y="7" width="18" height="14" rx="2.5" />
+          <path d="M12 7v14" />
+          <rect x="5.5" y="10" width="4.5" height="4" rx=".5" />
+          <rect x="14" y="10" width="4.5" height="4" rx=".5" />
+          <path d="M6.5 17h3m5 0h3" />
         </svg>
       )
+
 
     case 'Daily':
       return (
