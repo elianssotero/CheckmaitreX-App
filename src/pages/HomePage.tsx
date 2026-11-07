@@ -457,7 +457,7 @@ function HomePage() {
         </section>
 
         <footer className="cx-home-footer">
-          <span>CheckmaîtréX • All rights reserved.</span>
+          © {new Date().getFullYear()} CheckmaîtréX • All rights reserved.
           <span>Calculate. Conquer. Checkmate.</span>
         </footer>
       </main>
