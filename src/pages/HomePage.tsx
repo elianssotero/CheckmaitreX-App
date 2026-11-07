@@ -11,13 +11,11 @@ import {
   BookOpen,
   Flame,
   Trophy,
-  Users,
   Clock3,
   Crown,
   Swords,
   X,
   CircleUserRound,
-  MoreHorizontal,
 } from 'lucide-react'
 
 const features = [
