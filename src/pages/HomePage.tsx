@@ -287,7 +287,8 @@ function HomePage() {
           </button>
         </div>
       </header>
-    
+       <main>
+        <section className="cx-section">   
     
           <div className="cx-section-heading cx-welcome-heading">
             <div>
