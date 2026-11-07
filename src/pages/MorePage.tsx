@@ -12,7 +12,6 @@ import {
   Search,
   Settings,
   ShieldCheck,
-  ShoppingBag,
   Sparkles,
   Swords,
   Trophy,
