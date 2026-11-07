@@ -302,10 +302,10 @@ function HomePage() {
     height={23}
     className="cx-feature-image-icon"
   />
-) : feature.title === 'Learn' ? (
+{feature.title === 'Puzzles' ? (
   <img
-    src="/icons/learn/learn.png"
-    alt="Learn"
+    src="/icons/puzzles/puzzle.png"
+    alt="Puzzles"
     width={23}
     height={23}
     className="cx-feature-image-icon"
