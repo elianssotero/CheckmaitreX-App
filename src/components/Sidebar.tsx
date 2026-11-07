@@ -7,7 +7,6 @@ import {
   GraduationCap,
   AlignJustify, 
   Video,
-  Trophy,
   Users,
   ShoppingBag,
   BarChart3,
