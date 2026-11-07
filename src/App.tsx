@@ -6,6 +6,7 @@ import {
   Routes,
 } from 'react-router-dom'
 
+import ProfilePage from './pages/ProfilePage'
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import MorePage from './pages/MorePage'
