@@ -58,12 +58,12 @@ const features = [
 ]
 
 const ratings = [
-  { name: 'Daily', rating: '—', icon: '☀' },
-  { name: 'Classical', rating: '—', icon: '♜' },
-  { name: 'Rapid', rating: '—', icon: '◷' },
-  { name: 'Blitz', rating: '—', icon: '♟' },
-  { name: 'Bullet', rating: '—', icon: '⚡' },
-  { name: 'Chess960', rating: '—', icon: '♞' },
+  { name: 'Bullet', rating: '—', icon: '/icons/ratings/bullet.png' },
+  { name: 'Blitz', rating: '—', icon: '/icons/blitz.png' },
+  { name: 'Rapid', rating: '—', icon: '/icons/rapid.png' },
+  { name: 'Classical', rating: '—', icon: '/icons/ratings/classical.png' },
+  { name: 'Daily', rating: '—', icon: '/icons/ratings/daily.jpg' },
+  { name: 'All Stats', rating: '—', icon: '/icons/ratings/all-stats.png' },
 ]
 
 const friends = [
