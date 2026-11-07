@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   ChevronRight,
+  Bell,
+  Search,
   Puzzle,
   Bot,
   GraduationCap,
@@ -14,8 +16,7 @@ import {
 } from 'lucide-react'
 
 const accountName = 'Player Name'
-
-// Ikonekta sa account profile kapag mayroon nang authentication.
+const playerStreak = 1
 const playerFlair: string | null = null
 
 const features = [
@@ -166,7 +167,6 @@ function HomePage() {
   ]
 
   return (
-    <div className="cx-home">
       <header className="cx-topbar">
         <div className="cx-user-area">
           <button className="cx-avatar" aria-label="Player profile">
@@ -180,12 +180,26 @@ function HomePage() {
               {playerFlair && (
                 <span className="cx-player-flair">{playerFlair}</span>
               )}
+
+              <span className="cx-user-streak">
+                🔥 <strong>{playerStreak}</strong>
+              </span>
             </div>
           </div>
         </div>
-      </header>
 
-      <main className="cx-main-content">
+        <div className="cx-top-actions">
+          <button className="cx-icon-button" aria-label="Notifications">
+            <Bell size={19} />
+          </button>
+
+          <button className="cx-icon-button" aria-label="Search">
+            <Search size={19} />
+          </button>
+        </div>
+      </header>
+    
+    <main className="cx-main-content">
         <section className="cx-feature-section">
           <div className="cx-section-heading cx-welcome-heading">
             <div>
@@ -309,7 +323,7 @@ function HomePage() {
               <h2>Game History</h2>
             </div>
             <button className="cx-text-link">
-              View All CCC Games <ChevronRight size={15} />
+              View All Games <ChevronRight size={15} />
             </button>
           </div>
 
