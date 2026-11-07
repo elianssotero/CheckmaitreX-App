@@ -1632,7 +1632,16 @@ svg {
 .cx-profile-joined svg {
   color: var(--cx-gold);
 }
+.cx-profile-joined-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
+.cx-profile-joined-text span {
+  color: var(--cx-muted);
+  font-size: 10px;
+}
 .cx-profile-joined strong {
   color: var(--cx-text);
   font-weight: 650;
