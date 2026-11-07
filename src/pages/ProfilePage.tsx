@@ -41,6 +41,8 @@ const profileGames = [
   { opponent: 'Opponent One', mode: 'Blitz', result: 'Victory', rating: '+12' },
   { opponent: 'Opponent Two', mode: 'Rapid', result: 'Defeat', rating: '-8' },
   { opponent: 'Opponent Three', mode: 'Bullet', result: 'Draw', rating: '0' },
+  { opponent: 'Opponent Four', mode: 'Classical', result: 'Victory', rating: '+10' },
+  { opponent: 'Opponent Five', mode: 'Blitz', result: 'Victory', rating: '+8' },
 ]
 
 const profileFriends = [
