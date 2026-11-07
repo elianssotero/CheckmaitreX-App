@@ -289,16 +289,7 @@ function HomePage() {
       </header>
        <main>
         <section className="cx-section">   
-    
-          <div className="cx-section-heading cx-welcome-heading">
-            <div>
-              <span className="cx-overline">YOUR CHESS EXPERIENCE</span>
-              <h1>{greeting}</h1>
-              <p className="cx-welcome-account">
-                Welcome Back, <strong>{accountName}!</strong>
-              </p>
             </div>
-
             <MaitronXAssistant />
           </div>
 
