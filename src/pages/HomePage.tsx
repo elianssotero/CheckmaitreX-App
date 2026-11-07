@@ -188,11 +188,12 @@ function RatingIcon({ name }: { name: string }) {
 }
 
 
-function HomePage() {
+  function HomePage() {
   const navigate = useNavigate() 
   const featureTrackRef = useRef<HTMLDivElement>(null)
+  const [featureIndex, setFeatureIndex] = useState(0)
   const updateFeatureIndex = () => {
-    const track = featureTrackRef.current
+  const track = featureTrackRef.current
     if (!track) return
 
     const cards = Array.from(track.children) as HTMLElement[]
