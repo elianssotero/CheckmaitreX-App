@@ -1,3 +1,4 @@
+
 import {
   CalendarDays,
   ChevronRight,
@@ -70,7 +71,7 @@ function ProfilePage() {
         ) : (
           <div className="cx-profile-cover-placeholder" />
         )}
-      </div>
+
         <button
           className="cx-profile-edit-button"
           aria-label="Edit profile"
@@ -78,15 +79,25 @@ function ProfilePage() {
         >
           <Pencil size={18} />
         </button>
+      </div>
+
       <main className="cx-profile-content">
-       <section className="cx-profile-identity">
+        <section className="cx-profile-identity">
           <div className="cx-profile-identity-top">
             <div className="cx-profile-photo">
               {profile.profilePhoto ? (
-                            <div className="cx-profile-name-area">
+                <img src={profile.profilePhoto} alt="Profile" />
+              ) : (
+                <CircleUserRound size={54} />
+              )}
+            </div>
+
+            <div className="cx-profile-name-area">
               <h1>
                 {profile.title && (
-                  <span className="cx-profile-title">{profile.title}</span>
+                  <span className="cx-profile-title">
+                    {profile.title}
+                  </span>
                 )}
                 <span className="cx-profile-account-name">
                   {profile.accountName}
@@ -95,13 +106,11 @@ function ProfilePage() {
                   {profile.countryFlag}
                 </span>
               </h1>
-              <span>{profile.username}</span>
-              <span className="cx-profile-location">{profile.location}</span>
-            </div>
 
-            <div className="cx-profile-name-area">
-              <h1>{profile.accountName}</h1>
               <span>{profile.username}</span>
+              <span className="cx-profile-location">
+                {profile.location}
+              </span>
             </div>
           </div>
 
@@ -144,7 +153,7 @@ function ProfilePage() {
         </section>
 
         <section className="cx-profile-actions">
-          <button className="cx-profile-add-friend">
+          <button className="cx-profile-add-friend" type="button">
             <UserPlus size={17} />
             Add Friend
           </button>
@@ -152,6 +161,7 @@ function ProfilePage() {
           <button
             className="cx-profile-qr-button"
             aria-label="Show QR code"
+            type="button"
           >
             <QrCode size={21} />
           </button>
@@ -190,7 +200,7 @@ function ProfilePage() {
         <section className="cx-profile-section">
           <div className="cx-profile-section-heading">
             <h2>Ratings</h2>
-            <button className="cx-profile-view-all">
+            <button className="cx-profile-view-all" type="button">
               View All <ChevronRight size={15} />
             </button>
           </div>
@@ -208,8 +218,8 @@ function ProfilePage() {
 
         <section className="cx-profile-section">
           <div className="cx-profile-section-heading">
-            <h2>Game History</h2>
-            <button className="cx-profile-view-all">
+            <h2>Recent Games</h2>
+            <button className="cx-profile-view-all" type="button">
               View All <ChevronRight size={15} />
             </button>
           </div>
@@ -220,7 +230,9 @@ function ProfilePage() {
                 className="cx-profile-game-row"
                 key={`${game.opponent}-${index}`}
               >
-                <div className={`cx-profile-game-result ${game.result.toLowerCase()}`}>
+                <div
+                  className={`cx-profile-game-result ${game.result.toLowerCase()}`}
+                >
                   {game.result}
                 </div>
 
@@ -229,7 +241,9 @@ function ProfilePage() {
                   <span>{game.mode}</span>
                 </div>
 
-                <strong className={`cx-profile-game-rating ${game.result.toLowerCase()}`}>
+                <strong
+                  className={`cx-profile-game-rating ${game.result.toLowerCase()}`}
+                >
                   {game.rating}
                 </strong>
 
@@ -242,7 +256,7 @@ function ProfilePage() {
         <section className="cx-profile-section">
           <div className="cx-profile-section-heading">
             <h2>Friends</h2>
-            <button className="cx-profile-view-all">
+            <button className="cx-profile-view-all" type="button">
               View All <ChevronRight size={15} />
             </button>
           </div>
@@ -262,7 +276,7 @@ function ProfilePage() {
         <section className="cx-profile-section cx-profile-achievements-section">
           <div className="cx-profile-section-heading">
             <h2>Achievements</h2>
-            <button className="cx-profile-view-all">
+            <button className="cx-profile-view-all" type="button">
               View All <ChevronRight size={15} />
             </button>
           </div>
