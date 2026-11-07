@@ -86,8 +86,6 @@ function ProfilePage() {
           <p className="cx-profile-bio">{profile.bio}</p>
 
           <div className="cx-profile-joined">
-            <CalendarDays size={15} />
-            <div className="cx-profile-joined">
   <CalendarDays size={15} />
   <div className="cx-profile-joined-text">
     <strong>{profile.joined}</strong>
