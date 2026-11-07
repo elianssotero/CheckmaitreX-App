@@ -4,8 +4,6 @@ import {
   BookOpen,
   CalendarDays,
   Eye,
-  FileText,
-  Globe,
   Heart,
   HelpCircle,
   Lightbulb,
@@ -20,7 +18,6 @@ import {
   Trophy,
   Users,
   Video,
-  Wallet,
   type LucideIcon,
 } from 'lucide-react'
 
