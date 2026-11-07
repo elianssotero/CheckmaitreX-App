@@ -2,12 +2,10 @@ import {
   CalendarDays,
   ChevronRight,
   CircleUserRound,
-  Eye,
   Flame,
   Heart,
   QrCode,
   UserPlus,
-  Users,
   Trophy,
 } from 'lucide-react'
 
