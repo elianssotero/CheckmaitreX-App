@@ -71,9 +71,15 @@ function ProfilePage() {
           <div className="cx-profile-cover-placeholder" />
         )}
       </div>
-
+        <button
+          className="cx-profile-edit-button"
+          aria-label="Edit profile"
+          type="button"
+        >
+          <Pencil size={18} />
+        </button>
       <main className="cx-profile-content">
-              <section className="cx-profile-identity">
+       <section className="cx-profile-identity">
           <div className="cx-profile-identity-top">
             <div className="cx-profile-photo">
               {profile.profilePhoto ? (
