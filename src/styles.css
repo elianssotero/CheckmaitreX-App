@@ -781,17 +781,20 @@ svg {
   transition: 0.2s ease;
 }
 
-.cx-home .cx-rating-card:hover {
-  border-color: rgba(217, 180, 91, 0.35);
-  background: var(--cx-surface-2);
-}
-
-.cx-home .cx-rating-icon {
+..cx-home .cx-rating-icon {
+  width: 24px;
+  height: 24px;
   margin-bottom: 9px;
-  color: var(--cx-gold);
-  font-size: 17px;
+  object-fit: contain;
+  mix-blend-mode: screen;
 }
 
+.cx-home .cx-feature-image-icon {
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
 .cx-home .cx-rating-name {
   color: var(--cx-muted);
   font-size: 11px;
