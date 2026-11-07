@@ -1,28 +1,302 @@
 
-/* =========================================
-   CHECKMAÎTRÉX CHESS CLUB
-   HOMEPAGE STYLES ONLY
-   ========================================= */
+/* =====================================================
+   CHECKMAÎTRÉX APP
+   GLOBAL FOUNDATION + SIDEBAR + HOMEPAGE
+   Frontend only
+   ===================================================== */
 
-.cx-home {
+/* -------------------------
+   1. GLOBAL FOUNDATION
+------------------------- */
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  color: #f3f1eb;
+  background: #0b0b0d;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   --cx-bg: #0b0b0d;
+  --cx-sidebar: #101013;
   --cx-surface: #141417;
   --cx-surface-2: #1b1b20;
   --cx-surface-3: #24242a;
-  --cx-border: rgba(255, 255, 255, 0.075);
+
   --cx-gold: #d9b45b;
   --cx-gold-light: #f0d48a;
+
   --cx-text: #f3f1eb;
   --cx-muted: #929198;
+  --cx-border: rgba(255, 255, 255, 0.075);
+
   --cx-green: #55bd83;
   --cx-red: #e16d6d;
+}
 
-  width: 100%;
-  min-height: 100%;
-  color: var(--cx-text);
-  font-family: inherit;
-  background: var(--cx-bg);
+* {
   box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--cx-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--cx-bg);
+  color: var(--cx-text);
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--cx-gold);
+  outline-offset: 3px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  color: #0b0b0d;
+  background: var(--cx-gold);
+}
+
+/* -------------------------
+   2. APPLICATION LAYOUT
+------------------------- */
+
+.app-shell {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--cx-bg);
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  margin-left: 250px;
+  background: var(--cx-bg);
+}
+
+/* -------------------------
+   3. SIDEBAR
+------------------------- */
+
+.sidebar {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 250px;
+  height: 100vh;
+  padding: 25px 16px 18px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: var(--cx-sidebar);
+  border-right: 1px solid var(--cx-border);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 58px;
+  padding: 0 8px 22px;
+  border-bottom: 1px solid var(--cx-border);
+}
+
+.sidebar-brand-mark {
+  display: grid;
+  place-items: center;
+
+  width: 39px;
+  height: 39px;
+  flex-shrink: 0;
+
+  border: 1px solid rgba(217, 180, 91, 0.55);
+  border-radius: 12px;
+
+  color: var(--cx-gold);
+  background: linear-gradient(
+    145deg,
+    #292319,
+    #17130d
+  );
+
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.sidebar-brand-name {
+  color: var(--cx-text);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.sidebar-brand-caption {
+  margin-top: 4px;
+  color: var(--cx-gold);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+
+  flex: 1;
+  padding-top: 27px;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar-section-title {
+  padding: 0 11px;
+  margin-bottom: 8px;
+
+  color: #77767d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  min-height: 43px;
+  padding: 0 12px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  color: #aaa8ae;
+  background: transparent;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sidebar-link svg {
+  flex-shrink: 0;
+  color: #85838b;
+}
+
+.sidebar-link:hover {
+  color: var(--cx-text);
+  background: var(--cx-surface-2);
+}
+
+.sidebar-link:hover svg {
+  color: var(--cx-gold);
+}
+
+.sidebar-link.active {
+  color: var(--cx-gold-light);
+  background: rgba(217, 180, 91, 0.09);
+  border-color: rgba(217, 180, 91, 0.17);
+}
+
+.sidebar-link.active svg {
+  color: var(--cx-gold);
+}
+
+.sidebar-footer {
+  padding: 17px 10px 3px;
+  margin-top: 22px;
+  border-top: 1px solid var(--cx-border);
+}
+
+.sidebar-footer-label {
+  color: var(--cx-gold);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.sidebar-footer-version {
+  margin-top: 6px;
+  color: #77767d;
+  font-size: 10px;
+}
+
+/* -------------------------
+   4. HOMEPAGE ROOT
+------------------------- */
+
+.cx-home {
+  width: 100%;
+  min-height: 100vh;
+
+  color: var(--cx-text);
+  background: var(--cx-bg);
+
+  overflow-x: hidden;
 }
 
 .cx-home *,
@@ -31,28 +305,29 @@
   box-sizing: border-box;
 }
 
-.cx-home button,
-.cx-home input {
-  font: inherit;
-}
-
 .cx-home button {
   color: inherit;
+  font-family: inherit;
 }
 
-/* =========================================
-   TOP HEADER
-   ========================================= */
+/* -------------------------
+   5. HOMEPAGE HEADER
+------------------------- */
 
 .cx-home .cx-topbar {
-  min-height: 76px;
+  position: relative;
+  z-index: 10;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 14px 28px;
+
+  min-height: 76px;
+  padding: 14px 30px;
+
   border-bottom: 1px solid var(--cx-border);
-  background: rgba(11, 11, 13, 0.94);
+  background: #0e0e11;
 }
 
 .cx-home .cx-user-area {
@@ -63,16 +338,18 @@
 }
 
 .cx-home .cx-avatar {
+  display: grid;
+  place-items: center;
+
   width: 43px;
   height: 43px;
   flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(217, 180, 91, 0.35);
+
+  border: 1px solid rgba(217, 180, 91, 0.4);
   border-radius: 50%;
+
   color: var(--cx-gold);
   background: var(--cx-surface-2);
-  cursor: pointer;
 }
 
 .cx-home .cx-user-details {
@@ -92,6 +369,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+
   color: #e6a15e;
   font-size: 12px;
 }
@@ -113,16 +391,20 @@
 }
 
 .cx-home .cx-icon-button {
-  width: 40px;
-  height: 40px;
   position: relative;
+
   display: grid;
   place-items: center;
+
+  width: 40px;
+  height: 40px;
+
   border: 1px solid var(--cx-border);
   border-radius: 12px;
+
   color: #c9c7c2;
   background: var(--cx-surface);
-  cursor: pointer;
+
   transition: 0.2s ease;
 }
 
@@ -136,25 +418,30 @@
   position: absolute;
   top: 8px;
   right: 8px;
+
   width: 7px;
   height: 7px;
+
   border: 1px solid var(--cx-bg);
   border-radius: 50%;
   background: var(--cx-gold);
 }
 
-/* =========================================
-   SEARCH AND NOTIFICATIONS
-   ========================================= */
+/* -------------------------
+   6. SEARCH AND NOTIFICATIONS
+------------------------- */
 
 .cx-home .cx-search-panel,
 .cx-home .cx-notification-panel {
   position: relative;
   z-index: 5;
-  margin: 14px 28px 0;
+
+  margin: 14px 30px 0;
   padding: 16px;
+
   border: 1px solid var(--cx-border);
   border-radius: 14px;
+
   background: var(--cx-surface);
 }
 
@@ -168,8 +455,11 @@
 .cx-home .cx-search-panel input {
   width: 100%;
   min-width: 0;
+
+  padding: 5px 0;
   border: 0;
   outline: 0;
+
   color: var(--cx-text);
   background: transparent;
   font-size: 13px;
@@ -182,10 +472,10 @@
 .cx-home .cx-search-panel button {
   display: grid;
   place-items: center;
+
   border: 0;
   color: var(--cx-muted);
   background: transparent;
-  cursor: pointer;
 }
 
 .cx-home .cx-panel-heading {
@@ -212,19 +502,20 @@
   font-size: 13px;
 }
 
-/* =========================================
-   MAIN CONTENT
-   ========================================= */
+/* -------------------------
+   7. HOMEPAGE CONTENT
+------------------------- */
 
 .cx-home .cx-main-content {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1500px;
+
   margin: 0 auto;
-  padding: 30px 28px 35px;
+  padding: 32px 30px 45px;
 }
 
 .cx-home .cx-section {
-  margin-top: 38px;
+  margin-top: 40px;
 }
 
 .cx-home .cx-section-heading {
@@ -232,12 +523,14 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
+
   margin-bottom: 18px;
 }
 
 .cx-home .cx-overline {
   display: block;
   margin-bottom: 7px;
+
   color: var(--cx-gold);
   font-size: 9px;
   font-weight: 800;
@@ -246,14 +539,16 @@
 
 .cx-home .cx-section-heading h1 {
   margin: 0;
+
   color: var(--cx-text);
-  font-size: clamp(25px, 3vw, 34px);
+  font-size: clamp(25px, 3vw, 35px);
   font-weight: 750;
   letter-spacing: -1.1px;
 }
 
 .cx-home .cx-section-heading h2 {
   margin: 0;
+
   color: var(--cx-text);
   font-size: 21px;
   font-weight: 700;
@@ -265,18 +560,20 @@
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
+
   padding: 7px 0;
   border: 0;
+
   color: var(--cx-gold);
   background: transparent;
+
   font-size: 12px;
   font-weight: 650;
-  cursor: pointer;
 }
 
-/* =========================================
-   FEATURE CAROUSEL
-   ========================================= */
+/* -------------------------
+   8. FEATURE CAROUSEL
+------------------------- */
 
 .cx-home .cx-feature-section {
   overflow: hidden;
@@ -288,15 +585,18 @@
 }
 
 .cx-home .cx-carousel-controls button {
-  width: 34px;
-  height: 34px;
   display: grid;
   place-items: center;
+
+  width: 35px;
+  height: 35px;
+
   border: 1px solid var(--cx-border);
   border-radius: 10px;
+
   color: var(--cx-text);
   background: var(--cx-surface);
-  cursor: pointer;
+
   transition: 0.2s ease;
 }
 
@@ -312,34 +612,44 @@
 
 .cx-home .cx-feature-track {
   display: grid;
-  grid-auto-columns: minmax(190px, 1fr);
   grid-auto-flow: column;
+  grid-auto-columns: minmax(210px, 1fr);
   gap: 14px;
+
   overflow-x: auto;
-  padding: 2px 2px 12px;
+  padding: 3px 2px 13px;
+
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
   scrollbar-color: #48413a transparent;
 }
 
 .cx-home .cx-feature-card {
-  min-height: 205px;
   position: relative;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  min-width: 0;
+  min-height: 210px;
+  padding: 20px;
+
   overflow: hidden;
-  padding: 19px;
+
   border: 1px solid var(--cx-border);
   border-radius: 16px;
+
   background:
     radial-gradient(
       circle at 100% 0%,
-      rgba(217, 180, 91, 0.12),
+      rgba(217, 180, 91, 0.13),
       transparent 55%
     ),
     var(--cx-surface);
+
   scroll-snap-align: start;
+
   transition:
     transform 0.22s ease,
     border-color 0.22s ease,
@@ -366,6 +676,7 @@
 
 .cx-home .cx-feature-bottom h2 {
   margin: 0 0 6px;
+
   color: var(--cx-text);
   font-size: 19px;
   font-weight: 750;
@@ -373,6 +684,7 @@
 
 .cx-home .cx-feature-bottom p {
   margin: 0 0 17px;
+
   color: var(--cx-muted);
   font-size: 11px;
   line-height: 1.5;
@@ -382,6 +694,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
+
   color: var(--cx-gold-light);
   font-size: 11px;
   font-weight: 700;
@@ -403,9 +716,9 @@
   color: #e6a15e;
 }
 
-/* =========================================
-   RATINGS
-   ========================================= */
+/* -------------------------
+   9. RATINGS
+------------------------- */
 
 .cx-home .cx-rating-grid {
   display: grid;
@@ -414,16 +727,20 @@
 }
 
 .cx-home .cx-rating-card {
-  min-width: 0;
-  min-height: 135px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+
+  min-width: 0;
+  min-height: 135px;
   padding: 17px;
+
   border: 1px solid var(--cx-border);
   border-radius: 14px;
+
   background: var(--cx-surface);
+
   transition: 0.2s ease;
 }
 
@@ -457,32 +774,38 @@
   font-size: 9px;
 }
 
-/* =========================================
-   FRIENDS
-   ========================================= */
+/* -------------------------
+   10. FRIENDS
+------------------------- */
 
 .cx-home .cx-friends-track {
   display: grid;
-  grid-auto-columns: 155px;
   grid-auto-flow: column;
+  grid-auto-columns: 155px;
   gap: 12px;
+
   overflow-x: auto;
-  padding: 2px 2px 12px;
+  padding: 3px 2px 13px;
+
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
   scrollbar-color: #48413a transparent;
 }
 
 .cx-home .cx-friend-card {
-  min-width: 0;
-  min-height: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  min-width: 0;
+  min-height: 190px;
   padding: 17px 12px;
+
   border: 1px solid var(--cx-border);
   border-radius: 15px;
+
   background: var(--cx-surface);
+
   scroll-snap-align: start;
   transition: 0.2s ease;
 }
@@ -493,24 +816,30 @@
 }
 
 .cx-home .cx-friend-avatar {
-  width: 53px;
-  height: 53px;
   position: relative;
+
   display: grid;
   place-items: center;
+
+  width: 53px;
+  height: 53px;
   margin-bottom: 11px;
+
   border: 1px solid rgba(217, 180, 91, 0.25);
   border-radius: 50%;
+
   color: var(--cx-gold);
   background: var(--cx-surface-3);
 }
 
 .cx-home .cx-online-indicator {
-  width: 11px;
-  height: 11px;
   position: absolute;
   right: 0;
   bottom: 1px;
+
+  width: 11px;
+  height: 11px;
+
   border: 2px solid var(--cx-surface);
   border-radius: 50%;
   background: #77767d;
@@ -523,6 +852,7 @@
 .cx-home .cx-friend-card > strong {
   max-width: 100%;
   overflow: hidden;
+
   color: var(--cx-text);
   font-size: 12px;
   text-overflow: ellipsis;
@@ -533,6 +863,7 @@
   max-width: 100%;
   margin-top: 4px;
   overflow: hidden;
+
   color: var(--cx-muted);
   font-size: 10px;
   text-overflow: ellipsis;
@@ -541,6 +872,7 @@
 
 .cx-home .cx-friend-rating {
   margin-top: 11px;
+
   color: var(--cx-gold-light);
   font-size: 12px;
   font-weight: 700;
@@ -554,6 +886,7 @@
 
 .cx-home .cx-friend-status {
   margin-top: 7px;
+
   color: var(--cx-muted);
   font-size: 9px;
   text-transform: capitalize;
@@ -563,24 +896,29 @@
   color: var(--cx-green);
 }
 
-/* =========================================
-   GAME HISTORY
-   ========================================= */
+/* -------------------------
+   11. GAME HISTORY
+------------------------- */
 
 .cx-home .cx-history-list {
   overflow: hidden;
+
   border: 1px solid var(--cx-border);
   border-radius: 15px;
+
   background: var(--cx-surface);
 }
 
 .cx-home .cx-game-row {
-  min-height: 76px;
   display: flex;
   align-items: center;
   gap: 14px;
+
+  min-height: 76px;
   padding: 13px 17px;
+
   border-bottom: 1px solid var(--cx-border);
+
   transition: background 0.2s ease;
 }
 
@@ -593,11 +931,13 @@
 }
 
 .cx-home .cx-game-result {
+  display: grid;
+  place-items: center;
+
   width: 38px;
   height: 38px;
   flex-shrink: 0;
-  display: grid;
-  place-items: center;
+
   border-radius: 11px;
   background: var(--cx-surface-3);
 }
@@ -615,15 +955,17 @@
 }
 
 .cx-home .cx-game-opponent {
-  min-width: 0;
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 5px;
+
+  min-width: 0;
 }
 
 .cx-home .cx-game-opponent strong {
   overflow: hidden;
+
   color: var(--cx-text);
   font-size: 12px;
   text-overflow: ellipsis;
@@ -639,6 +981,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+
   color: var(--cx-muted);
   font-size: 10px;
   white-space: nowrap;
@@ -647,6 +990,7 @@
 .cx-home .cx-game-rating {
   min-width: 35px;
   text-align: right;
+
   font-size: 12px;
   font-weight: 750;
 }
@@ -668,18 +1012,21 @@
   color: #77767d;
 }
 
-/* =========================================
-   FOOTER
-   ========================================= */
+/* -------------------------
+   12. HOMEPAGE FOOTER
+------------------------- */
 
 .cx-home .cx-home-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 38px;
+
+  margin-top: 40px;
   padding-top: 18px;
+
   border-top: 1px solid var(--cx-border);
+
   color: #77767d;
   font-size: 9px;
   letter-spacing: 1px;
@@ -690,18 +1037,22 @@
   font-weight: 800;
 }
 
-/* =========================================
-   RESPONSIVE — TABLET
-   ========================================= */
+/* -------------------------
+   13. TABLET
+------------------------- */
 
-@media (max-width: 900px) {
-  .cx-home .cx-main-content {
-    padding: 25px 20px 30px;
+@media (max-width: 1050px) {
+  .sidebar {
+    width: 215px;
   }
 
-  .cx-home .cx-topbar {
-    padding-right: 20px;
-    padding-left: 20px;
+  .app-main {
+    margin-left: 215px;
+  }
+
+  .cx-home .cx-main-content {
+    padding-right: 22px;
+    padding-left: 22px;
   }
 
   .cx-home .cx-rating-grid {
@@ -709,15 +1060,143 @@
   }
 
   .cx-home .cx-feature-track {
-    grid-auto-columns: minmax(190px, 42%);
+    grid-auto-columns: minmax(200px, 42%);
   }
 }
 
-/* =========================================
-   RESPONSIVE — MOBILE
-   ========================================= */
+/* -------------------------
+   14. COMPACT TABLET
+------------------------- */
+
+@media (max-width: 760px) {
+  .sidebar {
+    width: 72px;
+    padding: 20px 9px 15px;
+  }
+
+  .sidebar-brand {
+    justify-content: center;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .sidebar-brand > div:last-child,
+  .sidebar-section-title,
+  .sidebar-link span,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .sidebar-navigation {
+    align-items: center;
+    gap: 18px;
+  }
+
+  .sidebar-section {
+    width: 100%;
+    align-items: center;
+  }
+
+  .sidebar-link {
+    justify-content: center;
+    width: 48px;
+    height: 45px;
+    padding: 0;
+  }
+
+  .app-main {
+    margin-left: 72px;
+  }
+}
+
+/* -------------------------
+   15. MOBILE
+------------------------- */
 
 @media (max-width: 600px) {
+  .sidebar {
+    position: fixed;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 66px;
+
+    padding: 5px 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    border-top: 1px solid var(--cx-border);
+    border-right: 0;
+
+    background: rgba(16, 16, 19, 0.98);
+    backdrop-filter: blur(16px);
+  }
+
+  .sidebar-brand,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .sidebar-navigation {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    width: max-content;
+    min-width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  .sidebar-section {
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    width: auto;
+  }
+
+  .sidebar-section-title {
+    display: none;
+  }
+
+  .sidebar-link {
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+
+    width: 58px;
+    min-width: 58px;
+    height: 52px;
+    padding: 3px;
+
+    border-radius: 9px;
+
+    font-size: 8px;
+  }
+
+  .sidebar-link span {
+    display: block;
+    max-width: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .app-main {
+    width: 100%;
+    min-height: 100vh;
+    margin-left: 0;
+    padding-bottom: 66px;
+  }
+
   .cx-home .cx-topbar {
     min-height: 65px;
     padding: 11px 15px;
@@ -735,11 +1214,11 @@
   }
 
   .cx-home .cx-main-content {
-    padding: 23px 15px 28px;
+    padding: 23px 15px 30px;
   }
 
   .cx-home .cx-section {
-    margin-top: 31px;
+    margin-top: 32px;
   }
 
   .cx-home .cx-section-heading {
@@ -823,9 +1302,9 @@
   }
 }
 
-/* =========================================
-   SMALL MOBILE
-   ========================================= */
+/* -------------------------
+   16. SMALL MOBILE
+------------------------- */
 
 @media (max-width: 360px) {
   .cx-home .cx-feature-track {
@@ -843,5 +1322,9 @@
   .cx-home .cx-text-link {
     font-size: 10px;
   }
-}
 
+  .sidebar-link {
+    width: 53px;
+    min-width: 53px;
+  }
+}
