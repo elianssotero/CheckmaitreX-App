@@ -67,7 +67,7 @@ function ProfilePage() {
       </div>
 
       <main className="cx-profile-content">
-        <section className="cx-profile-identity">
+        <        <section className="cx-profile-identity">
           <div className="cx-profile-identity-top">
             <div className="cx-profile-photo">
               {profile.profilePhoto ? (
@@ -77,7 +77,15 @@ function ProfilePage() {
               )}
             </div>
 
-                      <div className="cx-profile-joined">
+            <div className="cx-profile-name-area">
+              <h1>{profile.accountName}</h1>
+              <span>{profile.username}</span>
+            </div>
+          </div>
+
+          <p className="cx-profile-bio">{profile.bio}</p>
+
+          <div className="cx-profile-joined">
             <CalendarDays size={15} />
             <div className="cx-profile-joined-text">
               <strong>{profile.joined}</strong>
@@ -85,16 +93,6 @@ function ProfilePage() {
             </div>
           </div>
         </section>
-
-        <section className="cx-profile-stat-track">
-
-          <div className="cx-profile-joined">
-  <CalendarDays size={15} />
-  <div className="cx-profile-joined-text">
-    <strong>{profile.joined}</strong>
-    <span>Joined</span>
-  </div>
-</div>
 
         <section className="cx-profile-stat-track">
           <article className="cx-profile-stat">
