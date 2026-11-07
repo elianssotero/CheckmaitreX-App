@@ -167,6 +167,7 @@ function HomePage() {
   ]
 
   return (
+    <div className="cx-home">
       <header className="cx-topbar">
         <div className="cx-user-area">
           <button className="cx-avatar" aria-label="Player profile">
