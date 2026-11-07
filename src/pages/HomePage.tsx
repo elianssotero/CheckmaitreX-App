@@ -288,8 +288,7 @@ function HomePage() {
         </div>
       </header>
     
-    <main className="cx-main-content">
-        <section className="cx-feature-section">
+    
           <div className="cx-section-heading cx-welcome-heading">
             <div>
               <span className="cx-overline">YOUR CHESS EXPERIENCE</span>
@@ -298,13 +297,16 @@ function HomePage() {
                 Welcome Back, <strong>{accountName}!</strong>
               </p>
             </div>
+
+            <MaitronXAssistant />
           </div>
+
           <div
-     <MaitronXAssistant />
             className="cx-feature-track"
             ref={featureTrackRef}
             onScroll={updateFeatureIndex}
           >
+
             {features.map((feature) => {
               const Icon = feature.icon
 
