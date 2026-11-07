@@ -265,7 +265,7 @@ function HomePage() {
             </button>
           </div>
 
-          <div className="cx-rating-grid">
+          <div className="cx-rating-track">
             {ratings.map((rating) => (
               <article className="cx-rating-card" key={rating.name}>
                 <span className="cx-rating-icon">{rating.icon}</span>
