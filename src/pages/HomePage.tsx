@@ -268,7 +268,13 @@ function HomePage() {
           <div className="cx-rating-track">
             {ratings.map((rating) => (
               <article className="cx-rating-card" key={rating.name}>
-                <span className="cx-rating-icon">{rating.icon}</span>
+           <img
+            className="cx-rating-icon"
+            src={rating.icon}
+            alt={`${rating.name} icon`}
+            width={24}
+            height={24}
+          />
                 <span className="cx-rating-name">{rating.name}</span>
                 <strong>{rating.rating}</strong>
                 <span className="cx-rating-label">Rating</span>
