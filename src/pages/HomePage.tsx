@@ -1,6 +1,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import MaitronXAssistant from '../components/MaitronXAssistant'
 import {
   ChevronRight,
   Bell,
@@ -298,7 +299,7 @@ function HomePage() {
               </p>
             </div>
           </div>
-
+<MaitronXAssistant />
           <div
             className="cx-feature-track"
             ref={featureTrackRef}
