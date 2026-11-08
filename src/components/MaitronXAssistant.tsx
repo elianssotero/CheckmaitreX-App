@@ -833,7 +833,7 @@ export default function MaitronXAssistant({
               </button>
             )}
           </div>
-
+        </div>
                 <div className="mx-character">
           <button
             type="button"
