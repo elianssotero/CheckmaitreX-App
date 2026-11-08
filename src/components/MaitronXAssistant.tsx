@@ -834,7 +834,7 @@ export default function MaitronXAssistant({
             )}
           </div>
 
-        <div className="mx-character">
+                <div className="mx-character">
           <button
             type="button"
             className="mx-head-button"
