@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Navigate,
@@ -14,6 +15,7 @@ import MaitronXPage from './pages/MaitronXPage'
 import PlayPage from './pages/PlayPage'
 import PlayDestinationPage from './pages/PlayDestinationPage'
 import PlayComputerPage from './pages/PlayComputerPage'
+import PlayFriendPage from './pages/PlayFriendPage'
 
 function App() {
   return (
@@ -41,7 +43,7 @@ function App() {
 
           <Route
             path="play/friend"
-            element={<PlayDestinationPage title="Play with Friend" />}
+            element={<PlayFriendPage />}
           />
 
           <Route
