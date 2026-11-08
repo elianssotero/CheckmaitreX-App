@@ -272,7 +272,7 @@ function RatingIcon({ name }: { name: string }) {
       </header>
        <main>
   <section className="cx-section">
-    <MaitronXAssistant />
+    <MaitronXAssistant homepageMode />
 
     <div
       className="cx-feature-track"
