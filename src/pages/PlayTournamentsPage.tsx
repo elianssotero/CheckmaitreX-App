@@ -6,14 +6,12 @@ import {
   SlidersHorizontal,
   X,
   Search,
-  ChevronDown,
   ChevronRight,
   Trophy,
   Clock3,
   Users,
   CalendarDays,
   Crown,
-  Swords,
   Check,
   Medal,
   Radio,
@@ -204,17 +202,17 @@ function PlayTournamentsPage() {
 
   const [savedIds, setSavedIds] = useState<number[]>([])
 
-  const toggleArrayValue = (
-    value: string,
-    current: string[],
-    setter: (next: string[]) => void,
-  ) => {
+    function toggleArrayValue<T extends string>(
+    value: T,
+    current: T[],
+    setter: (next: T[]) => void,
+  ) {
     setter(
       current.includes(value)
         ? current.filter((item) => item !== value)
         : [...current, value],
     )
-  }
+    }
 
   const filteredTournaments = useMemo(() => {
     let result = tournaments.filter((item) => item.status === activeTab)
