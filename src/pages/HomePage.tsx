@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Bell,
   ShoppingBag,
+  Search, 
   Puzzle,
   Bot,
   GraduationCap,
@@ -261,14 +262,18 @@ function RatingIcon({ name }: { name: string }) {
         </div>
 
                        <div className="cx-top-actions">
-          <button className="cx-icon-button" aria-label="Notifications">
-            <Bell size={19} />
-          </button>
+  <button className="cx-icon-button" aria-label="Notifications">
+    <Bell size={19} />
+  </button>
 
-          <button className="cx-icon-button" aria-label="Shop">
-            <ShoppingBag size={19} />
-          </button>
-        </div>
+  <button className="cx-icon-button" aria-label="Shop">
+    <ShoppingBag size={19} />
+  </button>
+
+  <button className="cx-icon-button" aria-label="Search">
+    <Search size={19} />
+  </button>
+</div>
       </header>
        <main>
   <section className="cx-section">
