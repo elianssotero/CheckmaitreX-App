@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Navigate,
@@ -8,6 +7,9 @@ import {
 
 import PuzzlesPage from './pages/PuzzlesPage'
 import PuzzleDestinationPage from './pages/PuzzleDestinationPage'
+import PlayPuzzlesPage from './pages/PlayPuzzlesPage'
+import PuzzleLevelPage from './pages/PuzzleLevelPage'
+
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import ProfilePage from './pages/ProfilePage'
@@ -80,16 +82,30 @@ function App() {
             element={<PlayTournamentsPage />}
           />
 
+          {/* PUZZLE JOURNEY */}
           <Route
             path="puzzles"
             element={<PuzzlesPage />}
           />
 
-<Route
-  path="puzzles/:section"
-  element={<PuzzleDestinationPage />}
+          {/* DIRECT PLAY PUZZLES PAGE */}
+          <Route
+            path="puzzles/play"
+            element={<PlayPuzzlesPage />}
           />
-          
+
+          {/* INDIVIDUAL LEVEL PAGE */}
+          <Route
+            path="puzzles/area/:areaId/level/:level"
+            element={<PuzzleLevelPage />}
+          />
+
+          {/* OTHER PUZZLE DESTINATIONS */}
+          <Route
+            path="puzzles/:section"
+            element={<PuzzleDestinationPage />}
+          />
+
           <Route
             path="*"
             element={<Navigate to="/" replace />}
