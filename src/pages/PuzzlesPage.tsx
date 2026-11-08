@@ -16,7 +16,6 @@ import {
   Trophy,
   Lock,
   Check,
-  Star,
   ChevronRight,
   Play,
   Crown,
@@ -105,9 +104,17 @@ const puzzleMenu = [
 
 function PuzzlesPage() {
   const navigate = useNavigate()
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [activeArea, setActiveArea] = useState<Area | null>(null)
+  const navigate = useNavigate()
+const [searchParams] = useSearchParams()
 
+const initialArea = puzzleAreas.find(
+  (area) => area.id === searchParams.get('area')
+)
+
+const [menuOpen, setMenuOpen] = useState(false)
+const [activeArea, setActiveArea] = useState<Area | null>(
+  initialArea ?? null
+)
   const goBack = () => navigate('/play')
 
   const openLevel = (level: number) => {
