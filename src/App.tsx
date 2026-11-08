@@ -13,6 +13,7 @@ import CorporatePage from './pages/CorporatePage'
 import MaitronXPage from './pages/MaitronXPage'
 import PlayPage from './pages/PlayPage'
 import PlayDestinationPage from './pages/PlayDestinationPage'
+import PlayComputerPage from './pages/PlayComputerPage'
 
 function App() {
   return (
@@ -27,28 +28,36 @@ function App() {
 
           {/* PLAY SECTION */}
           <Route path="play" element={<PlayPage />} />
+
           <Route
             path="play/now"
             element={<PlayDestinationPage title="Play Now" />}
           />
+
           <Route
             path="play/computer"
-            element={<PlayDestinationPage title="Play vs Computer" />}
+            element={<PlayComputerPage />}
           />
+
           <Route
             path="play/friend"
             element={<PlayDestinationPage title="Play with Friend" />}
           />
+
           <Route
             path="play/coach"
             element={<PlayDestinationPage title="Play with Coach" />}
           />
+
           <Route
             path="play/tournaments"
             element={<PlayDestinationPage title="Tournaments" />}
           />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
