@@ -134,10 +134,11 @@ const variants: {
 const gameModes = ['Casual', 'Unrated', 'Rated', 'CCC-Rated']
 
 function PlayPage() {
-    const goBack = () => {
-    navigate('/')
-    }
+          const navigate = useNavigate()
 
+  const goBack = () => {
+    navigate('/')
+  }
   const [activePanel, setActivePanel] = useState<PanelType>(null)
 
   const [timeControl, setTimeControl] = useState(
