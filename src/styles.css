@@ -2444,6 +2444,13 @@ svg {
     min-height: 55px;
   }
 
+   cx-play-now-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  }
+   
   .cx-play-option {
     min-height: 77px;
     padding: 12px;
