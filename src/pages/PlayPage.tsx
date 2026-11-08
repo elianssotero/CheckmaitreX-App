@@ -12,7 +12,7 @@ import {
   Swords,
 } from 'lucide-react'
 
-const TIME_CONTROL_KEY = 'ccc-play-time-control'
+const TIME_CONTROL_KEY = 'time-control'
 
 const DEFAULT_TIME_CONTROL = '10 min'
 
@@ -26,7 +26,7 @@ function getSavedTimeControl() {
 
 function PlayPage() {
   const navigate = useNavigate()
-  const [timeControl, setTimeControl] = useState(getSavedTimeControl)
+  const [timeControl] = useState(getSavedTimeControl)
 
   useEffect(() => {
     try {
