@@ -1,6 +1,3 @@
-/* =========================================
-   PLAY VS COMPUTER
-========================================= */
 
 .cx-computer-page {
   width: 100%;
@@ -8,6 +5,7 @@
   overflow-x: hidden;
   color: var(--cx-text);
   background: var(--cx-bg);
+  padding-bottom: 190px;
 }
 
 .cx-computer-page *,
@@ -64,6 +62,43 @@
   width: 44px;
 }
 
+/* SELECTED BOT */
+
+.cx-computer-selected-bot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  max-width: 1100px;
+  padding: 13px 22px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--cx-border);
+}
+
+.cx-computer-selected-avatar {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border: 1px solid var(--cx-gold);
+  border-radius: 50%;
+  color: var(--cx-gold);
+  background: var(--cx-surface);
+}
+
+.cx-computer-selected-chat {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--cx-border);
+  border-radius: 12px;
+  color: var(--cx-gold);
+  background: var(--cx-surface);
+}
+
 /* MAIN CONTENT */
 
 .cx-computer-content {
@@ -76,7 +111,7 @@
 /* BOT CATEGORIES */
 
 .cx-computer-category-section {
-  margin-bottom: 27px;
+  margin-bottom: 25px;
 }
 
 .cx-computer-category-heading {
@@ -84,7 +119,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 11px;
 }
 
 .cx-computer-category-heading h2 {
@@ -104,84 +139,57 @@
 .cx-computer-bot-row {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
+  gap: 9px;
 }
 
 .cx-computer-bot-card {
-  display: flex;
+  display: grid;
+  place-items: center;
+  width: 100%;
   min-width: 0;
-  min-height: 145px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 8px;
+  aspect-ratio: 1 / 1;
+  padding: 7px;
   border: 1px solid var(--cx-border);
-  border-radius: 13px;
-  color: var(--cx-text);
+  border-radius: 12px;
   background: var(--cx-surface);
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .cx-computer-bot-card:hover {
-  border-color: rgba(217, 180, 91, 0.5);
+  border-color: rgba(217, 180, 91, 0.55);
   background: var(--cx-surface-2);
 }
 
 .cx-computer-bot-card.selected {
-  border-color: var(--cx-gold);
-  background: rgba(217, 180, 91, 0.09);
+  border: 2px solid var(--cx-gold);
+  background: rgba(217, 180, 91, 0.1);
 }
 
 .cx-computer-bot-avatar {
   display: grid;
   place-items: center;
-  width: 43px;
-  height: 43px;
-  border: 1px solid rgba(217, 180, 91, 0.35);
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
   color: var(--cx-gold);
   background: var(--cx-surface-2);
 }
 
-.cx-computer-bot-card strong {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  color: var(--cx-text);
-  font-size: 10px;
-  text-align: center;
-}
-
-.cx-computer-bot-caption {
-  color: var(--cx-muted);
-  font-size: 9px;
-}
-
-.cx-computer-bot-select {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  min-height: 18px;
-  color: var(--cx-gold);
-  font-size: 9px;
-  font-weight: 750;
-}
-
-/* BOTTOM CUSTOMIZE AREA */
+/* FIXED BOTTOM CONTROLS */
 
 .cx-computer-bottom {
-  position: sticky;
+  position: fixed;
+  left: 50%;
   bottom: 0;
-  z-index: 5;
-  padding: 14px 0 0;
-  margin-top: 25px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    var(--cx-bg) 15%
-  );
+  z-index: 50;
+  width: 100%;
+  max-width: 1100px;
+  padding: 12px 22px calc(12px + env(safe-area-inset-bottom));
+  margin: 0;
+  transform: translateX(-50%);
+  border-top: 1px solid var(--cx-border);
+  background: #101013;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.28);
 }
 
 .cx-computer-customize-row {
@@ -189,7 +197,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 11px;
 }
 
 .cx-computer-customize-trigger {
@@ -230,8 +238,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   padding: 0;
   overflow: hidden;
   border: 1px solid rgba(217, 180, 91, 0.55);
@@ -247,21 +255,17 @@
 
 .cx-computer-queen {
   color: var(--cx-gold);
-  font-size: 30px;
+  font-size: 29px;
   line-height: 1;
 }
 
 .cx-computer-random {
-  background: linear-gradient(
-    90deg,
-    #f4f1e9 50%,
-    #080808 50%
-  );
+  background: linear-gradient(90deg, #f4f1e9 50%, #080808 50%);
 }
 
 .cx-computer-king {
   color: var(--cx-gold);
-  font-size: 27px;
+  font-size: 25px;
   line-height: 1;
   text-shadow: 0 1px 3px #000;
 }
@@ -279,9 +283,9 @@
 /* CUSTOMIZE PANEL */
 
 .cx-computer-customize-panel {
-  max-height: 58vh;
+  max-height: 48vh;
   overflow-y: auto;
-  padding: 15px;
+  padding: 13px;
   margin-bottom: 12px;
   border: 1px solid rgba(217, 180, 91, 0.28);
   border-radius: 13px;
@@ -293,7 +297,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 13px;
 }
 
 .cx-computer-panel-heading h2 {
@@ -324,7 +328,7 @@
 .cx-computer-time-groups {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px 10px;
+  gap: 13px 10px;
 }
 
 .cx-computer-time-group h3 {
@@ -370,7 +374,7 @@
   width: 100%;
   min-height: 47px;
   padding: 0 2px;
-  margin-top: 17px;
+  margin-top: 16px;
   border: 0;
   border-top: 1px solid var(--cx-border);
   color: var(--cx-gold);
@@ -403,7 +407,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
-  padding-bottom: 14px;
+  padding-bottom: 13px;
 }
 
 .cx-computer-variant-options button {
@@ -437,7 +441,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 44px;
+  min-height: 43px;
   border-bottom: 1px solid var(--cx-border);
   color: var(--cx-text);
   font-size: 11px;
@@ -480,7 +484,7 @@
 /* START GAME */
 
 .cx-computer-start-message {
-  margin: 0 0 10px;
+  margin: 0 0 9px;
   color: var(--cx-gold);
   font-size: 11px;
   line-height: 1.5;
@@ -489,14 +493,13 @@
 .cx-computer-start-button {
   display: block;
   width: 100%;
-  min-height: 52px;
+  min-height: 49px;
   border: 1px solid #e5c474;
   border-radius: 11px;
   color: #17130d;
   background: var(--cx-gold);
   font-size: 14px;
   font-weight: 850;
-  transition: background 0.2s ease;
 }
 
 .cx-computer-start-button:hover {
@@ -506,21 +509,29 @@
 /* MOBILE */
 
 @media (max-width: 700px) {
+  .cx-computer-page {
+    padding-bottom: 180px;
+  }
+
   .cx-computer-header {
     min-height: 65px;
     padding: 9px 13px;
-  }
-
-  .cx-computer-content {
-    padding: 18px 13px 25px;
   }
 
   .cx-computer-title h1 {
     font-size: 16px;
   }
 
+  .cx-computer-content {
+    padding: 18px 13px 25px;
+  }
+
+  .cx-computer-selected-bot {
+    padding: 11px 14px;
+  }
+
   .cx-computer-category-section {
-    margin-bottom: 23px;
+    margin-bottom: 22px;
   }
 
   .cx-computer-category-heading h2 {
@@ -531,25 +542,33 @@
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    padding: 2px 2px 10px;
+    padding: 2px 2px 9px;
     scroll-snap-type: x mandatory;
     scrollbar-width: thin;
     scrollbar-color: #51452c transparent;
   }
 
   .cx-computer-bot-card {
-    flex: 0 0 125px;
-    min-height: 132px;
+    flex: 0 0 76px;
+    width: 76px;
     scroll-snap-align: start;
   }
 
+  .cx-computer-bot-avatar {
+    min-width: 100%;
+  }
+
+  .cx-computer-bottom {
+    padding: 10px 13px calc(10px + env(safe-area-inset-bottom));
+  }
+
   .cx-computer-customize-panel {
-    max-height: 55vh;
-    padding: 12px;
+    max-height: 46vh;
+    padding: 11px;
   }
 
   .cx-computer-time-groups {
-    gap: 12px 8px;
+    gap: 11px 8px;
   }
 
   .cx-computer-side-picker {
@@ -557,16 +576,16 @@
   }
 
   .cx-computer-side-box {
-    width: 40px;
-    height: 40px;
+    width: 39px;
+    height: 39px;
   }
 
   .cx-computer-queen {
-    font-size: 27px;
+    font-size: 26px;
   }
 
   .cx-computer-king {
-    font-size: 24px;
+    font-size: 23px;
   }
 }
 
@@ -582,11 +601,7 @@
   }
 
   .cx-computer-side-box {
-    width: 36px;
-    height: 38px;
-  }
-
-  .cx-computer-time-groups {
-    gap: 10px 6px;
+    width: 35px;
+    height: 37px;
   }
 }
