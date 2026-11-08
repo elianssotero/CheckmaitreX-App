@@ -152,7 +152,6 @@ function LearnPage() {
   const navigate = useNavigate()
   const [activeCategory, setActiveCategory] = useState('All')
   const [activeLevel, setActiveLevel] = useState('All')
-  const [search, setSearch] = useState('')
   const [panel, setPanel] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
   const [saved, setSaved] = useState<number[]>([2])
@@ -163,15 +162,17 @@ function LearnPage() {
   const [submitted, setSubmitted] = useState(false)
   const [dictionarySearch, setDictionarySearch] = useState('')
 
-  const filteredCourses = useMemo(() => {
+    const filteredCourses = useMemo(() => {
     return courses.filter(course => {
-      const categoryMatch = activeCategory === 'All' || course.category === activeCategory
-      const levelMatch = activeLevel === 'All' || course.level === activeLevel
-      const searchMatch = `${course.title} ${course.category} ${course.level}`
-        .toLowerCase().includes(search.toLowerCase())
-      return categoryMatch && levelMatch && searchMatch
+      const categoryMatch =
+        activeCategory === 'All' || course.category === activeCategory
+
+      const levelMatch =
+        activeLevel === 'All' || course.level === activeLevel
+
+      return categoryMatch && levelMatch
     })
-  }, [activeCategory, activeLevel, search])
+  }, [activeCategory, activeLevel])
 
   const openPanel = (value: string) => {
     setPanel(value)
@@ -253,7 +254,8 @@ function LearnPage() {
             dictionarySearch={dictionarySearch}
             setDictionarySearch={setDictionarySearch}
             filteredDictionary={filteredDictionary}
-          />
+            filteredCourses={filteredCourses}
+            />
         </section>
       ) : (
         <main className="learn-content">
@@ -456,7 +458,7 @@ function CourseCard({
 function PanelContent({
   panel, notes, setNotes, quizAnswer, setQuizAnswer, quizChecked, setQuizChecked,
   question, setQuestion, submitted, setSubmitted, dictionarySearch,
-  setDictionarySearch, filteredDictionary
+    setDictionarySearch, filteredDictionary, filteredCourses
 }: {
   panel: string
   notes: string
@@ -472,17 +474,23 @@ function PanelContent({
   dictionarySearch: string
   setDictionarySearch: (value: string) => void
   filteredDictionary: string[][]
+  filteredCourses: Course[]
 }) {
   const [filter, setFilter] = useState('All')
   const [selectedOpening, setSelectedOpening] = useState('Italian Game')
   const [dailyDone, setDailyDone] = useState(false)
 
   if (panel === 'library' || panel === 'downloads' || panel === 'later') {
-    const list = panel === 'downloads' ? courses.slice(0, 1) : panel === 'later' ? courses.filter(course => course.id === 2) : courses
+        const list =
+      panel === 'downloads'
+        ? courses.slice(0, 1)
+        : panel === 'later'
+          ? courses.filter(course => course.id === 2)
+          : filteredCourses
     const visible = list.filter(course => filter === 'All' || course.level === filter)
     return (
       <>
-        <PanelIntro eyebrow="CCC ACADEMY" title={panelTitles[panel]} description="Explore structured lessons and build your chess knowledge." />
+        <PanelIntro eyebrow="CheckmaîtréX Chess Academy" title={panelTitles[panel]} description="Explore structured lessons and build your chess knowledge." />
         <div className="learn-panel-filters">
           {['All', ...levels].map(level => <button className={filter === level ? 'active' : ''} key={level} onClick={() => setFilter(level)}>{level}</button>)}
         </div>
