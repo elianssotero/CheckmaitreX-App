@@ -5,7 +5,7 @@ import MaitronXAssistant from '../components/MaitronXAssistant'
 import {
   ChevronRight,
   Bell,
-  Search,
+  ShoppingBag,
   Puzzle,
   Bot,
   GraduationCap,
