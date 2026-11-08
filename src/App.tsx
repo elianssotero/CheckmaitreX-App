@@ -16,6 +16,7 @@ import PlayPage from './pages/PlayPage'
 import PlayDestinationPage from './pages/PlayDestinationPage'
 import PlayComputerPage from './pages/PlayComputerPage'
 import PlayFriendPage from './pages/PlayFriendPage'
+import PlayCoachPage from './pages/PlayCoachPage'
 
 function App() {
   return (
@@ -68,7 +69,7 @@ function App() {
 
           <Route
             path="play/coach"
-            element={<PlayDestinationPage title="Play with Coach" />}
+            element={<PlayCoachPage />}
           />
 
           <Route
