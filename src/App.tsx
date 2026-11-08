@@ -6,6 +6,8 @@ import {
   Routes,
 } from 'react-router-dom'
 
+import PuzzlesPage from './pages/PuzzlesPage'
+import PuzzleDestinationPage from './pages/PuzzleDestinationPage'
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import ProfilePage from './pages/ProfilePage'
@@ -78,6 +80,16 @@ function App() {
             element={<PlayTournamentsPage />}
           />
 
+          <Route
+            path="puzzles"
+            element={<PuzzlesPage />}
+          />
+
+<Route
+  path="puzzles/:section"
+  element={<PuzzleDestinationPage />}
+          />
+          
           <Route
             path="*"
             element={<Navigate to="/" replace />}
