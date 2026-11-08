@@ -1244,9 +1244,31 @@ svg {
     padding-bottom: 66px;
   }
 
-  .cx-home .cx-topbar {
+    .cx-home .cx-topbar {
     min-height: 65px;
-    padding: 11px 15px;
+    gap: 8px;
+    padding: 11px 10px;
+  }
+
+  .cx-home .cx-user-area {
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cx-home .cx-user-details {
+    min-width: 0;
+  }
+
+  .cx-home .cx-player-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cx-home .cx-top-actions {
+    flex-shrink: 0;
+    gap: 6px;
   }
 
   .cx-home .cx-avatar {
