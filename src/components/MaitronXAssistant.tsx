@@ -389,9 +389,13 @@ export default function MaitronXAssistant({
       if (distance > 15) return
     }
 
-    if (singleTapRef.current !== null) {
-      window.clearTimeout(singleTapRef.current)
-      singleTapRef.current = null
+    singleTapRef.current = window.setTimeout(() => {
+  singleTapRef.current = null
+
+  if (!homepageMode) {
+    setShowPrompts((previous) => !previous)
+  }
+}, 270)
       handleDoubleTap()
     } else {
       singleTapRef.current = window.setTimeout(() => {
