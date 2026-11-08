@@ -104,7 +104,6 @@ const puzzleMenu = [
 
 function PuzzlesPage() {
   const navigate = useNavigate()
-  const navigate = useNavigate()
 const [searchParams] = useSearchParams()
 
 const initialArea = puzzleAreas.find(
