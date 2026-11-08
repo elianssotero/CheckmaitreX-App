@@ -368,10 +368,9 @@ export default function MaitronXAssistant({
     }, 650)
   }
 
-  function handlePointerUp(
-  function handlePointerUp(
-  event: React.PointerEvent<HTMLButtonElement>
-) {
+    function handlePointerUp(
+    event: React.PointerEvent<HTMLButtonElement>
+  ) {
   if (longPressRef.current !== null) {
     window.clearTimeout(longPressRef.current)
     longPressRef.current = null
