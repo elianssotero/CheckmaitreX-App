@@ -1,10 +1,10 @@
+
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft,
   Search,
   UserPlus,
-  Mail,
   Link2,
   Settings2,
   Users,
@@ -97,16 +97,11 @@ const sampleFriends: Friend[] = [
 ]
 
 const timeControls = [
-  '1+0 Bullet',
-  '2+1 Bullet',
-  '3+0 Blitz',
-  '3+2 Blitz',
-  '5+0 Blitz',
-  '5+3 Blitz',
-  '10+0 Rapid',
-  '10+5 Rapid',
-  '15+10 Rapid',
-  '30+0 Classical',
+  '1+0', '1+1', '2+0', '2+1',
+  '3+0', '3+1', '5+0', '5+1',
+  '10+0', '10+1', '15+0', '15+1',
+  '30+0', '30+10', '60+0', '60+10',
+  '1 Day', '2 Days', '3 Days',
 ]
 
 const variants = [
@@ -115,13 +110,46 @@ const variants = [
   'King of the Hill',
   'Three-Check',
   'Crazyhouse',
-  'Antichess',
+  'Anti-Chess',
   'Atomic',
   'Horde',
   'Racing Kings',
 ]
 
-type PanelType = 'find' | 'invite' | 'link' | 'settings' | null
+const gameModes = ['Casual', 'Unrated', 'Rated', 'CCC-Rated']
+
+const TIME_CONTROL_KEY = 'time-control'
+const VARIANT_KEY = 'play-variant'
+const MODE_KEY = 'play-mode'
+const LOWER_RATING_KEY = 'play-rating-lower'
+const UPPER_RATING_KEY = 'play-rating-upper'
+
+function readSetting(key: string, fallback: string) {
+  try {
+    return localStorage.getItem(key) || fallback
+  } catch {
+    return fallback
+  }
+}
+
+function readNumberSetting(key: string, fallback: number) {
+  try {
+    const value = localStorage.getItem(key)
+    return value === null ? fallback : Number(value)
+  } catch {
+    return fallback
+  }
+}
+
+function saveSetting(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    // Local storage is optional.
+  }
+}
+
+type PanelType = 'invite' | 'settings' | null
 
 function PlayFriendPage() {
   const navigate = useNavigate()
@@ -129,13 +157,14 @@ function PlayFriendPage() {
   const [activePanel, setActivePanel] = useState<PanelType>(null)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('All')
-  const [selectedTime, setSelectedTime] = useState('10+0 Rapid')
-  const [selectedVariant, setSelectedVariant] = useState('Standard')
-  const [inviteEmail, setInviteEmail] = useState('')
+  const [selectedTime, setSelectedTime] = useState(() => readSetting(TIME_CONTROL_KEY, '10 min'))
+  const [selectedVariant, setSelectedVariant] = useState(() => readSetting(VARIANT_KEY, 'Standard'))
+  const [selectedMode, setSelectedMode] = useState(() => readSetting(MODE_KEY, 'Rated'))
+  const [lowerRating, setLowerRating] = useState(() => readNumberSetting(LOWER_RATING_KEY, 0))
+  const [upperRating, setUpperRating] = useState(() => readNumberSetting(UPPER_RATING_KEY, 500))
   const [copied, setCopied] = useState(false)
   const [notice, setNotice] = useState('')
   const [challengedFriend, setChallengedFriend] = useState<string | null>(null)
-  const [passAndPlayOpen, setPassAndPlayOpen] = useState(false)
 
   const filteredFriends = useMemo(() => {
     return sampleFriends.filter((friend) => {
@@ -155,6 +184,31 @@ function PlayFriendPage() {
     setActivePanel((current) => current === panel ? null : panel)
   }
 
+  const updateTime = (value: string) => {
+    setSelectedTime(value)
+    saveSetting(TIME_CONTROL_KEY, value)
+  }
+
+  const updateVariant = (value: string) => {
+    setSelectedVariant(value)
+    saveSetting(VARIANT_KEY, value)
+  }
+
+  const updateMode = (value: string) => {
+    setSelectedMode(value)
+    saveSetting(MODE_KEY, value)
+  }
+
+  const updateLowerRating = (value: number) => {
+    setLowerRating(value)
+    saveSetting(LOWER_RATING_KEY, String(value))
+  }
+
+  const updateUpperRating = (value: number) => {
+    setUpperRating(value)
+    saveSetting(UPPER_RATING_KEY, String(value))
+  }
+
   const handleChallenge = (friend: Friend) => {
     if (friend.status !== 'Online') return
 
@@ -162,26 +216,17 @@ function PlayFriendPage() {
     setNotice(`Challenge preview prepared for ${friend.name}.`)
   }
 
-  const handleCopyLink = async () => {
-    const demoLink = `${window.location.origin}/play/friend?challenge=CCC-DEMO`
+  const handleCopyInviteLink = async () => {
+    const inviteLink = `${window.location.origin}/invite/CCC-FRIEND-DEMO`
 
     try {
-      await navigator.clipboard.writeText(demoLink)
+      await navigator.clipboard.writeText(inviteLink)
       setCopied(true)
-      setNotice('Demo challenge link copied.')
+      setNotice('Demo invite link copied. Membership and friendship actions are frontend previews only.')
       window.setTimeout(() => setCopied(false), 2200)
     } catch {
-      setNotice('Copy is unavailable in this browser. You can copy the link manually.')
+      setNotice(`Copy is unavailable. You can copy this link manually: ${inviteLink}`)
     }
-  }
-
-  const handleInvite = () => {
-    if (!inviteEmail.trim()) {
-      setNotice('Enter a name or email address first.')
-      return
-    }
-
-    setNotice(`Invitation preview prepared for ${inviteEmail}.`)
   }
 
   const statusCounts = {
@@ -223,8 +268,8 @@ function PlayFriendPage() {
         <section className="cx-friend-action-grid">
           <button
             type="button"
-            className={`cx-friend-action-card ${activePanel === 'find' ? 'active' : ''}`}
-            onClick={() => openPanel('find')}
+            className="cx-friend-action-card"
+            onClick={() => navigate('/search')}
           >
             <span className="cx-friend-action-icon">
               <Search size={21} />
@@ -253,8 +298,8 @@ function PlayFriendPage() {
 
           <button
             type="button"
-            className={`cx-friend-action-card ${activePanel === 'link' ? 'active' : ''}`}
-            onClick={() => openPanel('link')}
+            className="cx-friend-action-card"
+            onClick={() => navigate('/play/friend/challenge')}
           >
             <span className="cx-friend-action-icon">
               <Link2 size={21} />
@@ -290,9 +335,7 @@ function PlayFriendPage() {
               <div>
                 <span className="cx-friend-eyebrow">QUICK ACTION</span>
                 <h3>
-                  {activePanel === 'find' && 'Find a Friend'}
                   {activePanel === 'invite' && 'Invite a Friend'}
-                  {activePanel === 'link' && 'Send Challenge Link'}
                   {activePanel === 'settings' && 'Game Settings'}
                 </h3>
               </div>
@@ -307,60 +350,20 @@ function PlayFriendPage() {
               </button>
             </div>
 
-            {activePanel === 'find' && (
-              <div className="cx-friend-panel-body">
-                <label className="cx-friend-field-label" htmlFor="friend-search">
-                  Search by player name or username
-                </label>
-                <div className="cx-friend-search-box">
-                  <Search size={18} />
-                  <input
-                    id="friend-search"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    placeholder="Search players..."
-                  />
-                </div>
-              </div>
-            )}
-
             {activePanel === 'invite' && (
               <div className="cx-friend-panel-body">
-                <label className="cx-friend-field-label" htmlFor="friend-invite">
-                  Friend's name or email
-                </label>
-                <div className="cx-friend-inline-form">
-                  <input
-                    id="friend-invite"
-                    value={inviteEmail}
-                    onChange={(event) => setInviteEmail(event.target.value)}
-                    placeholder="Enter name or email address"
-                  />
-                  <button type="button" onClick={handleInvite}>
-                    <Mail size={16} />
-                    Prepare Invite
-                  </button>
-                </div>
-                <p className="cx-friend-helper">
-                  Invitation sending will be connected when the backend is added.
-                </p>
-              </div>
-            )}
-
-            {activePanel === 'link' && (
-              <div className="cx-friend-panel-body">
                 <p className="cx-friend-panel-description">
-                  Create a shareable challenge link for a friend.
+                  Share one invite link. A new visitor is intended to join the club and become your friend; an existing member is intended to become your friend automatically.
                 </p>
                 <div className="cx-friend-link-preview">
-                  <span>checkmaitrexchessclub.com/play/friend/...</span>
-                  <button type="button" onClick={handleCopyLink}>
+                  <span>checkmaitrexchessclub.com/invite/...</span>
+                  <button type="button" onClick={handleCopyInviteLink}>
                     {copied ? <Check size={16} /> : <Copy size={16} />}
-                    {copied ? 'Copied' : 'Copy Link'}
+                    {copied ? 'Copied' : 'Copy Invite Link'}
                   </button>
                 </div>
                 <p className="cx-friend-helper">
-                  This is a frontend demo link. Real challenge links require backend support.
+                  Frontend preview only. Automatic registration, membership, and friendship will require backend support.
                 </p>
               </div>
             )}
@@ -374,7 +377,7 @@ function PlayFriendPage() {
                     <select
                       id="friend-time-control"
                       value={selectedTime}
-                      onChange={(event) => setSelectedTime(event.target.value)}
+                      onChange={(event) => updateTime(event.target.value)}
                     >
                       {timeControls.map((time) => (
                         <option key={time} value={time}>{time}</option>
@@ -391,7 +394,7 @@ function PlayFriendPage() {
                     <select
                       id="friend-variant"
                       value={selectedVariant}
-                      onChange={(event) => setSelectedVariant(event.target.value)}
+                      onChange={(event) => updateVariant(event.target.value)}
                     >
                       {variants.map((variant) => (
                         <option key={variant} value={variant}>{variant}</option>
@@ -401,10 +404,56 @@ function PlayFriendPage() {
                   </div>
                 </div>
 
+                <div className="cx-friend-setting-field">
+                  <label htmlFor="friend-game-mode">Game Mode</label>
+                  <div className="cx-friend-select-wrap">
+                    <Swords size={17} />
+                    <select
+                      id="friend-game-mode"
+                      value={selectedMode}
+                      onChange={(event) => updateMode(event.target.value)}
+                    >
+                      {gameModes.map((mode) => (
+                        <option key={mode} value={mode}>{mode}</option>
+                      ))}
+                    </select>
+                    <ChevronDown size={16} />
+                  </div>
+                </div>
+
+                <div className="cx-friend-setting-field">
+                  <label>Rating Filter</label>
+                  <div className="cx-friend-rating-controls">
+                    <label>
+                      <span>Lower: -{lowerRating}</span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="500"
+                        step="10"
+                        value={lowerRating}
+                        onChange={(event) => updateLowerRating(Number(event.target.value))}
+                      />
+                    </label>
+                    <label>
+                      <span>Upper: +{upperRating}</span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="500"
+                        step="10"
+                        value={upperRating}
+                        onChange={(event) => updateUpperRating(Number(event.target.value))}
+                      />
+                    </label>
+                  </div>
+                </div>
+
                 <div className="cx-friend-setting-summary">
-                  <span>Selected match</span>
+                  <span>Synced from Play</span>
                   <strong>{selectedTime}</strong>
-                  <strong>{selectedVariant}</strong>
+                  <strong>{selectedVariant} · {selectedMode}</strong>
+                  <small>Rating: -{lowerRating} / +{upperRating}</small>
                 </div>
               </div>
             )}
@@ -420,43 +469,12 @@ function PlayFriendPage() {
         <button
           type="button"
           className="cx-friend-pass-button"
-          onClick={() => {
-            setPassAndPlayOpen((current) => !current)
-            setNotice('')
-          }}
+          onClick={() => navigate('/play/friend/pass-and-play')}
         >
           <Users size={20} />
           <span>Pass &amp; Play</span>
           <small>Play locally on one device</small>
         </button>
-
-        {passAndPlayOpen && (
-          <section className="cx-friend-pass-panel">
-            <div className="cx-friend-panel-heading">
-              <div>
-                <span className="cx-friend-eyebrow">LOCAL GAME</span>
-                <h3>Pass &amp; Play</h3>
-              </div>
-              <button
-                type="button"
-                className="cx-friend-close"
-                onClick={() => setPassAndPlayOpen(false)}
-                aria-label="Close Pass and Play"
-              >
-                <X size={18} />
-              </button>
-            </div>
-            <p>
-              Two players can take turns using the same device. The chessboard
-              and local game controls will be added in a later frontend step.
-            </p>
-            <div className="cx-friend-pass-players">
-              <span>Player 1 <strong>White</strong></span>
-              <span>Player 2 <strong>Black</strong></span>
-            </div>
-            <span className="cx-friend-demo-label">FRONTEND PREVIEW</span>
-          </section>
-        )}
 
         <section className="cx-friend-list-section">
           <div className="cx-friend-list-heading">
