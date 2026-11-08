@@ -163,7 +163,8 @@ function PlayPage() {
   )
 
   const [customIncrement, setCustomIncrement] = useState(
-    () => getSavedNumber(CUSTOM_INCREMENT_KEY, 0),
+    () => Math.min(60, Math.max(1,
+    getSavedNumber(CUSTOM_INCREMENT_KEY, 1))),
   )
 
   const [showMoreTimeControls, setShowMoreTimeControls] = useState(false)
