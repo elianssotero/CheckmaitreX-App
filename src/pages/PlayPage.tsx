@@ -126,13 +126,15 @@ function PlayPage() {
 
         <section className="cx-play-primary-section">
           <button
-            type="button"
-            className="cx-play-now-button"
-            onClick={() => navigate('/play/now')}
-          >
-            <span>Play Now</span>
-            <ChevronRight size={20} />
-          </button>
+  type="button"
+  className="cx-play-now-button"
+  onClick={() => navigate('/play/now')}
+>
+  <span className="cx-play-now-content">
+    <span>Play Now</span>
+    <ChevronRight size={20} />
+  </span>
+</button>
         </section>
 
         <section className="cx-play-options">
