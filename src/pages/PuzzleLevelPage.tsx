@@ -82,7 +82,7 @@ function PuzzleLevelPage() {
   return (
     <main className={`cx-level-page ${area.theme}`}>
       <header className="cx-level-header">
-        <button type="button" onClick={() => navigate('/puzzles')} aria-label="Back to Puzzle Journey">
+        <button type="button" onClick={() => navigate(`/puzzles?area=${area.id}`)} aria-label="Back to Puzzle Journey">
           <ArrowLeft size={21} />
         </button>
         <div>
