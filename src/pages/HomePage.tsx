@@ -260,7 +260,7 @@ function RatingIcon({ name }: { name: string }) {
           </div>
         </div>
 
-        <div className="cx-top-actions">
+                <div className="cx-top-actions">
           <button className="cx-icon-button" aria-label="Notifications">
             <Bell size={19} />
           </button>
