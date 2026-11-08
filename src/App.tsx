@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Navigate,
@@ -31,10 +30,6 @@ function App() {
           <Route
             path="play/now"
             element={<PlayDestinationPage title="Play Now" />}
-          />
-          <Route
-            path="play/time-control"
-            element={<PlayDestinationPage title="Time Control" />}
           />
           <Route
             path="play/computer"
