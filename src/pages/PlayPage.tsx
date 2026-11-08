@@ -194,7 +194,6 @@ function PlayPage() {
     customIncrement,
   ])
 
-    const navigate = useNavigate()
 
   const togglePanel = (panel: Exclude<PanelType, null>) => {
     setActivePanel((current) => current === panel ? null : panel)
