@@ -5,7 +5,7 @@ import MaitronXAssistant from '../components/MaitronXAssistant'
 import {
   ChevronRight,
   Bell,
-  ShoppingBag,
+  Store,
   Search, 
   Puzzle,
   Bot,
@@ -267,7 +267,7 @@ function RatingIcon({ name }: { name: string }) {
   </button>
 
   <button className="cx-icon-button" aria-label="Shop">
-    <ShoppingBag size={19} />
+    <Store size={19} />
   </button>
 
   <button className="cx-icon-button" aria-label="Search">
