@@ -193,13 +193,7 @@ function PlayPage() {
     customIncrement,
   ])
 
-  const goBack = () => {
-    if (window.history.length > 1) {
-      navigate(-1)
-    } else {
-      navigate('/')
-    }
-  }
+    const navigate = useNavigate()
 
   const togglePanel = (panel: Exclude<PanelType, null>) => {
     setActivePanel((current) => current === panel ? null : panel)
