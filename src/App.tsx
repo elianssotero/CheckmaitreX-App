@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Navigate,
@@ -11,6 +12,8 @@ import ProfilePage from './pages/ProfilePage'
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
 import MaitronXPage from './pages/MaitronXPage'
+import PlayPage from './pages/PlayPage'
+import PlayDestinationPage from './pages/PlayDestinationPage'
 
 function App() {
   return (
@@ -22,6 +25,34 @@ function App() {
           <Route path="corporate" element={<CorporatePage />} />
           <Route path="more" element={<MorePage />} />
           <Route path="maitronx" element={<MaitronXPage />} />
+
+          {/* PLAY SECTION */}
+          <Route path="play" element={<PlayPage />} />
+          <Route
+            path="play/now"
+            element={<PlayDestinationPage title="Play Now" />}
+          />
+          <Route
+            path="play/time-control"
+            element={<PlayDestinationPage title="Time Control" />}
+          />
+          <Route
+            path="play/computer"
+            element={<PlayDestinationPage title="Play vs Computer" />}
+          />
+          <Route
+            path="play/friend"
+            element={<PlayDestinationPage title="Play with Friend" />}
+          />
+          <Route
+            path="play/coach"
+            element={<PlayDestinationPage title="Play with Coach" />}
+          />
+          <Route
+            path="play/tournaments"
+            element={<PlayDestinationPage title="Tournaments" />}
+          />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
