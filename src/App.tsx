@@ -5,11 +5,11 @@ import {
   Routes,
 } from 'react-router-dom'
 
+import LearnPage from './pages/LearnPage'
 import PuzzlesPage from './pages/PuzzlesPage'
 import PuzzleDestinationPage from './pages/PuzzleDestinationPage'
 import PlayPuzzlesPage from './pages/PlayPuzzlesPage'
 import PuzzleLevelPage from './pages/PuzzleLevelPage'
-
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import ProfilePage from './pages/ProfilePage'
@@ -106,6 +106,10 @@ function App() {
             element={<PuzzleDestinationPage />}
           />
 
+          <Route 
+            path="learn"
+            element={<LearnPage />} />
+          
           <Route
             path="*"
             element={<Navigate to="/" replace />}
