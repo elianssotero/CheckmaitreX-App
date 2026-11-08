@@ -47,6 +47,26 @@ function App() {
           />
 
           <Route
+            path="search"
+            element={<PlayDestinationPage title="Search" />}
+          />
+
+          <Route
+            path="invite/:inviteCode"
+            element={<PlayDestinationPage title="Friend Invite" />}
+          />
+
+          <Route
+            path="play/friend/challenge"
+            element={<PlayDestinationPage title="Send Challenge Link" />}
+          />
+
+          <Route
+            path="play/friend/pass-and-play"
+            element={<PlayDestinationPage title="Pass & Play" />}
+          />
+
+          <Route
             path="play/coach"
             element={<PlayDestinationPage title="Play with Coach" />}
           />
