@@ -801,24 +801,25 @@ export default function MaitronXAssistant({
             </div>
           )}
 
-          <div className="mx-tools">
-            {activeRef.current ? (
-              <button
-                type="button"
-                className="mx-tool"
-                onClick={stopConversation}
-              >
-                <MicOff size={14} /> End voice
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="mx-tool"
-                onClick={() => setShowPermission(true)}
-              >
-                <Mic size={14} /> Voice
-              </button>
-            )}
+         {!homepageMode && (
+  activeRef.current ? (
+    <button
+      type="button"
+      className="mx-tool"
+      onClick={stopConversation}
+    >
+      <MicOff size={14} /> End voice
+    </button>
+  ) : (
+    <button
+      type="button"
+      className="mx-tool"
+      onClick={() => setShowPermission(true)}
+    >
+      <Mic size={14} /> Voice
+    </button>
+  )
+)}
 
             {fullPage && (
               <button
