@@ -1,12 +1,12 @@
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, Search, Settings, ChevronRight, Play, BookOpen,
-  GraduationCap, Puzzle, Trophy, Clock3, Download, Bookmark,
+  Puzzle, Trophy, Download, Bookmark,
   Flame, NotebookPen, Crown, Target, Library, Brain, BookMarked,
-  Award, ChartNoAxesCombined, Gamepad2, Lightbulb, X, Check,
-  Menu, Star, Video, SearchCheck, MessageCircle, RotateCcw,
+  Award, Lightbulb, Check,
+  Menu, Video, SearchCheck, MessageCircle,
   Sparkles, ClipboardList, Layers, CalendarDays
 } from 'lucide-react'
 import './LearnPage.css'
