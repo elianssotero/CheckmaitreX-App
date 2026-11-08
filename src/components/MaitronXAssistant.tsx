@@ -369,43 +369,40 @@ export default function MaitronXAssistant({
   }
 
   function handlePointerUp(
-    event: React.PointerEvent<HTMLButtonElement>
-  ) {
-    if (longPressRef.current !== null) {
-      window.clearTimeout(longPressRef.current)
-      longPressRef.current = null
-    }
+  function handlePointerUp(
+  event: React.PointerEvent<HTMLButtonElement>
+) {
+  if (longPressRef.current !== null) {
+    window.clearTimeout(longPressRef.current)
+    longPressRef.current = null
+  }
 
-    if (longPressedRef.current) return
+  if (longPressedRef.current) return
 
-    const start = pointerStartRef.current
+  const start = pointerStartRef.current
 
-    if (start) {
-      const distance = Math.hypot(
-        event.clientX - start.x,
-        event.clientY - start.y
-      )
+  if (start) {
+    const distance = Math.hypot(
+      event.clientX - start.x,
+      event.clientY - start.y
+    )
 
-      if (distance > 15) return
-    }
+    if (distance > 15) return
+  }
 
+  if (singleTapRef.current !== null) {
+    window.clearTimeout(singleTapRef.current)
+    singleTapRef.current = null
+    handleDoubleTap()
+  } else {
     singleTapRef.current = window.setTimeout(() => {
-  singleTapRef.current = null
+      singleTapRef.current = null
 
-  if (!homepageMode) {
-    setShowPrompts((previous) => !previous)
+      if (!homepageMode) {
+        setShowPrompts((previous) => !previous)
+      }
+    }, 270)
   }
-}, 270)
-      handleDoubleTap()
-    } else {
-      singleTapRef.current = window.setTimeout(() => {
-  singleTapRef.current = null
-
-  if (!homepageMode) {
-    setShowPrompts((previous) => !previous)
-  }
-}, 270)
-    }
   }
 
   function handlePointerCancel() {
