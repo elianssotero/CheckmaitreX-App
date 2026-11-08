@@ -165,8 +165,8 @@ function PlayPage() {
         </section>
 
         <footer className="cx-play-footer">
-          <span>CHECKMAÎTRÉX CHESS CLUB</span>
-          <span>PLAY • LEARN • COMPETE</span>
+          © {new Date().getFullYear()} CheckmaîtréX • All rights reserved.
+          <span>Calculate. Conquer. Checkmate.</span>
         </footer>
       </div>
     </main>
