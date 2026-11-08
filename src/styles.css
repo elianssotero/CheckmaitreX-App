@@ -2444,7 +2444,7 @@ svg {
     min-height: 55px;
   }
 
-   cx-play-now-content {
+  .cx-play-now-content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
