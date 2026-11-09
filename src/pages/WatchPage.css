@@ -1,0 +1,1293 @@
+/* =========================================
+   CHECKMAÎTRÉX CHESS CLUB — WATCH PAGE
+   Frontend-only initial version
+========================================= */
+
+.cx-watch-page {
+  --watch-bg: #0b0b0d;
+  --watch-surface: #141417;
+  --watch-surface-2: #1b1b20;
+  --watch-gold: #d9b45b;
+  --watch-gold-light: #f0d48a;
+  --watch-text: #f3f1eb;
+  --watch-muted: #929198;
+  --watch-border: rgba(255, 255, 255, 0.075);
+
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--watch-text);
+  background: var(--watch-bg);
+}
+
+.cx-watch-page *,
+.cx-watch-page *::before,
+.cx-watch-page *::after {
+  box-sizing: border-box;
+}
+
+.cx-watch-page button,
+.cx-watch-modal button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.cx-watch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 155px;
+  padding: 30px 38px;
+  border-bottom: 1px solid var(--watch-border);
+  background:
+    radial-gradient(
+      ellipse at 85% 0%,
+      rgba(217, 180, 91, 0.12),
+      transparent 42%
+    ),
+    #0e0e11;
+}
+
+.cx-watch-header-copy {
+  min-width: 0;
+}
+
+.cx-watch-eyebrow,
+.cx-watch-overline {
+  display: block;
+  color: var(--watch-gold);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.7px;
+}
+
+.cx-watch-header h1 {
+  margin: 8px 0 6px;
+  color: var(--watch-text);
+  font-size: clamp(29px, 4vw, 39px);
+  font-weight: 800;
+  letter-spacing: -1.3px;
+}
+
+.cx-watch-header p {
+  max-width: 560px;
+  margin: 0;
+  color: var(--watch-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.cx-watch-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cx-watch-icon-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid var(--watch-border);
+  border-radius: 12px;
+  color: var(--watch-gold);
+  background: var(--watch-surface);
+  transition: 0.2s ease;
+}
+
+.cx-watch-icon-button:hover {
+  border-color: rgba(217, 180, 91, 0.5);
+  background: var(--watch-surface-2);
+}
+
+.cx-watch-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border: 2px solid var(--watch-bg);
+  border-radius: 20px;
+  color: #17130d;
+  background: var(--watch-gold);
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.cx-watch-content {
+  width: 100%;
+  max-width: 1500px;
+  padding: 30px 38px 45px;
+  margin: 0 auto;
+}
+
+.cx-watch-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 17px;
+}
+
+.cx-watch-section-heading h2 {
+  margin: 6px 0 0;
+  color: var(--watch-text);
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+/* FEATURED */
+
+.cx-watch-featured-section {
+  margin-bottom: 42px;
+}
+
+.cx-watch-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  min-height: 290px;
+  overflow: hidden;
+  border: 1px solid rgba(217, 180, 91, 0.2);
+  border-radius: 17px;
+  background: var(--watch-surface);
+}
+
+.cx-watch-featured-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 290px;
+  overflow: hidden;
+}
+
+.cx-watch-featured-art::before,
+.cx-watch-thumbnail::before,
+.cx-watch-modal-player::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.cx-watch-featured-art::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  content: "";
+  pointer-events: none;
+}
+
+.watch-thumb-gold {
+  background:
+    radial-gradient(
+      circle at 70% 25%,
+      rgba(245, 210, 130, 0.35),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #302718, #17130e 55%, #0b0b0d);
+}
+
+.watch-thumb-gold::before {
+  background:
+    linear-gradient(
+      125deg,
+      transparent 25%,
+      rgba(217, 180, 91, 0.12) 26%,
+      transparent 27%,
+      transparent 70%,
+      rgba(217, 180, 91, 0.1) 71%,
+      transparent 72%
+    );
+}
+
+.watch-thumb-board {
+  background:
+    linear-gradient(45deg, #17130e 25%, transparent 25%),
+    linear-gradient(-45deg, #17130e 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #17130e 75%),
+    linear-gradient(-45deg, transparent 75%, #17130e 75%),
+    #3a3020;
+  background-position:
+    0 0,
+    0 14px,
+    14px -14px,
+    -14px 0;
+  background-size: 28px 28px;
+}
+
+.watch-thumb-news {
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(217, 180, 91, 0.22),
+      transparent 38%
+    ),
+    linear-gradient(135deg, #28221a, #121216);
+}
+
+.watch-thumb-live {
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(185, 69, 69, 0.3),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #25191a, #0f0e11);
+}
+
+.watch-thumb-highlight {
+  background:
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(217, 180, 91, 0.3),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #332918, #141417);
+}
+
+.watch-thumb-interview {
+  background:
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(110, 130, 150, 0.25),
+      transparent 32%
+    ),
+    linear-gradient(135deg, #20252b, #111115);
+}
+
+.watch-thumb-prep {
+  background:
+    radial-gradient(
+      circle at 75% 30%,
+      rgba(217, 180, 91, 0.2),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #292319, #111115);
+}
+
+.watch-thumb-community {
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(120, 170, 130, 0.2),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #1c2922, #111115);
+}
+
+.cx-watch-art-label {
+  position: absolute;
+  top: 18px;
+  left: 19px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid rgba(217, 180, 91, 0.4);
+  border-radius: 7px;
+  color: var(--watch-gold-light);
+  background: rgba(11, 11, 13, 0.65);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+
+.cx-watch-featured-watermark {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.75;
+  transform: rotate(-7deg);
+}
+
+.cx-watch-featured-watermark span {
+  color: var(--watch-gold-light);
+  font-size: clamp(18px, 3vw, 34px);
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.cx-watch-featured-watermark strong {
+  color: rgba(243, 241, 235, 0.75);
+  font-size: 10px;
+  letter-spacing: 5px;
+}
+
+.cx-watch-featured-play {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 65px;
+  height: 65px;
+  border: 1px solid rgba(240, 212, 138, 0.75);
+  border-radius: 50%;
+  color: #17130d;
+  background: var(--watch-gold);
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
+  transition: 0.2s ease;
+}
+
+.cx-watch-featured-play:hover {
+  background: var(--watch-gold-light);
+  transform: scale(1.07);
+}
+
+.cx-watch-duration {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 5px 7px;
+  border-radius: 5px;
+  color: white;
+  background: rgba(0, 0, 0, 0.75);
+  font-size: 9px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.cx-watch-featured-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px;
+}
+
+.cx-watch-featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--watch-muted);
+  font-size: 10px;
+}
+
+.cx-watch-featured-meta span:first-child {
+  color: var(--watch-gold);
+  font-weight: 750;
+}
+
+.cx-watch-featured-info h3 {
+  margin: 14px 0 8px;
+  color: var(--watch-text);
+  font-size: clamp(19px, 2vw, 25px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+}
+
+.cx-watch-featured-info p {
+  max-width: 420px;
+  margin: 0;
+  color: var(--watch-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.cx-watch-featured-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.cx-watch-primary-button,
+.cx-watch-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  transition: 0.2s ease;
+}
+
+.cx-watch-primary-button {
+  color: #17130d;
+  background: var(--watch-gold);
+}
+
+.cx-watch-primary-button:hover {
+  background: var(--watch-gold-light);
+}
+
+.cx-watch-secondary-button {
+  border-color: var(--watch-border);
+  color: var(--watch-text);
+  background: var(--watch-surface-2);
+}
+
+.cx-watch-secondary-button:hover,
+.cx-watch-secondary-button.saved {
+  border-color: rgba(217, 180, 91, 0.45);
+  color: var(--watch-gold-light);
+}
+
+/* LIBRARY */
+
+.cx-watch-library-section {
+  margin-top: 38px;
+}
+
+.cx-watch-clear-filter {
+  padding: 7px 0;
+  border: 0;
+  color: var(--watch-gold);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.cx-watch-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 23px;
+}
+
+.cx-watch-category-list {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 2px 1px 7px;
+  scrollbar-width: thin;
+  scrollbar-color: #48413a transparent;
+}
+
+.cx-watch-category {
+  flex-shrink: 0;
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid var(--watch-border);
+  border-radius: 20px;
+  color: var(--watch-muted);
+  background: var(--watch-surface);
+  font-size: 10px;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.cx-watch-category:hover,
+.cx-watch-category.active {
+  border-color: rgba(217, 180, 91, 0.5);
+  color: var(--watch-gold-light);
+  background: rgba(217, 180, 91, 0.1);
+}
+
+.cx-watch-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  min-height: 43px;
+  padding: 0 13px;
+  border: 1px solid var(--watch-border);
+  border-radius: 10px;
+  color: var(--watch-muted);
+  background: var(--watch-surface);
+}
+
+.cx-watch-search:focus-within {
+  border-color: rgba(217, 180, 91, 0.5);
+}
+
+.cx-watch-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 0;
+  border: 0;
+  outline: 0;
+  color: var(--watch-text);
+  background: transparent;
+  font-size: 11px;
+}
+
+.cx-watch-search input::placeholder {
+  color: #77767d;
+}
+
+.cx-watch-search button {
+  display: grid;
+  place-items: center;
+  padding: 3px;
+  border: 0;
+  color: var(--watch-muted);
+  background: transparent;
+}
+
+.cx-watch-results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.cx-watch-results-heading > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cx-watch-results-heading h3 {
+  margin: 0;
+  color: var(--watch-text);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.cx-watch-results-heading span {
+  color: var(--watch-muted);
+  font-size: 10px;
+}
+
+/* VIDEO GRID */
+
+.cx-watch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px 16px;
+}
+
+.cx-watch-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--watch-border);
+  border-radius: 13px;
+  background: var(--watch-surface);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cx-watch-card:hover {
+  border-color: rgba(217, 180, 91, 0.35);
+  transform: translateY(-2px);
+}
+
+.cx-watch-thumbnail {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  color: var(--watch-gold-light);
+  background-color: #17130e;
+}
+
+.cx-watch-thumbnail::before {
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+}
+
+.cx-watch-thumbnail:hover::before {
+  opacity: 0.7;
+}
+
+.cx-watch-thumbnail-brand {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  z-index: 1;
+  color: rgba(240, 212, 138, 0.85);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.cx-watch-thumbnail-play {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(240, 212, 138, 0.65);
+  border-radius: 50%;
+  color: #17130d;
+  background: rgba(217, 180, 91, 0.93);
+  transition: 0.2s ease;
+}
+
+.cx-watch-thumbnail:hover .cx-watch-thumbnail-play {
+  background: var(--watch-gold-light);
+  transform: scale(1.08);
+}
+
+.cx-watch-live-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  padding: 5px 8px;
+  border-radius: 5px;
+  color: white;
+  background: #a83c3c;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.cx-watch-card-info {
+  padding: 13px 14px 14px;
+}
+
+.cx-watch-card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cx-watch-card-category {
+  color: var(--watch-gold);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.cx-watch-save-button {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  border: 1px solid var(--watch-border);
+  border-radius: 8px;
+  color: var(--watch-muted);
+  background: var(--watch-surface-2);
+}
+
+.cx-watch-save-button:hover,
+.cx-watch-save-button.saved {
+  border-color: rgba(217, 180, 91, 0.4);
+  color: var(--watch-gold);
+}
+
+.cx-watch-card-title {
+  display: block;
+  width: 100%;
+  min-height: 39px;
+  padding: 0;
+  margin-top: 8px;
+  border: 0;
+  color: var(--watch-text);
+  background: transparent;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.cx-watch-card-title:hover {
+  color: var(--watch-gold-light);
+}
+
+.cx-watch-card-info > p {
+  display: -webkit-box;
+  min-height: 34px;
+  margin: 6px 0 12px;
+  overflow: hidden;
+  color: var(--watch-muted);
+  font-size: 10px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.cx-watch-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--watch-border);
+  color: var(--watch-muted);
+  font-size: 9px;
+}
+
+.cx-watch-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cx-watch-share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0 0;
+  border: 0;
+  color: var(--watch-gold);
+  background: transparent;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+/* EMPTY STATE */
+
+.cx-watch-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: 30px 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.13);
+  border-radius: 15px;
+  text-align: center;
+}
+
+.cx-watch-empty-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(217, 180, 91, 0.25);
+  border-radius: 16px;
+  color: var(--watch-gold);
+  background: rgba(217, 180, 91, 0.08);
+}
+
+.cx-watch-empty h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cx-watch-empty p {
+  margin: 8px 0 17px;
+  color: var(--watch-muted);
+  font-size: 11px;
+}
+
+.cx-watch-empty button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(217, 180, 91, 0.4);
+  border-radius: 9px;
+  color: var(--watch-gold-light);
+  background: rgba(217, 180, 91, 0.08);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+/* SERIES */
+
+.cx-watch-playlists {
+  margin-top: 45px;
+}
+
+.cx-watch-series-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.cx-watch-series-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  min-height: 155px;
+  padding: 19px;
+  overflow: hidden;
+  border: 1px solid var(--watch-border);
+  border-radius: 13px;
+  color: var(--watch-text);
+  background: var(--watch-surface);
+  text-align: left;
+  transition: 0.2s ease;
+}
+
+.cx-watch-series-card:hover {
+  border-color: rgba(217, 180, 91, 0.45);
+  transform: translateY(-2px);
+}
+
+.cx-watch-series-card::before {
+  position: absolute;
+  top: -45px;
+  right: -35px;
+  width: 145px;
+  height: 145px;
+  border: 1px solid rgba(217, 180, 91, 0.15);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 17px rgba(217, 180, 91, 0.025),
+    0 0 0 35px rgba(217, 180, 91, 0.02);
+  content: "";
+}
+
+.series-events {
+  background:
+    radial-gradient(circle at 90% 5%, rgba(217, 180, 91, 0.15), transparent 40%),
+    var(--watch-surface);
+}
+
+.series-stories {
+  background:
+    radial-gradient(circle at 90% 5%, rgba(110, 130, 150, 0.15), transparent 40%),
+    var(--watch-surface);
+}
+
+.series-highlights {
+  background:
+    radial-gradient(circle at 90% 5%, rgba(180, 130, 70, 0.16), transparent 40%),
+    var(--watch-surface);
+}
+
+.cx-watch-series-number {
+  position: absolute;
+  top: 17px;
+  left: 19px;
+  color: rgba(217, 180, 91, 0.65);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+
+.cx-watch-series-title {
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.cx-watch-series-subtitle {
+  position: relative;
+  z-index: 1;
+  margin-top: 6px;
+  color: var(--watch-muted);
+  font-size: 10px;
+}
+
+.cx-watch-series-card > svg {
+  position: absolute;
+  right: 16px;
+  bottom: 18px;
+  color: var(--watch-gold);
+}
+
+/* FOOTER */
+
+.cx-watch-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding-top: 20px;
+  margin-top: 45px;
+  border-top: 1px solid var(--watch-border);
+}
+
+.cx-watch-footer > span {
+  color: var(--watch-gold);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.2px;
+}
+
+.cx-watch-footer p {
+  margin: 0;
+  color: var(--watch-muted);
+  font-size: 10px;
+}
+
+/* VIDEO PREVIEW MODAL */
+
+.cx-watch-modal-backdrop {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.cx-watch-modal {
+  width: 100%;
+  max-width: 680px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  border: 1px solid rgba(217, 180, 91, 0.25);
+  border-radius: 15px;
+  background: #121215;
+  box-shadow: 0 25px 90px rgba(0, 0, 0, 0.5);
+  animation: cx-watch-modal-in 0.18s ease;
+}
+
+@keyframes cx-watch-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cx-watch-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--watch-border);
+}
+
+.cx-watch-modal-header > span {
+  color: var(--watch-gold);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 1.2px;
+}
+
+.cx-watch-modal-header button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--watch-border);
+  border-radius: 9px;
+  color: var(--watch-muted);
+  background: var(--watch-surface);
+}
+
+.cx-watch-modal-player {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.cx-watch-modal-player-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: var(--watch-gold-light);
+  text-align: center;
+}
+
+.cx-watch-modal-player-content strong {
+  color: var(--watch-text);
+  font-size: 14px;
+}
+
+.cx-watch-modal-player-content span {
+  color: var(--watch-muted);
+  font-size: 10px;
+}
+
+.cx-watch-modal-details {
+  padding: 20px;
+}
+
+.cx-watch-modal-details h2 {
+  margin: 8px 0;
+  color: var(--watch-text);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.cx-watch-modal-details > p {
+  margin: 0;
+  color: var(--watch-muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.cx-watch-modal-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  margin-top: 12px;
+  border-bottom: 1px solid var(--watch-border);
+  color: var(--watch-muted);
+  font-size: 10px;
+}
+
+.cx-watch-modal-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cx-watch-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .cx-watch-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cx-watch-featured {
+    grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.9fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .cx-watch-header {
+    min-height: 135px;
+    padding: 25px 22px;
+  }
+
+  .cx-watch-content {
+    padding: 25px 22px 35px;
+  }
+
+  .cx-watch-featured {
+    grid-template-columns: 1fr;
+  }
+
+  .cx-watch-featured-art {
+    min-height: 240px;
+  }
+
+  .cx-watch-featured-info {
+    padding: 22px;
+  }
+
+  .cx-watch-series-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cx-watch-series-card {
+    min-height: 125px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cx-watch-header {
+    min-height: 120px;
+    padding: 20px 16px;
+  }
+
+  .cx-watch-header h1 {
+    font-size: 29px;
+  }
+
+  .cx-watch-header p {
+    max-width: 290px;
+    font-size: 10px;
+  }
+
+  .cx-watch-content {
+    padding: 22px 15px 95px;
+  }
+
+  .cx-watch-section-heading h2 {
+    font-size: 19px;
+  }
+
+  .cx-watch-featured-section {
+    margin-bottom: 32px;
+  }
+
+  .cx-watch-featured-art {
+    min-height: 195px;
+  }
+
+  .cx-watch-featured-info {
+    padding: 18px;
+  }
+
+  .cx-watch-featured-info h3 {
+    font-size: 19px;
+  }
+
+  .cx-watch-featured-info p {
+    font-size: 11px;
+  }
+
+  .cx-watch-featured-actions {
+    width: 100%;
+  }
+
+  .cx-watch-featured-actions button {
+    flex: 1;
+    min-width: 0;
+    padding: 0 10px;
+    font-size: 10px;
+  }
+
+  .cx-watch-toolbar {
+    gap: 12px;
+  }
+
+  .cx-watch-search {
+    max-width: none;
+  }
+
+  .cx-watch-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .cx-watch-card {
+    display: grid;
+    grid-template-columns: minmax(115px, 0.8fr) minmax(0, 1.2fr);
+    align-items: stretch;
+  }
+
+  .cx-watch-thumbnail {
+    height: 100%;
+    min-height: 150px;
+    aspect-ratio: auto;
+  }
+
+  .cx-watch-thumbnail-brand {
+    top: 8px;
+    left: 8px;
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .cx-watch-thumbnail-play {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cx-watch-thumbnail-play svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .cx-watch-duration {
+    right: 7px;
+    bottom: 7px;
+    padding: 4px 5px;
+    font-size: 8px;
+  }
+
+  .cx-watch-card-info {
+    min-width: 0;
+    padding: 10px;
+  }
+
+  .cx-watch-card-title {
+    min-height: 0;
+    margin-top: 5px;
+    font-size: 11px;
+  }
+
+  .cx-watch-card-info > p {
+    min-height: 0;
+    margin: 5px 0 8px;
+    font-size: 9px;
+  }
+
+  .cx-watch-card-meta {
+    gap: 8px;
+    padding-top: 7px;
+    font-size: 8px;
+  }
+
+  .cx-watch-card-meta span {
+    gap: 3px;
+  }
+
+  .cx-watch-card-meta svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .cx-watch-save-button {
+    width: 26px;
+    height: 26px;
+  }
+
+  .cx-watch-save-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .cx-watch-share-link {
+    padding-top: 6px;
+    font-size: 9px;
+  }
+
+  .cx-watch-series-card {
+    min-height: 115px;
+  }
+
+  .cx-watch-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .cx-watch-modal-backdrop {
+    padding: 10px;
+  }
+
+  .cx-watch-modal {
+    max-height: calc(100vh - 20px);
+  }
+
+  .cx-watch-modal-details {
+    padding: 15px;
+  }
+
+  .cx-watch-modal-details h2 {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 370px) {
+  .cx-watch-card {
+    grid-template-columns: 105px minmax(0, 1fr);
+  }
+
+  .cx-watch-card-info {
+    padding: 8px;
+  }
+
+  .cx-watch-card-title {
+    font-size: 10px;
+  }
+
+  .cx-watch-card-info > p {
+    font-size: 8px;
+  }
+
+  .cx-watch-featured-actions {
+    flex-direction: column;
+  }
+}
