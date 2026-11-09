@@ -40,7 +40,7 @@ import {
   X,
   type LucideIcon,
 } from 'lucide-react'
-import './MorePage.css'
+MorePage.css
 
 type MoreItem = {
   label: string
