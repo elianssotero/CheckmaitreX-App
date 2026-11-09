@@ -5,6 +5,7 @@ import {
   Routes,
 } from 'react-router-dom'
 
+import WatchPage from './pages/WatchPage'
 import LearnPage from './pages/LearnPage'
 import PuzzlesPage from './pages/PuzzlesPage'
 import PuzzleDestinationPage from './pages/PuzzleDestinationPage'
@@ -109,6 +110,11 @@ function App() {
           <Route 
             path="learn"
             element={<LearnPage />} />
+
+         <Route
+           path="watch"
+           element={<WatchPage />}
+             />
           
           <Route
             path="*"
