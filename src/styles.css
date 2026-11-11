@@ -41,46 +41,23 @@
 * {
   box-sizing: border-box;
 }
-
-html {
-  min-width: 320px;
-  min-height: 100%;
-  background: var(--cx-bg);
-  scroll-behavior: smooth;
-}
-
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
-  background: var(--cx-bg);
-  color: var(--cx-text);
-}
-
-body,
-button,
-input,
-textarea,
-select {
+.cx-home .cx-user-streak-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
   font-family: inherit;
-}
-
-button,
-input,
-textarea,
-select {
-  font-size: inherit;
-}
-
-button {
   cursor: pointer;
+  transition: transform 0.18s ease;
 }
 
-button:focus-visible,
-a:focus-visible,
-input:focus-visible {
+.cx-home .cx-user-streak-button:active {
+  transform: scale(0.92);
+}
+
+.cx-home .cx-user-streak-button:focus-visible {
   outline: 2px solid var(--cx-gold);
-  outline-offset: 3px;
+  outline-offset: 4px;
+  border-radius: 5px;
 }
 
 a {
