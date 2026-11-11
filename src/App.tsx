@@ -14,6 +14,7 @@ import PuzzleLevelPage from './pages/PuzzleLevelPage'
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import NotificationsPage from './pages/NotificationsPage'
+import StreakPage from './pages/StreakPage'
 import ProfilePage from './pages/ProfilePage'
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
@@ -38,7 +39,6 @@ function App() {
   path="streak"
   element={<StreakPage />}
 />
-<Route index element={<HomePage />} />
           <Route index element={<HomePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="corporate" element={<CorporatePage />} />
