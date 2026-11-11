@@ -283,8 +283,6 @@ function RatingIcon({ name }: { name: string }) {
   <Bell size={19} />
 </button>
 
-  <button className="cx-icon-button" aria-label="Shop">
-    <Store size={19} />
 <button
   className="cx-icon-button"
   aria-label="Open CheckmaîtréX Official Store"
