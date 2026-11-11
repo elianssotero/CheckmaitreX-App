@@ -285,11 +285,20 @@ function RatingIcon({ name }: { name: string }) {
 
   <button className="cx-icon-button" aria-label="Shop">
     <Store size={19} />
-  </button>
-
-  <button className="cx-icon-button" aria-label="Search">
-    <Search size={19} />
-  </button>
+<button
+  className="cx-icon-button"
+  aria-label="Open CheckmaîtréX Official Store"
+  type="button"
+  onClick={() =>
+    window.open(
+      'https://checkmaitrex-official-store.pages.dev',
+      '_blank',
+      'noopener,noreferrer'
+    )
+  }
+>
+  <Store size={19} />
+</button>
 </div>
       </header>
        <main>
