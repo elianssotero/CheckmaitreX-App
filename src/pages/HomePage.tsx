@@ -260,9 +260,15 @@ function RatingIcon({ name }: { name: string }) {
                 </span>
               )}
 
-              <span className="cx-user-streak">
-                🔥 <strong>{playerProfile.streak}</strong>
-              </span>
+<button
+  className="cx-user-streak cx-user-streak-button"
+  type="button"
+  aria-label="Open CheckmaîtréXStreak"
+  onClick={() => navigate('/streak')}
+>
+  <span>🔥</span>
+  <strong>{playerProfile.streak}</strong>
+</button>
             </div>
           </div>
         </div>
