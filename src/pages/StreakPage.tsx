@@ -12,10 +12,9 @@ import {
   Sparkles,
   ShieldCheck,
 } from 'lucide-react'
-
+import StreakBadge from '../components/StreakBadge'
 import { playerProfile } from '../data/playerProfile'
 import {
-  getBadgePiece,
   getCurrentMilestone,
   getMilestoneProgress,
   getNextMilestone,
@@ -53,20 +52,6 @@ function StreakPage() {
   const milestoneProgress = getMilestoneProgress(currentStreak)
   const badgePiece = getBadgePiece(currentStreak)
 
-  const badgeTier =
-    currentStreak >= 500
-      ? 'legendary'
-      : currentStreak >= 300
-        ? 'royal'
-        : currentStreak >= 100
-          ? 'master'
-          : currentStreak >= 60
-            ? 'advanced'
-            : currentStreak >= 30
-              ? 'awakened'
-              : 'starter'
-
-  const handleShare = async () => {
     const shareText =
       `I currently have ${currentStreak} XStreaks on CheckmaîtréX Chess Club!`
 
