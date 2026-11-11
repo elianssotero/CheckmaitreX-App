@@ -364,6 +364,13 @@ svg {
   gap: 9px;
 }
 
+.cx-home .cx-player-title {
+  color: var(--cx-gold);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
 .cx-home .cx-player-name {
   color: var(--cx-text);
   font-size: 13px;
