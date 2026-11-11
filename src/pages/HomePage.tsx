@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Bell,
   Store,
+  Search, 
   Puzzle,
   Bot,
   GraduationCap,
@@ -281,7 +282,14 @@ function RatingIcon({ name }: { name: string }) {
 >
   <Bell size={19} />
 </button>
-
+<button
+  className="cx-icon-button"
+  aria-label="Search"
+  type="button"
+  onClick={() => navigate('/search')}
+>
+  <Search size={19} />
+</button>
 <button
   className="cx-icon-button"
   aria-label="Open CheckmaîtréX Official Store"
