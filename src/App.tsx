@@ -25,6 +25,7 @@ import PlayComputerPage from './pages/PlayComputerPage'
 import PlayFriendPage from './pages/PlayFriendPage'
 import PlayCoachPage from './pages/PlayCoachPage'
 import PlayTournamentsPage from './pages/PlayTournamentsPage'
+import SearchPage from './pages/SearchPage'
 
 function App() {
   return (
@@ -63,11 +64,10 @@ function App() {
             element={<PlayFriendPage />}
           />
 
-          <Route
+         <Route
             path="search"
-            element={<PlayDestinationPage title="Search" />}
+           element={<SearchPage />}
           />
-
           <Route
             path="invite/:inviteCode"
             element={<PlayDestinationPage title="Friend Invite" />}
