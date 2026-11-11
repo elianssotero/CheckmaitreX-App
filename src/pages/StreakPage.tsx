@@ -126,23 +126,10 @@ function StreakPage() {
               </span>
             </div>
 
-            <div className="cx-streak-badge-sparks">
-              <Sparkles className="cx-streak-spark spark-one" />
-              <Sparkles className="cx-streak-spark spark-two" />
-              <Sparkles className="cx-streak-spark spark-three" />
-            </div>
-          </div>
-
-          <div className="cx-streak-count">
-            <strong>{currentStreak}</strong>
-            <span>XStreaks</span>
-          </div>
-
-          <div className="cx-streak-rank">
-            <Flame size={15} />
-            {currentMilestone > 0
-              ? `${currentMilestone}-Day Badge Unlocked`
-              : 'Streak Journey Started'}
+<StreakBadge
+  days={currentStreak}
+  size="large"
+/>
           </div>
 
           <p className="cx-streak-description">
@@ -302,9 +289,9 @@ function StreakPage() {
         </section>
 
         <footer className="cx-streak-footer">
-          CheckmaîtréX Chess Club
-          <span>Calculate. Conquer. Checkmate.</span>
-        </footer>
+  © {new Date().getFullYear()} CheckmaîtréX • All rights reserved.
+  <span>Calculate. Conquer. Checkmate.</span>
+</footer>
       </main>
     </div>
   )
