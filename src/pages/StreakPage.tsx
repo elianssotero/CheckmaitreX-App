@@ -12,6 +12,7 @@ import {
   Sparkles,
   ShieldCheck,
 } from 'lucide-react'
+
 import StreakBadge from '../components/StreakBadge'
 import { playerProfile } from '../data/playerProfile'
 import {
@@ -50,8 +51,8 @@ function StreakPage() {
   const currentMilestone = getCurrentMilestone(currentStreak)
   const nextMilestone = getNextMilestone(currentStreak)
   const milestoneProgress = getMilestoneProgress(currentStreak)
-  const badgePiece = getBadgePiece(currentStreak)
 
+  const handleShare = async () => {
     const shareText =
       `I currently have ${currentStreak} XStreaks on CheckmaîtréX Chess Club!`
 
@@ -111,25 +112,21 @@ function StreakPage() {
             YOUR STREAK JOURNEY
           </span>
 
-          <div
-            className={`cx-streak-badge cx-streak-${badgeTier}`}
-            data-tier={badgeTier}
-          >
-            <div className="cx-streak-aura" />
-            <div className="cx-streak-orbit cx-streak-orbit-one" />
-            <div className="cx-streak-orbit cx-streak-orbit-two" />
+          <StreakBadge
+            days={currentStreak}
+            size="large"
+          />
 
-            <div className="cx-streak-flame">
-              <Flame className="cx-streak-flame-icon" />
-              <span className="cx-streak-chess-piece">
-                {badgePiece}
-              </span>
-            </div>
+          <div className="cx-streak-count">
+            <strong>{currentStreak}</strong>
+            <span>XStreaks</span>
+          </div>
 
-<StreakBadge
-  days={currentStreak}
-  size="large"
-/>
+          <div className="cx-streak-rank">
+            <Flame size={15} />
+            {currentMilestone > 0
+              ? `${currentMilestone}-Day Badge Unlocked`
+              : 'Streak Journey Started'}
           </div>
 
           <p className="cx-streak-description">
@@ -289,12 +286,13 @@ function StreakPage() {
         </section>
 
         <footer className="cx-streak-footer">
-  © {new Date().getFullYear()} CheckmaîtréX • All rights reserved.
-  <span>Calculate. Conquer. Checkmate.</span>
-</footer>
+          © {new Date().getFullYear()} CheckmaîtréX • All rights reserved.
+          <span>Calculate. Conquer. Checkmate.</span>
+        </footer>
       </main>
     </div>
   )
 }
 
 export default StreakPage
+
