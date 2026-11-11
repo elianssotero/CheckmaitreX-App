@@ -30,10 +30,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AppLayout />}>
-       <Route
+<Route
   path="notifications"
   element={<NotificationsPage />}
 />
+<Route
+  path="streak"
+  element={<StreakPage />}
+/>
+<Route index element={<HomePage />} />
           <Route index element={<HomePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="corporate" element={<CorporatePage />} />
