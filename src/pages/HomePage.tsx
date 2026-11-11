@@ -262,9 +262,14 @@ function RatingIcon({ name }: { name: string }) {
         </div>
 
                        <div className="cx-top-actions">
-  <button className="cx-icon-button" aria-label="Notifications">
-    <Bell size={19} />
-  </button>
+  <button
+  className="cx-icon-button"
+  aria-label="Notifications"
+  type="button"
+  onClick={() => navigate('/notifications')}
+>
+  <Bell size={19} />
+</button>
 
   <button className="cx-icon-button" aria-label="Shop">
     <Store size={19} />
