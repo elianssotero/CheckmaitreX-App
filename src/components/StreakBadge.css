@@ -1,0 +1,219 @@
+.cx-shared-streak-badge {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  isolation: isolate;
+  border-radius: 50%;
+  --badge-color: #d9b45b;
+  --badge-glow: rgba(217, 180, 91, 0.35);
+}
+
+.cx-shared-streak-badge--large {
+  width: 190px;
+  height: 190px;
+  margin: 17px 0 8px;
+}
+
+.cx-shared-streak-badge--compact {
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.cx-shared-streak-awakened {
+  --badge-color: #e7bd62;
+  --badge-glow: rgba(231, 189, 98, 0.4);
+}
+
+.cx-shared-streak-advanced {
+  --badge-color: #9bd5ff;
+  --badge-glow: rgba(80, 160, 255, 0.4);
+}
+
+.cx-shared-streak-master {
+  --badge-color: #c49aff;
+  --badge-glow: rgba(160, 90, 255, 0.45);
+}
+
+.cx-shared-streak-royal {
+  --badge-color: #ff9a62;
+  --badge-glow: rgba(255, 100, 40, 0.45);
+}
+
+.cx-shared-streak-legendary {
+  --badge-color: #ffe9a1;
+  --badge-glow: rgba(255, 210, 90, 0.6);
+}
+
+.cx-shared-streak-art {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 190px;
+  height: 190px;
+  transform: translate(-50%, -50%);
+}
+
+.cx-shared-streak-badge--compact .cx-shared-streak-art {
+  transform: translate(-50%, -50%) scale(0.2);
+}
+
+.cx-shared-streak-aura {
+  position: absolute;
+  z-index: -2;
+  inset: 12px;
+  border-radius: 50%;
+  background: var(--badge-glow);
+  filter: blur(25px);
+  animation: cx-shared-streak-aura-pulse 3s ease-in-out infinite;
+}
+
+.cx-shared-streak-orbit {
+  position: absolute;
+  z-index: -1;
+  inset: 15px;
+  border: 1px solid var(--badge-color);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.cx-shared-streak-orbit-one {
+  animation: cx-shared-streak-orbit 12s linear infinite;
+}
+
+.cx-shared-streak-orbit-two {
+  inset: 3px;
+  border-style: dashed;
+  opacity: 0.28;
+  animation: cx-shared-streak-orbit 20s linear infinite reverse;
+}
+
+.cx-shared-streak-flame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 126px;
+  height: 145px;
+  color: var(--badge-color);
+  transform: translate(-50%, -50%);
+  animation: cx-shared-streak-flame-float 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px var(--badge-glow));
+}
+
+.cx-shared-streak-flame-icon {
+  width: 126px;
+  height: 145px;
+  stroke-width: 1.5;
+  fill: rgba(217, 100, 35, 0.18);
+  animation: cx-shared-streak-flame-flicker 1.8s ease-in-out infinite;
+}
+
+.cx-shared-streak-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cx-shared-streak-spark {
+  position: absolute;
+  color: var(--badge-color);
+  animation: cx-shared-streak-spark 3s ease-in-out infinite;
+}
+
+.cx-shared-streak-spark.spark-one {
+  top: 24px;
+  right: 25px;
+  width: 17px;
+}
+
+.cx-shared-streak-spark.spark-two {
+  bottom: 31px;
+  left: 19px;
+  width: 13px;
+  animation-delay: 0.8s;
+}
+
+.cx-shared-streak-spark.spark-three {
+  top: 65px;
+  left: 7px;
+  width: 11px;
+  animation-delay: 1.5s;
+}
+
+@keyframes cx-shared-streak-aura-pulse {
+  0%, 100% {
+    transform: scale(0.88);
+    opacity: 0.55;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@keyframes cx-shared-streak-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cx-shared-streak-flame-float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(2px) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-5px) scale(1.035);
+  }
+}
+
+@keyframes cx-shared-streak-flame-flicker {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: scale(1.06, 1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes cx-shared-streak-spark {
+  0%, 100% {
+    transform: scale(0.7) rotate(0deg);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.2) rotate(35deg);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 380px) {
+  .cx-shared-streak-badge--large {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-shared-streak-badge *,
+  .cx-shared-streak-badge *::before,
+  .cx-shared-streak-badge *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
