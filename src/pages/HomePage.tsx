@@ -254,12 +254,14 @@ function RatingIcon({ name }: { name: string }) {
   {playerProfile.accountName}
 </strong>
 
-              {playerFlair && (
-                <span className="cx-player-flair">{playerFlair}</span>
+              {playerProfile.flair && (
+                <span className="cx-player-flair">
+                  {playerProfile.flair}
+                </span>
               )}
 
               <span className="cx-user-streak">
-                🔥 <strong>{playerStreak}</strong>
+                🔥 <strong>{playerProfile.streak}</strong>
               </span>
             </div>
           </div>
