@@ -13,6 +13,7 @@ import PlayPuzzlesPage from './pages/PlayPuzzlesPage'
 import PuzzleLevelPage from './pages/PuzzleLevelPage'
 import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
+import NotificationsPage from './pages/NotificationsPage'
 import ProfilePage from './pages/ProfilePage'
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
@@ -29,6 +30,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AppLayout />}>
+       <Route
+  path="notifications"
+  element={<NotificationsPage />}
+/>
           <Route index element={<HomePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="corporate" element={<CorporatePage />} />
