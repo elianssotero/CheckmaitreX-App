@@ -6,7 +6,6 @@ import {
   ChevronRight,
   Bell,
   Store,
-  Search, 
   Puzzle,
   Bot,
   GraduationCap,
