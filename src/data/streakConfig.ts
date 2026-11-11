@@ -52,19 +52,24 @@ export type StreakData = {
   streakHistory: StreakHistoryEntry[]
 }
 
+
 export function getNextMilestone(days: number): number {
-  return (
-    STREAK_MILESTONES.find((milestone) => milestone > days) ??
-    Math.ceil((days + 1) / 100) * 100
-  )
+  if (days < 30) return 30
+  if (days < 60) return 60
+  if (days < 100) return 100
+
+  return (Math.floor(days / 100) + 1) * 100
 }
 
 export function getCurrentMilestone(days: number): number {
-  return (
-    [...STREAK_MILESTONES]
-      .reverse()
-      .find((milestone) => milestone <= days) ?? 0
-  )
+  if (days >= 100) {
+    return Math.floor(days / 100) * 100
+  }
+
+  if (days >= 60) return 60
+  if (days >= 30) return 30
+
+  return 0
 }
 
 export function getMilestoneProgress(days: number) {
@@ -90,10 +95,15 @@ export function getMilestoneProgress(days: number) {
 }
 
 export function getBadgePiece(days: number): string {
-  if (days >= 400) return '♚'
-  if (days >= 300) return '♛'
-  if (days >= 200) return '♜'
-  if (days >= 100) return '♝'
-  if (days >= 60) return '♞'
-  return '♟'
+  if (days < 60) return '♟'
+  if (days < 100) return '♞'
+  if (days < 200) return '♝'
+  if (days < 300) return '♜'
+  if (days < 400) return '♛'
+
+  const legendaryPieces = ['♚', '♛', '♜', '♝', '♞', '♟']
+  const variation = Math.floor((days - 400) / 100)
+
+  return legendaryPieces[variation % legendaryPieces.length]
 }
+
