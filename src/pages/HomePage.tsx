@@ -1,4 +1,4 @@
-
+import { playerProfile } from '../data/playerProfile'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MaitronXAssistant from '../components/MaitronXAssistant'
@@ -17,10 +17,6 @@ import {
   Swords,
   CircleUserRound,
 } from 'lucide-react'
-
-const accountName = 'Player Name'
-const playerStreak = 1
-const playerFlair: string | null = null
 
 const features = [
   {
@@ -248,7 +244,15 @@ function RatingIcon({ name }: { name: string }) {
 
           <div className="cx-user-details">
             <div className="cx-player-name-line">
-              <strong className="cx-player-name">{accountName}</strong>
+              {playerProfile.chessTitle && (
+  <span className="cx-player-title">
+    {playerProfile.chessTitle.value}
+  </span>
+)}
+
+<strong className="cx-player-name">
+  {playerProfile.accountName}
+</strong>
 
               {playerFlair && (
                 <span className="cx-player-flair">{playerFlair}</span>
