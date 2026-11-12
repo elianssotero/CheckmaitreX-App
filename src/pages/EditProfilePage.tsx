@@ -546,25 +546,7 @@ const removeCover = () => {
       return
     }
 
-profileAvatar:
-  localStorage.getItem('cx-profile-avatar') !== null &&
-  form.profilePhoto ===
-    avatarIdToImage(
-      localStorage.getItem('cx-profile-avatar') || ''
-    )
-    ? localStorage.getItem('cx-profile-avatar') || ''
-    : localStorage.getItem('cx-profile-avatar') === null &&
-        form.profilePhoto === original.profilePhoto
-      ? original.profileAvatar || ''
-      : '',
-  username,
-  firstName,
-  lastName,
-  bio,
-  accountName:
-    `${firstName} ${lastName}`.trim() || username,
-  borders: form.borders || 'Default Gold',
-    }
+
     try {
       localStorage.setItem(
         'cx-profile-preview',
@@ -584,7 +566,27 @@ profileAvatar:
           String(Date.now())
         )
       }
-
+const nextProfile = {
+  ...form,
+  profileAvatar:
+    localStorage.getItem('cx-profile-avatar') !== null &&
+    form.profilePhoto ===
+      avatarIdToImage(
+        localStorage.getItem('cx-profile-avatar') || ''
+      )
+      ? localStorage.getItem('cx-profile-avatar') || ''
+      : localStorage.getItem('cx-profile-avatar') === null &&
+          form.profilePhoto === original.profilePhoto
+        ? original.profileAvatar || ''
+        : '',
+  username,
+  firstName,
+  lastName,
+  bio,
+  accountName:
+    `${firstName} ${lastName}`.trim() || username,
+  borders: form.borders || 'Default Gold',
+}
       localStorage.removeItem('cx-profile-flair')
       localStorage.removeItem('cx-profile-country')
       localStorage.removeItem('cx-profile-avatar')
