@@ -68,15 +68,19 @@ function readProfile(): ProfileData {
 }
 
 function countryFlag(country: string) {
-  const code =
-    country.length === 2
-      ? country.toUpperCase()
-      : alpha3[country.toUpperCase()]
-        ? Object.keys(alpha3).find(
-            (key) =>
-              alpha3[key] === country.toUpperCase()
-          ) || ''
-        : ''
+  const normalized = country.trim().toUpperCase()
+  const displayNames = new Intl.DisplayNames(
+    ['en'],
+    { type: 'region' }
+  )
+
+  const code = /^[A-Z]{2}$/.test(normalized)
+    ? normalized
+    : Object.keys(alpha3).find(
+        (key) =>
+          alpha3[key] === normalized ||
+          displayNames.of(key)?.toUpperCase() === normalized
+      ) || ''
 
   if (!/^[A-Z]{2}$/.test(code)) return ''
 
