@@ -434,12 +434,7 @@
 
 /* Achievement cards */
 
-.cx-profile-achievement-track {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(175px, 205px);
-  grid-auto-columns: 190px;
-  gap: 11px;
+.grid-auto-columns: 190px;
   padding: 3px 2px 13px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
