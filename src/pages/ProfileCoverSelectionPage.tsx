@@ -325,7 +325,16 @@ function PageHeader({ title }: { title: string }) {
 
 function readCurrentCover() {
   try {
-    return localStorage.getItem('cx-profile-cover') || ''
+    const staged = localStorage.getItem('cx-profile-cover')
+    if (staged !== null) return staged
+
+    const saved = localStorage.getItem('cx-profile-preview')
+    if (saved) {
+      const profile = JSON.parse(saved)
+      return profile.coverPhoto || ''
+    }
+
+    return ''
   } catch {
     return ''
   }
@@ -350,10 +359,10 @@ export default function ProfileCoverSelectionPage() {
       return matchesCategory && matchesSearch
     })
   }, [category, search])
-
-  const selectedCover = coverOptions.find(
-    (cover) => createCoverSvg(cover) === selected
-  )
+const confirmSelection = () => {
+  localStorage.setItem('cx-profile-cover', selected)
+  navigate('/profile/edit')
+}
 
   const confirmSelection = () => {
     if (!selected) return
@@ -415,26 +424,30 @@ export default function ProfileCoverSelectionPage() {
             COVER PREVIEW
           </span>
 
-          {selectedCover ? (
-            <img
-              src={createCoverSvg(selectedCover)}
-              alt={`${selectedCover.name} cover preview`}
-            />
-          ) : (
-            <div className="cx-profile-cover-empty">
-              <CircleOff size={25} />
-              <span>No cover selected</span>
-            </div>
-          )}
+{selectedCover ? (
+  <img
+    src={createCoverSvg(selectedCover)}
+    alt={`${selectedCover.name} cover preview`}
+  />
+) : selected ? (
+  <img
+    src={selected}
+    alt="Custom cover preview"
+  />
+) : (
+  <div className="cx-profile-cover-empty">
+    <CircleOff size={25} />
+    <span>No cover selected</span>
+  </div>
+)}
 
-          <div className="cx-profile-cover-selected-info">
-            <strong>
-              {selectedCover?.name || 'No Cover'}
-            </strong>
+<strong>
+  {selectedCover?.name || (selected ? 'Custom Cover' : 'No Cover')}
+</strong>
 
-            {selectedCover && (
-              <span>{selectedCover.category}</span>
-            )}
+{selectedCover && (
+  <span>{selectedCover.category}</span>
+)}
 
             {selected !== '' && (
               <button
@@ -511,7 +524,6 @@ export default function ProfileCoverSelectionPage() {
             type="button"
             className="cx-profile-primary-button"
             onClick={confirmSelection}
-            disabled={!selected}
           >
             <Check size={17} />
             Use Selected Cover
