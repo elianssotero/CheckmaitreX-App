@@ -508,11 +508,21 @@ export function EditProfilePage() {
     setSaved(false)
   }
 
-  const save = () => {
-    localStorage.setItem('cx-profile-preview', JSON.stringify(form))
-    setSaved(true)
-    navigate('/profile')
+const save = () => {
+  const nextProfile = {
+    ...form,
+    accountName:
+      `${form.firstName} ${form.lastName}`.trim() || form.username,
   }
+
+  localStorage.setItem(
+    'cx-profile-preview',
+    JSON.stringify(nextProfile)
+  )
+
+  setSaved(true)
+  navigate('/profile')
+}
 
   const photoChange = (file?: File) => {
     if (!file) return
