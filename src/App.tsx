@@ -15,7 +15,13 @@ import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import NotificationsPage from './pages/NotificationsPage'
 import StreakPage from './pages/StreakPage'
-import ProfilePage from './pages/ProfilePage'
+import ProfilePage, {
+  EditProfilePage,
+  ProfileRatingsPage,
+  ProfileGamesPage,
+  ProfileFriendsPage,
+  ProfileAchievementsPage,
+} from './pages/ProfilePage'
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
 import MaitronXPage from './pages/MaitronXPage'
@@ -36,7 +42,12 @@ function App() {
   path="notifications"
   element={<NotificationsPage />}
 />
-<Route
+<Route path="profile/edit" element={<EditProfilePage />} />
+<Route path="profile/ratings" element={<ProfileRatingsPage />} />
+<Route path="profile/games" element={<ProfileGamesPage />} />
+<Route path="profile/friends" element={<ProfileFriendsPage />} />
+<Route path="profile/achievements" element={<ProfileAchievementsPage />} />          
+         <Route
   path="streak"
   element={<StreakPage />}
 />
