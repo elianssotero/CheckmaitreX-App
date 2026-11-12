@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -185,7 +184,6 @@ function ProfilePage() {
   const losses = games.filter((game) => game.result === 'Defeat').length
   const draws = games.filter((game) => game.result === 'Draw').length
 
-
   const shareProfile = async () => {
     const url = window.location.href
     try {
@@ -225,7 +223,10 @@ function ProfilePage() {
       <main className="cx-profile-content">
         <section className="cx-profile-identity">
           <div className="cx-profile-identity-top">
-            <div className="cx-profile-photo">
+            <div
+              className="cx-profile-photo"
+              data-border={profile.borders || 'Default Gold'}
+            >
               {profile.profilePhoto ? (
                 <img src={profile.profilePhoto} alt="Profile" />
               ) : (
@@ -424,7 +425,6 @@ function ProfilePage() {
               </div>
             </section>
 
-                        <section className="cx-profile-section cx-profile-extra-details">
             <section className="cx-profile-section cx-profile-extra-details">
               <h2>Player Details</h2>
               <div>
@@ -520,299 +520,6 @@ function AchievementCards() {
     </div>
   )
 }
-
-export function EditProfilePage() {
-  const navigate = useNavigate()
-
-  const getInitialForm = (): ProfileData => {
-    const profile = readProfile()
-    const savedFlair = localStorage.getItem('cx-profile-flair')
-    const savedCountry = localStorage.getItem('cx-profile-country')
-
-    return {
-      ...profile,
-      flair: savedFlair ?? profile.flair,
-      country: savedCountry ?? (
-        profile.country === 'Philippines' ? 'PH' : profile.country
-      ),
-    }
-  }
-
-  const [original] = useState<ProfileData>(getInitialForm)
-  const [form, setForm] = useState<ProfileData>(getInitialForm)
-  const [preview, setPreview] = useState(false)
-  const [privacy, setPrivacy] = useState('Public')
-
-  const countryName = (code: string) => {
-    if (code.length !== 2) return code
-    try {
-      return new Intl.DisplayNames(['en'], { type: 'region' }).of(code) || code
-    } catch {
-      return code
-    }
-  }
-
-  const countryFlag = (code: string) => {
-    if (code.length !== 2) return ''
-    return String.fromCodePoint(
-      ...code.toUpperCase().split('').map(
-        (letter) => 127397 + letter.charCodeAt(0)
-      )
-    )
-  }
-  const countryAlpha3 = (code: string) => {
-    const normalizedCode = code.toUpperCase()
-    return alpha3[normalizedCode] || normalizedCode
-  }
-
-  const hasChanges = (
-    Object.keys(form) as (keyof ProfileData)[]
-  ).some((key) => form[key] !== original[key])
-
-  const update = (key: keyof ProfileData, value: string) => {
-    setForm((current) => ({ ...current, [key]: value }))
-  }
-
-  const photoChange = (file?: File) => {
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      update('profilePhoto', String(reader.result || ''))
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const save = () => {
-    if (!hasChanges) return
-
-    const nextProfile: ProfileData = {
-      ...form,
-      accountName:
-        `${form.firstName} ${form.lastName}`.trim() || form.username,
-    }
-
-    localStorage.setItem(
-      'cx-profile-preview',
-      JSON.stringify(nextProfile)
-    )
-
-    localStorage.removeItem('cx-profile-flair')
-    localStorage.removeItem('cx-profile-country')
-
-    navigate('/profile')
-  }
-
-  const cancel = () => {
-    if (!hasChanges) return
-
-    localStorage.removeItem('cx-profile-flair')
-    localStorage.removeItem('cx-profile-country')
-    navigate('/profile')
-  }
-
-  const displayCountry = countryName(form.country)
-  const displayFlag = countryFlag(form.country)
-  const displayAlpha3 = countryAlpha3(form.country)
-
-  return (
-    <div className="cx-profile-subpage">
-      <PageHeader title="Edit Profile" />
-
-      <main className="cx-profile-edit-content">
-        <section className="cx-edit-profile-row">
-          <label>Profile Picture</label>
-
-          <div className="cx-edit-picture-control">
-            <div className="cx-edit-picture-preview">
-              {form.profilePhoto ? (
-                <img src={form.profilePhoto} alt="Profile preview" />
-              ) : (
-                <CircleUserRound size={46} />
-              )}
-            </div>
-
-            <label className="cx-profile-upload-button">
-              <Camera size={16} />
-              Change Photo
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(event) =>
-                  photoChange(event.target.files?.[0])
-                }
-              />
-            </label>
-          </div>
-        </section>
-
-        <button
-          type="button"
-          className="cx-edit-profile-row cx-edit-select-row"
-          onClick={() => navigate('/profile/select-flair')}
-        >
-          <span className="cx-edit-row-label">Flair</span>
-          <span className="cx-edit-row-value">
-            {form.flair ? <Sparkles size={23} /> : null}
-          </span>
-        </button>
-
-        <section className="cx-edit-profile-row">
-          <label htmlFor="profile-bio">Bio</label>
-          <textarea
-            id="profile-bio"
-            maxLength={20}
-            value={form.bio}
-            onChange={(event) => update('bio', event.target.value)}
-            placeholder="Tell others about yourself..."
-          />
-          <span className="cx-edit-field-hint">
-            {form.bio.length}/20 characters
-          </span>
-        </section>
-
-        {([
-          ['username', 'Username'],
-          ['firstName', 'First Name'],
-          ['lastName', 'Last Name'],
-        ] as [keyof ProfileData, string][]).map(([key, label]) => (
-          <section className="cx-edit-profile-row" key={key}>
-            <label htmlFor={`profile-${key}`}>{label}</label>
-            <input
-              id={`profile-${key}`}
-              value={String(form[key])}
-              onChange={(event) => update(key, event.target.value)}
-            />
-          </section>
-        ))}
-
-        <button
-          type="button"
-          className="cx-edit-profile-row cx-edit-select-row"
-          onClick={() => navigate('/profile/select-country')}
-        >
-          <span className="cx-edit-row-label">Country</span>
-          <span className="cx-edit-country-value">
-            <span>{displayCountry}</span>
-            <small>{displayAlpha3}</small>
-            <strong>{displayFlag}</strong>
-          </span>
-        </button>
-
-        <section className="cx-edit-profile-row">
-          <label htmlFor="profile-location">Location</label>
-          <input
-            id="profile-location"
-            value={form.location}
-            onChange={(event) => update('location', event.target.value)}
-            placeholder="City or region"
-          />
-        </section>
-
-        <section className="cx-edit-profile-row">
-          <label htmlFor="favorite-opening">Favorite Opening</label>
-          <input
-            id="favorite-opening"
-            value={form.favoriteOpening}
-            onChange={(event) =>
-              update('favoriteOpening', event.target.value)
-            }
-          />
-        </section>
-
-        <section className="cx-edit-profile-row">
-          <label htmlFor="pinned-game">Pinned Game</label>
-          <input
-            id="pinned-game"
-            value={form.pinnedGame}
-            onChange={(event) =>
-              update('pinnedGame', event.target.value)
-            }
-          />
-        </section>
-
-        <section className="cx-edit-profile-row">
-          <label htmlFor="profile-privacy">Profile Visibility</label>
-          <select
-            id="profile-privacy"
-            value={privacy}
-            onChange={(event) => setPrivacy(event.target.value)}
-          >
-            <option>Public</option>
-            <option>Friends Only</option>
-            <option>Private</option>
-          </select>
-          <span className="cx-edit-field-hint">
-            <Lock size={12} />
-            Preview setting only. Backend privacy enforcement is not active.
-          </span>
-        </section>
-
-        <div className="cx-profile-edit-actions">
-          <button
-            type="button"
-            className="cx-profile-secondary-button"
-            onClick={() => setPreview(true)}
-          >
-            <Eye size={16} />
-            Preview Profile
-          </button>
-
-          <button
-            type="button"
-            className="cx-profile-primary-button"
-            onClick={save}
-            disabled={!hasChanges}
-          >
-            <Check size={16} />
-            Save Changes
-          </button>
-        </div>
-
-        <button
-          className="cx-profile-cancel-button"
-          type="button"
-          onClick={cancel}
-          disabled={!hasChanges}
-        >
-          Cancel
-        </button>
-
-        {!hasChanges && (
-          <p className="cx-edit-field-hint cx-edit-no-changes">
-            No changes to save.
-          </p>
-        )}
-      </main>
-
-      {preview && (
-        <div
-          className="cx-profile-modal-backdrop"
-          onClick={() => setPreview(false)}
-        >
-          <section
-            className="cx-profile-preview-modal cx-profile-live-preview"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              className="cx-profile-modal-close"
-              type="button"
-              onClick={() => setPreview(false)}
-              aria-label="Close preview"
-            >
-              <X size={19} />
-            </button>
-
-            <span className="cx-profile-preview-label">
-              PROFILE PREVIEW
-            </span>
-
-            <div className="cx-profile-preview-cover" />
-
-            <div className="cx-profile-preview-identity">
-              <div className="cx-edit-picture-preview">
-                {form.profilePhoto ? (
-
 export function EditProfilePage() {
   const navigate = useNavigate()
 
@@ -1113,7 +820,10 @@ export function EditProfilePage() {
           <label>Profile Picture</label>
 
           <div className="cx-edit-picture-control">
-            <div className="cx-edit-picture-preview">
+            <div
+              className="cx-edit-picture-preview"
+              data-border={form.borders || 'Default Gold'}
+            >
               {form.profilePhoto ? (
                 <img
                   src={form.profilePhoto}
@@ -1353,8 +1063,7 @@ export function EditProfilePage() {
           </p>
         )}
       </main>
-
-      {cropSource && (
+            {cropSource && (
         <div className="cx-profile-modal-backdrop">
           <section className="cx-profile-crop-modal">
             <button
@@ -1474,7 +1183,10 @@ export function EditProfilePage() {
             <div className="cx-profile-preview-cover" />
 
             <div className="cx-profile-preview-identity">
-              <div className="cx-edit-picture-preview">
+              <div
+                className="cx-edit-picture-preview"
+                data-border={form.borders || 'Default Gold'}
+              >
                 {form.profilePhoto ? (
                   <img src={form.profilePhoto} alt="Profile" />
                 ) : (
@@ -1533,32 +1245,125 @@ export function EditProfilePage() {
       )}
     </div>
   )
-            }          
+}
 
-function ProfileDetailPage({ type }: { type: 'ratings' | 'games' | 'friends' | 'achievements' }) {
+function ProfileDetailPage({
+  type,
+}: {
+  type: 'ratings' | 'games' | 'friends' | 'achievements'
+}) {
   const titles = {
     ratings: 'All Ratings',
     games: 'Game History',
     friends: 'Friends',
     achievements: 'Achievements',
   }
+
   const navigate = useNavigate()
 
   return (
     <div className="cx-profile-subpage">
       <PageHeader title={titles[type]} />
+
       <main className="cx-profile-detail-content">
         {type === 'ratings' && (
           <>
-            <div className="cx-profile-detail-intro"><ChartNoAxesCombined size={24} /><div><strong>Player Ratings</strong><span>Sample rating overview</span></div></div>
-            {ratings.map((item) => <div className="cx-profile-detail-row" key={item.name}><span>{item.name}</span><strong>{item.rating}</strong><small>{item.change}</small></div>)}
-            <div className="cx-profile-chart-card"><strong>Rating Progress</strong><p>Rating chart will be connected to actual game records in the backend phase.</p><div className="cx-profile-chart-placeholder"><span /><span /><span /><span /><span /><span /><span /></div></div>
+            <div className="cx-profile-detail-intro">
+              <ChartNoAxesCombined size={24} />
+              <div>
+                <strong>Player Ratings</strong>
+                <span>Sample rating overview</span>
+              </div>
+            </div>
+
+            {ratings.map((item) => (
+              <div className="cx-profile-detail-row" key={item.name}>
+                <span>{item.name}</span>
+                <strong>{item.rating}</strong>
+                <small>{item.change}</small>
+              </div>
+            ))}
+
+            <div className="cx-profile-chart-card">
+              <strong>Rating Progress</strong>
+              <p>
+                Rating chart will be connected to actual game records
+                in the backend phase.
+              </p>
+              <div className="cx-profile-chart-placeholder">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
           </>
         )}
-        {type === 'games' && <><div className="cx-profile-detail-intro"><Gamepad2 size={24} /><div><strong>Recent Games</strong><span>Sample game history</span></div></div><GameRows /></>}
-        {type === 'friends' && <><div className="cx-profile-detail-intro"><Users size={24} /><div><strong>Friends</strong><span>Sample friends list · Requests not active</span></div></div><div className="cx-profile-detail-friends">{friends.map((friend) => <div className="cx-profile-detail-friend" key={friend}><CircleUserRound size={32} /><strong>{friend}</strong><span>CCC Player</span></div>)}</div><p className="cx-profile-preview-note">Friend search and friend requests will be implemented during the backend phase.</p></>}
-        {type === 'achievements' && <><div className="cx-profile-detail-intro"><Trophy size={24} /><div><strong>Player Achievements</strong><span>Sample achievement collection</span></div></div><AchievementCards /></>}
-        <button className="cx-profile-secondary-button cx-profile-detail-back" type="button" onClick={() => navigate('/profile')}><ArrowLeft size={16} /> Back to Profile</button>
+
+        {type === 'games' && (
+          <>
+            <div className="cx-profile-detail-intro">
+              <Gamepad2 size={24} />
+              <div>
+                <strong>Recent Games</strong>
+                <span>Sample game history</span>
+              </div>
+            </div>
+            <GameRows />
+          </>
+        )}
+
+        {type === 'friends' && (
+          <>
+            <div className="cx-profile-detail-intro">
+              <Users size={24} />
+              <div>
+                <strong>Friends</strong>
+                <span>Sample friends list · Requests not active</span>
+              </div>
+            </div>
+
+            <div className="cx-profile-detail-friends">
+              {friends.map((friend) => (
+                <div className="cx-profile-detail-friend" key={friend}>
+                  <CircleUserRound size={32} />
+                  <strong>{friend}</strong>
+                  <span>CCC Player</span>
+                </div>
+              ))}
+            </div>
+
+            <p className="cx-profile-preview-note">
+              Friend search and friend requests will be implemented
+              during the backend phase.
+            </p>
+          </>
+        )}
+
+        {type === 'achievements' && (
+          <>
+            <div className="cx-profile-detail-intro">
+              <Trophy size={24} />
+              <div>
+                <strong>Player Achievements</strong>
+                <span>Sample achievement collection</span>
+              </div>
+            </div>
+            <AchievementCards />
+          </>
+        )}
+
+        <button
+          className="cx-profile-secondary-button cx-profile-detail-back"
+          type="button"
+          onClick={() => navigate('/profile')}
+        >
+          <ArrowLeft size={16} />
+          Back to Profile
+        </button>
       </main>
     </div>
   )
@@ -1567,12 +1372,15 @@ function ProfileDetailPage({ type }: { type: 'ratings' | 'games' | 'friends' | '
 export function ProfileRatingsPage() {
   return <ProfileDetailPage type="ratings" />
 }
+
 export function ProfileGamesPage() {
   return <ProfileDetailPage type="games" />
 }
+
 export function ProfileFriendsPage() {
   return <ProfileDetailPage type="friends" />
 }
+
 export function ProfileAchievementsPage() {
   return <ProfileDetailPage type="achievements" />
 }
