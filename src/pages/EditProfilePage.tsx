@@ -1043,15 +1043,6 @@ const nextProfile = {
                   maxHeight: 'none',
                 }}
               />
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: `${cropX}% ${cropY}%`,
-                  transform: `scale(${cropZoom})`,
-                  transformOrigin: `${cropX}% ${cropY}%`,
-                }}
-              />
             </div>
 
             <label className="cx-profile-crop-control">
