@@ -217,3 +217,19 @@
     border-radius: 17px 17px 12px 12px;
   }
 }
+.cx-edit-selected-flair-icon {
+  flex-shrink: 0;
+  color: var(--cx-gold);
+}
+
+.cx-edit-select-row .cx-edit-row-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.cx-edit-select-row:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
