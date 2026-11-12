@@ -126,9 +126,9 @@ function PageHeader({ title }: { title: string }) {
 
 export function FlairSelectionPage() {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState(
-    localStorage.getItem('cx-profile-flair') || ''
-  )
+  const [selected] = useState(
+  localStorage.getItem('cx-profile-flair') || ''
+)
 
   const chooseFlair = (value: string) => {
     localStorage.setItem('cx-profile-flair', value)
@@ -176,9 +176,9 @@ export function FlairSelectionPage() {
 export function CountrySelectionPage() {
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState(
-    localStorage.getItem('cx-profile-country') || 'PH'
-  )
+  const [selected] = useState(
+  localStorage.getItem('cx-profile-country') || 'PH'
+)
 
   const displayNames = useMemo(
     () => new Intl.DisplayNames(['en'], { type: 'region' }),
