@@ -586,7 +586,7 @@ const nextProfile = {
           'cx-country-changed-at',
           String(Date.now())
         )
-   
+      }
       localStorage.removeItem('cx-profile-flair')
       localStorage.removeItem('cx-profile-country')
       localStorage.removeItem('cx-profile-avatar')
