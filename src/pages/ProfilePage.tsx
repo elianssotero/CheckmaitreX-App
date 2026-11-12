@@ -44,6 +44,11 @@ type ProfileData = {
   favoriteOpening: string
   pinnedGame: string
   coverPhoto: string
+  flair: string
+  borders: string
+  favoriteOpening: string
+  pinnedGame: string
+  coverPhoto: string
 }
 
 const defaultProfile: ProfileData = {
@@ -56,6 +61,7 @@ const defaultProfile: ProfileData = {
   bio: 'Add your bio here.',
   profilePhoto: '',
   flair: playerProfile.flair || '',
+  borders: 'Default Gold',
   favoriteOpening: 'Sicilian Defense',
   pinnedGame: 'Featured Game',
   coverPhoto: '',
@@ -428,13 +434,19 @@ function ProfilePage() {
               </div>
             </section>
 
-            <section className="cx-profile-section cx-profile-extra-details">
+                        <section className="cx-profile-section cx-profile-extra-details">
               <h2>Player Details</h2>
-              <div><BookOpen size={17} /><span>Favorite Opening</span><strong>{profile.favoriteOpening}</strong></div>
-              <div><Pin size={17} /><span>Pinned Game</span><strong>{profile.pinnedGame}</strong></div>
+              <div>
+                <Sparkles size={17} />
+                <span>Flair</span>
+                <strong>{profile.flair || 'No Flair'}</strong>
+              </div>
+              <div>
+                <CircleUserRound size={17} />
+                <span>Profile Border</span>
+                <strong>{profile.borders || 'Default Gold'}</strong>
+              </div>
             </section>
-          </>
-        )}
 
         {activeTab === 'Games' && (
           <section className="cx-profile-section">
