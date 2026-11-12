@@ -326,7 +326,6 @@ coverPhoto:
     document.body.style.right = '0'
     document.body.style.width = '100%'
     document.body.style.overflow = 'hidden'
-    document.body.style.touchAction = 'none'
 
     document.documentElement.style.overflow = 'hidden'
 
