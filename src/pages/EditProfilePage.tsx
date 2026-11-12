@@ -929,25 +929,39 @@ const nextProfile = {
               <X size={19} />
             </button>
 
-            <h2>Adjust Profile Photo</h2>
+                        <h2>
+              {cropMode === 'cover'
+                ? 'Adjust Cover Photo'
+                : 'Adjust Profile Photo'}
+            </h2>
 
             <p>
-              Adjust your image inside the square crop area.
-              It will appear as a circle on your profile.
+              {cropMode === 'cover'
+                ? 'Adjust your image inside the wide 3:1 cover area.'
+                : 'Adjust your image inside the square crop area. It will appear as a circle on your profile.'}
             </p>
 
-            <div className="cx-profile-crop-frame">
+            <div
+              className={`cx-profile-crop-frame ${
+                cropMode === 'cover'
+                  ? 'cx-profile-crop-frame-cover'
+                  : ''
+              }`}
+            >
               <img
                 src={cropSource}
-                alt="Photo crop preview"
+                alt={
+                  cropMode === 'cover'
+                    ? 'Cover crop preview'
+                    : 'Profile photo crop preview'
+                }
                 style={{
-                  width: `${cropZoom * 100}%`,
-                  height: `${cropZoom * 100}%`,
-                  maxWidth: 'none',
-                  maxHeight: 'none',
+                  width: '100%',
+                  height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center',
-                  transform: `translate(${(50 - cropX) * 0.02 * cropZoom}%, ${(50 - cropY) * 0.02 * cropZoom}%)`,
+                  objectPosition: `${cropX}% ${cropY}%`,
+                  transform: `scale(${cropZoom})`,
+                  transformOrigin: `${cropX}% ${cropY}%`,
                 }}
               />
             </div>
