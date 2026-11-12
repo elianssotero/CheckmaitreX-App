@@ -1050,38 +1050,6 @@ const nextProfile = {
                   objectFit: 'fill',
                 }}
               />
-
-                  const baseHeight = baseWidth / aspectRatio
-
-                  const cropWidth = baseWidth / cropZoom
-                  const cropHeight = baseHeight / cropZoom
-
-                  const sourceX =
-                    (image.naturalWidth - cropWidth) *
-                    (cropX / 100)
-
-                  const sourceY =
-                    (image.naturalHeight - cropHeight) *
-                    (cropY / 100)
-
-                  image.style.width =
-                    `${(image.naturalWidth / cropWidth) * 100}%`
-
-                  image.style.height =
-                    `${(image.naturalHeight / cropHeight) * 100}%`
-
-                  image.style.left =
-                    `${-(sourceX / cropWidth) * 100}%`
-
-                  image.style.top =
-                    `${-(sourceY / cropHeight) * 100}%`
-                }}
-                style={{
-                  position: 'absolute',
-                  maxWidth: 'none',
-                  maxHeight: 'none',
-                }}
-              />
             </div>
 
             <label className="cx-profile-crop-control">
