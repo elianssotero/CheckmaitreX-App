@@ -41,13 +41,7 @@ type ProfileData = {
   bio: string
   profilePhoto: string
   flair: string
-  favoriteOpening: string
-  pinnedGame: string
-  coverPhoto: string
-  flair: string
   borders: string
-  favoriteOpening: string
-  pinnedGame: string
   coverPhoto: string
 }
 
@@ -62,8 +56,6 @@ const defaultProfile: ProfileData = {
   profilePhoto: '',
   flair: playerProfile.flair || '',
   borders: 'Default Gold',
-  favoriteOpening: 'Sicilian Defense',
-  pinnedGame: 'Featured Game',
   coverPhoto: '',
 }
 
@@ -452,11 +444,12 @@ function ProfilePage() {
           <section className="cx-profile-section">
             <div className="cx-profile-section-heading"><h2>Game History</h2><button className="cx-profile-view-all" onClick={() => navigate('/profile/games')} type="button">View All <ChevronRight size={15} /></button></div>
             <GameRows />
-          </section>
+            </section>
+          </>
         )}
 
-        {activeTab === 'Achievements' && (
-          <section className="cx-profile-section">
+        {activeTab === 'Games' && (
+            <section className="cx-profile-section">
             <div className="cx-profile-section-heading"><h2>Achievements</h2><button className="cx-profile-view-all" onClick={() => navigate('/profile/achievements')} type="button">View All <ChevronRight size={15} /></button></div>
             <AchievementCards />
           </section>
