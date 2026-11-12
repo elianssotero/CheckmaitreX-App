@@ -1,6 +1,5 @@
 
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft,
   BookOpen,
@@ -12,9 +11,7 @@ import {
   Flame,
   Gem,
   Lightbulb,
-  Lock,
   Medal,
-  Pencil,
   Shield,
   Sparkles,
   Star,
