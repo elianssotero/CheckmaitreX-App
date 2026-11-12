@@ -669,7 +669,7 @@ const nextProfile = {
               />
             </label>
 
-            {form.profilePhoto && (
+                        {form.profilePhoto && (
               <button
                 type="button"
                 className="cx-profile-upload-button cx-remove-photo-button"
@@ -678,36 +678,7 @@ const nextProfile = {
                 <X size={16} />
                 Remove Photo
               </button>
-  <div className="cx-profile-upload-actions">
-  <label className="cx-profile-upload-button">
-    <Camera size={16} />
-    Upload Custom Cover
-    <input
-      type="file"
-      accept="image/*"
-      onChange={(event) => {
-        coverChange(event.target.files?.[0])
-        event.currentTarget.value = ''
-      }}
-    />
-  </label>
-
-  {form.coverPhoto && (
-    <button
-      type="button"
-      className="cx-profile-upload-button cx-remove-photo-button"
-      onClick={removeCover}
-    >
-      <X size={16} />
-      Remove Cover
-    </button>
-  )}
-</div>
-
-<span className="cx-edit-field-hint">
-  Cover photos use a wide 3:1 layout.
-</span>
-    )}
+            )}
           </div>
 
           <span className="cx-edit-field-hint">
