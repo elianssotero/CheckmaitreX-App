@@ -1,0 +1,219 @@
+
+.cx-profile-selector-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+
+.cx-profile-selector-label {
+  color: var(--cx-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cx-profile-selector-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 11px 14px;
+  border: 1px solid var(--cx-border);
+  border-radius: 12px;
+  color: var(--cx-text);
+  background: var(--cx-surface);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.cx-profile-selector-trigger:hover {
+  border-color: var(--cx-gold);
+  background: var(--cx-surface-2);
+}
+
+.cx-profile-selector-trigger > svg {
+  flex-shrink: 0;
+  color: var(--cx-gold);
+}
+
+.cx-profile-selector-trigger-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cx-profile-selector-trigger-text strong {
+  color: var(--cx-text);
+  font-size: 13px;
+}
+
+.cx-profile-selector-trigger-text small {
+  color: var(--cx-muted);
+  font-size: 10px;
+}
+
+.cx-profile-selector-hint {
+  color: var(--cx-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.cx-profile-selector-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.76);
+  backdrop-filter: blur(8px);
+}
+
+.cx-profile-selector-dialog {
+  width: min(100%, 430px);
+  max-height: min(80vh, 620px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(217, 180, 91, 0.35);
+  border-radius: 17px;
+  background: var(--cx-surface);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.55);
+}
+
+.cx-profile-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 17px;
+  border-bottom: 1px solid var(--cx-border);
+}
+
+.cx-profile-selector-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cx-profile-selector-header strong {
+  color: var(--cx-gold);
+  font-size: 15px;
+}
+
+.cx-profile-selector-header span {
+  color: var(--cx-muted);
+  font-size: 11px;
+}
+
+.cx-profile-selector-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 1px solid var(--cx-border);
+  border-radius: 10px;
+  color: var(--cx-text);
+  background: var(--cx-surface-2);
+  cursor: pointer;
+}
+
+.cx-profile-selector-close:hover {
+  color: var(--cx-gold);
+  border-color: var(--cx-gold);
+}
+
+.cx-profile-selector-options {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.cx-profile-selector-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 11px 13px;
+  border: 1px solid var(--cx-border);
+  border-radius: 11px;
+  color: var(--cx-text);
+  background: var(--cx-bg);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.cx-profile-selector-option:hover {
+  border-color: rgba(217, 180, 91, 0.65);
+  background: var(--cx-surface-2);
+}
+
+.cx-profile-selector-option.selected {
+  border-color: var(--cx-gold);
+  background: rgba(217, 180, 91, 0.09);
+}
+
+.cx-profile-selector-option > span {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cx-profile-selector-option strong {
+  color: var(--cx-text);
+  font-size: 12px;
+}
+
+.cx-profile-selector-option small {
+  color: var(--cx-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.cx-profile-selector-option > svg {
+  flex-shrink: 0;
+  color: var(--cx-gold);
+}
+
+.cx-profile-selector-done {
+  min-height: 43px;
+  margin: 0 12px 12px;
+  border: 1px solid var(--cx-gold);
+  border-radius: 10px;
+  color: #0b0b0d;
+  background: var(--cx-gold);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.cx-profile-selector-done:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 480px) {
+  .cx-profile-selector-backdrop {
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  .cx-profile-selector-dialog {
+    width: 100%;
+    max-height: 82vh;
+    border-radius: 17px 17px 12px 12px;
+  }
+}
