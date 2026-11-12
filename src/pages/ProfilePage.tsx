@@ -23,8 +23,6 @@ import {
   ChartNoAxesCombined,
   Eye,
   Lock,
-  Pin,
-  BookOpen,
 } from 'lucide-react'
 import { playerProfile } from '../data/playerProfile'
 import { alpha3 } from './ProfileSelectionPages'
@@ -448,7 +446,7 @@ function ProfilePage() {
           </>
         )}
 
-        {activeTab === 'Games' && (
+            {activeTab === 'Achievements' && (
             <section className="cx-profile-section">
             <div className="cx-profile-section-heading"><h2>Achievements</h2><button className="cx-profile-view-all" onClick={() => navigate('/profile/achievements')} type="button">View All <ChevronRight size={15} /></button></div>
             <AchievementCards />
