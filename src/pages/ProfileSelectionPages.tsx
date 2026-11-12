@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -57,7 +58,7 @@ const countryCodes = [
   'SA','SB','SC','SD','SE','SG','SH','SI','SJ','SK','SL','SM','SN','SO','SR','SS',
   'ST','SV','SX','SY','SZ','TC','TD','TF','TG','TH','TJ','TK','TL','TM','TN','TO',
   'TR','TT','TV','TW','TZ','UA','UG','UM','US','UY','UZ','VA','VC','VE','VG','VI',
-  'VN','VU','WF','WS','XK','YE','YT','ZA','ZM','ZW',
+  'VN','VU','WF','WS','YE','YT','ZA','ZM','ZW',
 ]
 
 export const alpha3: Record<string, string> = {
@@ -95,7 +96,7 @@ export const alpha3: Record<string, string> = {
   TH:'THA', TJ:'TJK', TK:'TKL', TL:'TLS', TM:'TKM', TN:'TUN', TO:'TON',
   TR:'TUR', TT:'TTO', TV:'TUV', TW:'TWN', TZ:'TZA', UA:'UKR', UG:'UGA',
   UM:'UMI', US:'USA', UY:'URY', UZ:'UZB', VA:'VAT', VC:'VCT', VE:'VEN',
-  VG:'VGB', VI:'VIR', VN:'VNM', VU:'VUT', WF:'WLF', WS:'WSM', XK:'XKX',
+  VG:'VGB', VI:'VIR', VN:'VNM', VU:'VUT', WF:'WLF', WS:'WSM',
   YE:'YEM', YT:'MYT', ZA:'ZAF', ZM:'ZMB', ZW:'ZWE',
 }
 
@@ -127,8 +128,8 @@ function PageHeader({ title }: { title: string }) {
 export function FlairSelectionPage() {
   const navigate = useNavigate()
   const [selected] = useState(
-  localStorage.getItem('cx-profile-flair') || ''
-)
+    localStorage.getItem('cx-profile-flair') || ''
+  )
 
   const chooseFlair = (value: string) => {
     localStorage.setItem('cx-profile-flair', value)
@@ -150,7 +151,10 @@ export function FlairSelectionPage() {
           onClick={() => chooseFlair('')}
         >
           <span className="cx-profile-flair-option-icon">—</span>
-          <span><strong>No Flair</strong><small>Remove your current flair</small></span>
+          <span>
+            <strong>No Flair</strong>
+            <small>Remove your current flair</small>
+          </span>
           {selected === '' && <Check size={18} />}
         </button>
 
@@ -162,8 +166,13 @@ export function FlairSelectionPage() {
               className={`cx-profile-flair-option ${selected === id ? 'selected' : ''}`}
               onClick={() => chooseFlair(id)}
             >
-              <span className="cx-profile-flair-option-icon"><Icon size={23} /></span>
-              <span><strong>{label}</strong><small>Sample flair</small></span>
+              <span className="cx-profile-flair-option-icon">
+                <Icon size={23} />
+              </span>
+              <span>
+                <strong>{label}</strong>
+                <small>Sample flair</small>
+              </span>
               {selected === id && <Check size={18} />}
             </button>
           ))}
@@ -177,8 +186,8 @@ export function CountrySelectionPage() {
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [selected] = useState(
-  localStorage.getItem('cx-profile-country') || 'PH'
-)
+    localStorage.getItem('cx-profile-country') || 'PH'
+  )
 
   const displayNames = useMemo(
     () => new Intl.DisplayNames(['en'], { type: 'region' }),
@@ -190,7 +199,7 @@ export function CountrySelectionPage() {
       .map((code) => ({
         code,
         name: displayNames.of(code) || code,
-        alpha3: alpha3[code] || code,
+        alpha3: alpha3[code],
         flag: flagFromCode(code),
       }))
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -199,7 +208,7 @@ export function CountrySelectionPage() {
   const filteredCountries = countries.filter((country) =>
     `${country.name} ${country.code} ${country.alpha3}`
       .toLowerCase()
-      .includes(search.toLowerCase())
+      .includes(search.toLowerCase().trim())
   )
 
   const chooseCountry = (code: string) => {
@@ -215,6 +224,7 @@ export function CountrySelectionPage() {
         <div className="cx-profile-country-search">
           <Search size={18} />
           <input
+            type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder="Search countries..."
@@ -236,13 +246,17 @@ export function CountrySelectionPage() {
             >
               <strong>{country.name}</strong>
               <span>{country.alpha3}</span>
-              <span className="cx-profile-country-flag">{country.flag}</span>
+              <span className="cx-profile-country-flag">
+                {country.flag}
+              </span>
               {selected === country.code && <Check size={17} />}
             </button>
           ))}
 
           {filteredCountries.length === 0 && (
-            <p className="cx-profile-country-empty">No matching country found.</p>
+            <p className="cx-profile-country-empty">
+              No matching country found.
+            </p>
           )}
         </div>
       </main>
