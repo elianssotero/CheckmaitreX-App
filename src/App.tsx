@@ -22,6 +22,10 @@ import ProfilePage, {
   ProfileFriendsPage,
   ProfileAchievementsPage,
 } from './pages/ProfilePage'
+import {
+  FlairSelectionPage,
+  CountrySelectionPage,
+} from './pages/ProfileSelectionPages'
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
 import MaitronXPage from './pages/MaitronXPage'
@@ -42,7 +46,15 @@ function App() {
   path="notifications"
   element={<NotificationsPage />}
 />
-<Route path="profile/edit" element={<EditProfilePage />} />
+<Route
+  path="profile/select-flair"
+  element={<FlairSelectionPage />}
+/>
+<Route
+  path="profile/select-country"
+  element={<CountrySelectionPage />}
+/>
+ <Route path="profile/edit" element={<EditProfilePage />} />
 <Route path="profile/ratings" element={<ProfileRatingsPage />} />
 <Route path="profile/games" element={<ProfileGamesPage />} />
 <Route path="profile/friends" element={<ProfileFriendsPage />} />
