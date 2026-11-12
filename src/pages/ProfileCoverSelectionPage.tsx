@@ -1,19 +1,8 @@
 
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft,
   Check,
   Search,
-  Crown,
-  Swords,
-  Trophy,
-  Sparkles,
-  Mountain,
-  Waves,
-  Leaf,
-  Moon,
-  Star,
   CircleOff,
 } from 'lucide-react'
 import './ProfilePage.css'
@@ -359,7 +348,10 @@ export default function ProfileCoverSelectionPage() {
       return matchesCategory && matchesSearch
     })
   }, [category, search])
-const confirmSelection = () => {
+  const selectedCover = coverOptions.find(
+    (cover) => createCoverSvg(cover) === selected
+  )
+  const confirmSelection = () => {
   localStorage.setItem('cx-profile-cover', selected)
   navigate('/profile/edit')
 }
