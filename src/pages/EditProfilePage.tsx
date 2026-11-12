@@ -1021,7 +1021,9 @@ const nextProfile = {
                 onClick={confirmCrop}
               >
                 <Check size={16} />
-                Confirm Photo
+                {cropMode === 'cover'
+  ? 'Confirm Cover'
+  : 'Confirm Photo'}
               </button>
             </div>
           </section>
