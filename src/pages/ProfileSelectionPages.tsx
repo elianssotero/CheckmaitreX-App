@@ -26,7 +26,7 @@ type FlairOption = {
   icon: typeof Sparkles
 }
 
-const flairOptions: FlairOption[] = [
+export const flairOptions: FlairOption[] = [
   { id: 'tactical-mind', label: 'Tactical Mind', icon: Target },
   { id: 'puzzle-master', label: 'Puzzle Master', icon: Lightbulb },
   { id: 'opening-expert', label: 'Opening Expert', icon: BookOpen },
@@ -60,7 +60,7 @@ const countryCodes = [
   'VN','VU','WF','WS','XK','YE','YT','ZA','ZM','ZW',
 ]
 
-const alpha3: Record<string, string> = {
+export const alpha3: Record<string, string> = {
   AD:'AND', AE:'ARE', AF:'AFG', AG:'ATG', AI:'AIA', AL:'ALB', AM:'ARM',
   AO:'AGO', AQ:'ATA', AR:'ARG', AS:'ASM', AT:'AUT', AU:'AUS', AW:'ABW',
   AX:'ALA', AZ:'AZE', BA:'BIH', BB:'BRB', BD:'BGD', BE:'BEL', BF:'BFA',
