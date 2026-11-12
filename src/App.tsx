@@ -31,6 +31,9 @@ import {
   CountrySelectionPage,
 } from './pages/ProfileSelectionPages'
 
+import ProfileAvatarSelectionPage from './pages/ProfileAvatarSelectionPage'
+import ProfileCoverSelectionPage from './pages/ProfileCoverSelectionPage'
+
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
 import MaitronXPage from './pages/MaitronXPage'
@@ -60,6 +63,16 @@ function App() {
           <Route
             path="profile/select-country"
             element={<CountrySelectionPage />}
+          />
+
+          <Route
+            path="profile/select-avatar"
+            element={<ProfileAvatarSelectionPage />}
+          />
+
+          <Route
+            path="profile/select-cover"
+            element={<ProfileCoverSelectionPage />}
           />
 
           <Route
