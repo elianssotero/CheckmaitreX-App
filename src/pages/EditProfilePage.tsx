@@ -546,26 +546,6 @@ const removeCover = () => {
       return
     }
 
-
-    try {
-      localStorage.setItem(
-        'cx-profile-preview',
-        JSON.stringify(nextProfile)
-      )
-
-      if (username !== original.username) {
-        localStorage.setItem(
-          'cx-username-changed-at',
-          String(Date.now())
-        )
-      }
-
-      if (form.country !== original.country) {
-        localStorage.setItem(
-          'cx-country-changed-at',
-          String(Date.now())
-        )
-      }
 const nextProfile = {
   ...form,
   profileAvatar:
@@ -587,6 +567,26 @@ const nextProfile = {
     `${firstName} ${lastName}`.trim() || username,
   borders: form.borders || 'Default Gold',
 }
+    
+    try {
+      localStorage.setItem(
+        'cx-profile-preview',
+        JSON.stringify(nextProfile)
+      )
+
+      if (username !== original.username) {
+        localStorage.setItem(
+          'cx-username-changed-at',
+          String(Date.now())
+        )
+      }
+
+      if (form.country !== original.country) {
+        localStorage.setItem(
+          'cx-country-changed-at',
+          String(Date.now())
+        )
+   
       localStorage.removeItem('cx-profile-flair')
       localStorage.removeItem('cx-profile-country')
       localStorage.removeItem('cx-profile-avatar')
