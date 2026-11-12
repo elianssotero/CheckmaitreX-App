@@ -486,13 +486,17 @@ coverPhoto:
       return
     }
 
-    const nextProfile: ProfileData = {
-  ...form,
-  profileAvatar:
-    localStorage.getItem('cx-profile-avatar') ||
-    (form.profilePhoto === original.profilePhoto
+profileAvatar:
+  localStorage.getItem('cx-profile-avatar') !== null &&
+  form.profilePhoto ===
+    avatarIdToImage(
+      localStorage.getItem('cx-profile-avatar') || ''
+    )
+    ? localStorage.getItem('cx-profile-avatar') || ''
+    : localStorage.getItem('cx-profile-avatar') === null &&
+        form.profilePhoto === original.profilePhoto
       ? original.profileAvatar || ''
-      : ''),
+      : '',
   username,
   firstName,
   lastName,
