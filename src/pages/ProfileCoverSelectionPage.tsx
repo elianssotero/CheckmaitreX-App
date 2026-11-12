@@ -364,12 +364,6 @@ const confirmSelection = () => {
   navigate('/profile/edit')
 }
 
-  const confirmSelection = () => {
-    if (!selected) return
-
-    localStorage.setItem('cx-profile-cover', selected)
-    navigate('/profile/edit')
-  }
 
   const clearSelection = () => {
     setSelected('')
