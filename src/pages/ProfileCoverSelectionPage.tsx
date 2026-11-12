@@ -443,7 +443,7 @@ const confirmSelection = () => {
   <span>{selectedCover.category}</span>
 )}
 
-            {selected !== '' && (
+                        {selected !== '' && (
               <button
                 type="button"
                 onClick={clearSelection}
@@ -451,7 +451,6 @@ const confirmSelection = () => {
                 Remove Selection
               </button>
             )}
-          </div>
         </section>
 
         <section className="cx-profile-cover-results">
