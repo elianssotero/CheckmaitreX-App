@@ -439,11 +439,12 @@ export default function ProfileCoverSelectionPage() {
 
                         {selected !== '' && (
               <button
-                type="button"
-                onClick={clearSelection}
-              >
-                Remove Selection
-              </button>
+  type="button"
+  className="cx-profile-cover-remove-selection"
+  onClick={clearSelection}
+>
+  Remove Selection
+</button>
             )}
         </section>
 
