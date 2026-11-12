@@ -1717,7 +1717,35 @@
 .cx-profile-cover-results {
   margin-top: 13px;
 }
+.cx-profile-cover-selected .cx-profile-cover-remove-selection {
+  margin-left: auto;
+  padding: 8px 12px;
+  border: 1px solid rgba(229, 139, 120, 0.4);
+  border-radius: 8px;
+  color: #e58b78;
+  background: rgba(229, 139, 120, 0.08);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
 
+.cx-profile-cover-selected .cx-profile-cover-remove-selection:hover {
+  border-color: #e58b78;
+  background: rgba(229, 139, 120, 0.15);
+}
+
+.cx-profile-cover-selected .cx-profile-cover-remove-selection:active {
+  transform: scale(0.97);
+}
+
+.cx-profile-cover-selected .cx-profile-cover-remove-selection:focus-visible {
+  outline: 2px solid #e58b78;
+  outline-offset: 3px;
+}
 .cx-profile-cover-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
