@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ArrowLeft,
   BookOpen,
@@ -278,7 +278,49 @@ coverPhoto:
   const [cropX, setCropX] = useState(50)
   const [cropY, setCropY] = useState(50)
   const [cropMode, setCropMode] = useState<'photo' | 'cover'>('photo')
-  
+    useEffect(() => {
+    if (!cropSource) return
+
+    const scrollY = window.scrollY
+
+    const previousBodyStyles = {
+      position: document.body.style.position,
+      top: document.body.style.top,
+      left: document.body.style.left,
+      right: document.body.style.right,
+      width: document.body.style.width,
+      overflow: document.body.style.overflow,
+      touchAction: document.body.style.touchAction,
+    }
+
+    const previousHtmlOverflow =
+      document.documentElement.style.overflow
+
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.width = '100%'
+    document.body.style.overflow = 'hidden'
+    document.body.style.touchAction = 'none'
+
+    document.documentElement.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.position = previousBodyStyles.position
+      document.body.style.top = previousBodyStyles.top
+      document.body.style.left = previousBodyStyles.left
+      document.body.style.right = previousBodyStyles.right
+      document.body.style.width = previousBodyStyles.width
+      document.body.style.overflow = previousBodyStyles.overflow
+      document.body.style.touchAction = previousBodyStyles.touchAction
+
+      document.documentElement.style.overflow =
+        previousHtmlOverflow
+
+      window.scrollTo(0, scrollY)
+    }
+  }, [cropSource])
   const usernameChangedAt = Number(
     localStorage.getItem('cx-username-changed-at') || 0
   )
@@ -952,13 +994,55 @@ const nextProfile = {
                   : ''
               }`}
             >
-              <img
+                            <img
                 src={cropSource}
                 alt={
                   cropMode === 'cover'
                     ? 'Cover crop preview'
                     : 'Profile photo crop preview'
                 }
+                onLoad={(event) => {
+                  const image = event.currentTarget
+
+                  const aspectRatio =
+                    cropMode === 'cover' ? 3 : 1
+
+                  const baseWidth = Math.min(
+                    image.naturalWidth,
+                    image.naturalHeight * aspectRatio
+                  )
+
+                  const baseHeight = baseWidth / aspectRatio
+
+                  const cropWidth = baseWidth / cropZoom
+                  const cropHeight = baseHeight / cropZoom
+
+                  const sourceX =
+                    (image.naturalWidth - cropWidth) *
+                    (cropX / 100)
+
+                  const sourceY =
+                    (image.naturalHeight - cropHeight) *
+                    (cropY / 100)
+
+                  image.style.width =
+                    `${(image.naturalWidth / cropWidth) * 100}%`
+
+                  image.style.height =
+                    `${(image.naturalHeight / cropHeight) * 100}%`
+
+                  image.style.left =
+                    `${-(sourceX / cropWidth) * 100}%`
+
+                  image.style.top =
+                    `${-(sourceY / cropHeight) * 100}%`
+                }}
+                style={{
+                  position: 'absolute',
+                  maxWidth: 'none',
+                  maxHeight: 'none',
+                }}
+              />
                 style={{
                   width: '100%',
                   height: '100%',
