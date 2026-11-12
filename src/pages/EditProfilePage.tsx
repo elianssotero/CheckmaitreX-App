@@ -428,7 +428,67 @@ coverPhoto:
   const removePhoto = () => {
     update('profilePhoto', '')
   }
+const coverChange = (file?: File) => {
+  if (!file) return
 
+  if (!file.type.startsWith('image/')) {
+    alert('Please select a valid image.')
+    return
+  }
+
+  const reader = new FileReader()
+
+  reader.onload = () => {
+    const image = new Image()
+
+    image.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = 1200
+      canvas.height = 400
+
+      const context = canvas.getContext('2d')
+
+      if (!context) {
+        alert('Unable to process this cover.')
+        return
+      }
+
+      const ratio = Math.max(
+        1200 / image.width,
+        400 / image.height
+      )
+
+      const width = image.width * ratio
+      const height = image.height * ratio
+
+      context.drawImage(
+        image,
+        (1200 - width) / 2,
+        (400 - height) / 2,
+        width,
+        height
+      )
+
+      update(
+        'coverPhoto',
+        canvas.toDataURL('image/jpeg', 0.85)
+      )
+    }
+
+    image.onerror = () => {
+      alert('Unable to load this image.')
+    }
+
+    image.src = String(reader.result || '')
+  }
+
+  reader.readAsDataURL(file)
+}
+
+const removeCover = () => {
+  update('coverPhoto', '')
+}
+  
   const save = () => {
     if (!hasChanges) return
 
@@ -616,7 +676,36 @@ profileAvatar:
                 <X size={16} />
                 Remove Photo
               </button>
-            )}
+  <div className="cx-profile-upload-actions">
+  <label className="cx-profile-upload-button">
+    <Camera size={16} />
+    Upload Custom Cover
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(event) => {
+        coverChange(event.target.files?.[0])
+        event.currentTarget.value = ''
+      }}
+    />
+  </label>
+
+  {form.coverPhoto && (
+    <button
+      type="button"
+      className="cx-profile-upload-button cx-remove-photo-button"
+      onClick={removeCover}
+    >
+      <X size={16} />
+      Remove Cover
+    </button>
+  )}
+</div>
+
+<span className="cx-edit-field-hint">
+  Cover photos use a wide 3:1 layout.
+</span>
+    )}
           </div>
 
           <span className="cx-edit-field-hint">
