@@ -425,6 +425,7 @@ function ProfilePage() {
             </section>
 
                         <section className="cx-profile-section cx-profile-extra-details">
+            <section className="cx-profile-section cx-profile-extra-details">
               <h2>Player Details</h2>
               <div>
                 <Sparkles size={17} />
@@ -437,18 +438,37 @@ function ProfilePage() {
                 <strong>{profile.borders || 'Default Gold'}</strong>
               </div>
             </section>
-
-        {activeTab === 'Games' && (
-          <section className="cx-profile-section">
-            <div className="cx-profile-section-heading"><h2>Game History</h2><button className="cx-profile-view-all" onClick={() => navigate('/profile/games')} type="button">View All <ChevronRight size={15} /></button></div>
-            <GameRows />
-            </section>
           </>
         )}
 
-            {activeTab === 'Achievements' && (
-            <section className="cx-profile-section">
-            <div className="cx-profile-section-heading"><h2>Achievements</h2><button className="cx-profile-view-all" onClick={() => navigate('/profile/achievements')} type="button">View All <ChevronRight size={15} /></button></div>
+        {activeTab === 'Games' && (
+          <section className="cx-profile-section">
+            <div className="cx-profile-section-heading">
+              <h2>Game History</h2>
+              <button
+                className="cx-profile-view-all"
+                onClick={() => navigate('/profile/games')}
+                type="button"
+              >
+                View All <ChevronRight size={15} />
+              </button>
+            </div>
+            <GameRows />
+          </section>
+        )}
+
+        {activeTab === 'Achievements' && (
+          <section className="cx-profile-section">
+            <div className="cx-profile-section-heading">
+              <h2>Achievements</h2>
+              <button
+                className="cx-profile-view-all"
+                onClick={() => navigate('/profile/achievements')}
+                type="button"
+              >
+                View All <ChevronRight size={15} />
+              </button>
+            </div>
             <AchievementCards />
           </section>
         )}
