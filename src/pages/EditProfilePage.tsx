@@ -278,7 +278,31 @@ coverPhoto:
   const [cropX, setCropX] = useState(50)
   const [cropY, setCropY] = useState(50)
   const [cropMode, setCropMode] = useState<'photo' | 'cover'>('photo')
-    useEffect(() => {
+  const [cropImageSize, setCropImageSize] = useState({
+    width: 0,
+    height: 0,
+  })
+
+  const cropAspectRatio = cropMode === 'cover' ? 3 : 1
+
+  const cropBaseWidth = cropImageSize.width
+    ? Math.min(
+        cropImageSize.width,
+        cropImageSize.height * cropAspectRatio
+      )
+    : 0
+
+  const cropBaseHeight = cropBaseWidth / cropAspectRatio
+
+  const cropPreviewWidth = cropBaseWidth / cropZoom
+  const cropPreviewHeight = cropBaseHeight / cropZoom
+
+  const cropSourceX =
+    (cropImageSize.width - cropPreviewWidth) * (cropX / 100)
+
+  const cropSourceY =
+    (cropImageSize.height - cropPreviewHeight) * (cropY / 100)
+  useEffect(() => {
     if (!cropSource) return
 
     const scrollY = window.scrollY
@@ -994,7 +1018,7 @@ const nextProfile = {
                   : ''
               }`}
             >
-                            <img
+              <img
                 src={cropSource}
                 alt={
                   cropMode === 'cover'
@@ -1002,15 +1026,30 @@ const nextProfile = {
                     : 'Profile photo crop preview'
                 }
                 onLoad={(event) => {
-                  const image = event.currentTarget
-
-                  const aspectRatio =
-                    cropMode === 'cover' ? 3 : 1
-
-                  const baseWidth = Math.min(
-                    image.naturalWidth,
-                    image.naturalHeight * aspectRatio
-                  )
+                  setCropImageSize({
+                    width: event.currentTarget.naturalWidth,
+                    height: event.currentTarget.naturalHeight,
+                  })
+                }}
+                style={{
+                  position: 'absolute',
+                  width: cropPreviewWidth
+                    ? `${(cropImageSize.width / cropPreviewWidth) * 100}%`
+                    : '100%',
+                  height: cropPreviewHeight
+                    ? `${(cropImageSize.height / cropPreviewHeight) * 100}%`
+                    : '100%',
+                  left: cropPreviewWidth
+                    ? `${-(cropSourceX / cropPreviewWidth) * 100}%`
+                    : '0',
+                  top: cropPreviewHeight
+                    ? `${-(cropSourceY / cropPreviewHeight) * 100}%`
+                    : '0',
+                  maxWidth: 'none',
+                  maxHeight: 'none',
+                  objectFit: 'fill',
+                }}
+              />
 
                   const baseHeight = baseWidth / aspectRatio
 
