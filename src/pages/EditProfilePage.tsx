@@ -23,6 +23,7 @@ import {
   Eye,
 } from 'lucide-react'
 
+import { alpha3 } from './ProfileSelectionPages'
 import ProfileBorderSelector from './profile/ProfileBorderSelector'
 import ProfileVisibilitySelector from './profile/ProfileVisibilitySelector'
 import type {
