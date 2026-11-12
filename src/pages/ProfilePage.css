@@ -1299,7 +1299,10 @@
   border-radius: 12px;
   background: #080808;
 }
-
+.cx-profile-crop-frame-cover {
+  width: min(100%, 330px);
+  aspect-ratio: 3 / 1;
+}
 .cx-profile-crop-frame img {
   display: block;
   width: 100%;
