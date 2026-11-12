@@ -23,6 +23,7 @@ import {
   Eye,
 } from 'lucide-react'
 
+import { useNavigate } from 'react-router-dom'
 import { alpha3 } from './ProfileSelectionPages'
 import ProfileBorderSelector from './profile/ProfileBorderSelector'
 import ProfileVisibilitySelector from './profile/ProfileVisibilitySelector'
@@ -204,52 +205,6 @@ const countryAlpha3 = (code: string) => {
   const normalizedCode = code.toUpperCase()
   return alpha3[normalizedCode] || normalizedCode
 }
-
-    try {
-      const displayNames = new Intl.DisplayNames(
-        ['en'],
-        { type: 'region' }
-      )
-
-      if (!displayNames.of(normalizedCode)) {
-        return normalizedCode
-      }
-    } catch {
-      return normalizedCode
-    }
-
-    const alpha3Map: Record<string, string> = {
-      PH: 'PHL',
-      US: 'USA',
-      GB: 'GBR',
-      CA: 'CAN',
-      AU: 'AUS',
-      IN: 'IND',
-      JP: 'JPN',
-      KR: 'KOR',
-      CN: 'CHN',
-      SG: 'SGP',
-      MY: 'MYS',
-      ID: 'IDN',
-      TH: 'THA',
-      VN: 'VNM',
-      FR: 'FRA',
-      DE: 'DEU',
-      IT: 'ITA',
-      ES: 'ESP',
-      BR: 'BRA',
-      MX: 'MEX',
-      NZ: 'NZL',
-      ZA: 'ZAF',
-      RU: 'RUS',
-      UA: 'UKR',
-      AE: 'ARE',
-      SA: 'SAU',
-      XK: 'XKX',
-    }
-
-    return alpha3Map[normalizedCode] || normalizedCode
-  }
 
   const update = (
     key: keyof ProfileData,
