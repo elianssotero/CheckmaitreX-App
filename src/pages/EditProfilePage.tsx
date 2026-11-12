@@ -76,9 +76,122 @@ const flairIcons: Record<string, typeof Sparkles> = {
   'star-player': Star,
 }
 
+const avatarSymbols: Record<
+  string,
+  {
+    symbol: string
+    background: string
+    color: string
+  }
+> = {
+  'ccc-knight': {
+    symbol: '♞',
+    background: '#332713',
+    color: '#ffe4a0',
+  },
+  'ccc-king': {
+    symbol: '♛',
+    background: '#171717',
+    color: '#f4d27d',
+  },
+  'ccc-shield': {
+    symbol: '⬡',
+    background: '#292929',
+    color: '#f3d68b',
+  },
+  'ccc-champion': {
+    symbol: '♜',
+    background: '#352711',
+    color: '#ffe5a3',
+  },
+  'minimal-star': {
+    symbol: '★',
+    background: '#20202a',
+    color: '#eeeaff',
+  },
+  'minimal-gem': {
+    symbol: '◆',
+    background: '#142a35',
+    color: '#a9efff',
+  },
+  'minimal-spark': {
+    symbol: '✦',
+    background: '#30231c',
+    color: '#ffd6b4',
+  },
+  'minimal-circle': {
+    symbol: '●',
+    background: '#252525',
+    color: '#e6e6e6',
+  },
+  'nature-leaf': {
+    symbol: '❧',
+    background: '#152c20',
+    color: '#c0f1c9',
+  },
+  'nature-mountain': {
+    symbol: '▲',
+    background: '#202b36',
+    color: '#d5e8f5',
+  },
+  'animal-paw': {
+    symbol: '✥',
+    background: '#33261b',
+    color: '#f4d5ae',
+  },
+  'gaming-controller': {
+    symbol: '⌘',
+    background: '#211b38',
+    color: '#d9caff',
+  },
+  'gaming-flame': {
+    symbol: '♨',
+    background: '#351a18',
+    color: '#ffc1a4',
+  },
+  'gaming-energy': {
+    symbol: 'ϟ',
+    background: '#282516',
+    color: '#fff0a6',
+  },
+  'abstract-target': {
+    symbol: '◎',
+    background: '#1b2931',
+    color: '#b9f2f5',
+  },
+  'abstract-user': {
+    symbol: '◉',
+    background: '#29212d',
+    color: '#f0d5ef',
+  },
+}
+
+function avatarIdToImage(avatarId: string) {
+  const avatar = avatarSymbols[avatarId]
+
+  if (!avatar) return ''
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+      <defs>
+        <linearGradient id="avatar-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${avatar.background}"/>
+          <stop offset="100%" stop-color="#080808"/>
+        </linearGradient>
+      </defs>
+      <circle cx="256" cy="256" r="256" fill="url(#avatar-bg)"/>
+      <circle cx="256" cy="256" r="220" fill="none" stroke="${avatar.color}" stroke-opacity=".35" stroke-width="5"/>
+      <text x="256" y="310" text-anchor="middle" font-size="220" fill="${avatar.color}" font-family="serif">${avatar.symbol}</text>
+    </svg>
+  `
+
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
+}
+
 function readProfile(): ProfileData {
   try {
     const saved = localStorage.getItem('cx-profile-preview')
+
     return saved
       ? { ...defaultProfile, ...JSON.parse(saved) }
       : defaultProfile
@@ -129,6 +242,10 @@ export default function EditProfilePage() {
   const [form, setForm] = useState<ProfileData>(() => {
     const profile = normalizeProfile(readProfile())
 
+    const selectedAvatar = avatarIdToImage(
+      localStorage.getItem('cx-profile-avatar') || ''
+    )
+
     return {
       ...profile,
       flair:
@@ -137,10 +254,16 @@ export default function EditProfilePage() {
       country:
         localStorage.getItem('cx-profile-country') ??
         profile.country,
+      profilePhoto:
+        selectedAvatar || profile.profilePhoto,
+      coverPhoto:
+        localStorage.getItem('cx-profile-cover') ||
+        profile.coverPhoto,
     }
   })
 
   const [preview, setPreview] = useState(false)
+
   const [privacy, setPrivacy] =
     useState<ProfileVisibility>('Public')
 
@@ -201,10 +324,10 @@ export default function EditProfilePage() {
     )
   }
 
-const countryAlpha3 = (code: string) => {
-  const normalizedCode = code.toUpperCase()
-  return alpha3[normalizedCode] || normalizedCode
-}
+  const countryAlpha3 = (code: string) => {
+    const normalizedCode = code.toUpperCase()
+    return alpha3[normalizedCode] || normalizedCode
+  }
 
   const update = (
     key: keyof ProfileData,
@@ -390,8 +513,11 @@ const countryAlpha3 = (code: string) => {
 
       localStorage.removeItem('cx-profile-flair')
       localStorage.removeItem('cx-profile-country')
+      localStorage.removeItem('cx-profile-avatar')
+      localStorage.removeItem('cx-profile-cover')
 
       navigate('/profile')
+
       requestAnimationFrame(() => {
         window.scrollTo({
           top: 0,
@@ -409,6 +535,9 @@ const countryAlpha3 = (code: string) => {
   const cancel = () => {
     localStorage.removeItem('cx-profile-flair')
     localStorage.removeItem('cx-profile-country')
+    localStorage.removeItem('cx-profile-avatar')
+    localStorage.removeItem('cx-profile-cover')
+
     navigate('/profile')
   }
 
@@ -440,20 +569,31 @@ const countryAlpha3 = (code: string) => {
               )}
             </div>
 
-            {!form.profilePhoto ? (
-              <label className="cx-profile-upload-button">
-                <Camera size={16} />
-                Change Photo
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(event) => {
-                    photoChange(event.target.files?.[0])
-                    event.currentTarget.value = ''
-                  }}
-                />
-              </label>
-            ) : (
+            <button
+              type="button"
+              className="cx-profile-upload-button"
+              onClick={() =>
+                navigate('/profile/select-avatar')
+              }
+            >
+              <Sparkles size={16} />
+              Choose Avatar
+            </button>
+
+            <label className="cx-profile-upload-button">
+              <Camera size={16} />
+              Upload Photo
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(event) => {
+                  photoChange(event.target.files?.[0])
+                  event.currentTarget.value = ''
+                }}
+              />
+            </label>
+
+            {form.profilePhoto && (
               <button
                 type="button"
                 className="cx-profile-upload-button cx-remove-photo-button"
@@ -499,8 +639,26 @@ const countryAlpha3 = (code: string) => {
           </span>
         </button>
 
+        <button
+          type="button"
+          className="cx-edit-profile-row cx-edit-select-row"
+          onClick={() => navigate('/profile/select-cover')}
+        >
+          <span className="cx-edit-row-label">
+            Cover Photo
+          </span>
+
+          <span className="cx-edit-row-value">
+            {form.coverPhoto
+              ? 'Change Cover'
+              : 'Choose Cover'}
+            <ChevronRight size={17} />
+          </span>
+        </button>
+
         <section className="cx-edit-profile-row cx-edit-bio-row">
           <label htmlFor="profile-bio">Bio</label>
+
           <textarea
             id="profile-bio"
             rows={1}
@@ -514,6 +672,7 @@ const countryAlpha3 = (code: string) => {
             }
             placeholder="Tell others about yourself..."
           />
+
           <span className="cx-edit-field-hint">
             {form.bio.length}/20 characters
           </span>
@@ -521,6 +680,7 @@ const countryAlpha3 = (code: string) => {
 
         <section className="cx-edit-profile-row">
           <label htmlFor="profile-username">Username</label>
+
           <input
             id="profile-username"
             value={form.username}
@@ -535,6 +695,7 @@ const countryAlpha3 = (code: string) => {
               )
             }
           />
+
           <span className="cx-edit-field-hint">
             {usernameLocked
               ? `Locked · Available again in ${getRemainingDays(
@@ -545,7 +706,10 @@ const countryAlpha3 = (code: string) => {
         </section>
 
         <section className="cx-edit-profile-row">
-          <label htmlFor="profile-firstName">First Name</label>
+          <label htmlFor="profile-firstName">
+            First Name
+          </label>
+
           <input
             id="profile-firstName"
             value={form.firstName}
@@ -557,13 +721,17 @@ const countryAlpha3 = (code: string) => {
               )
             }
           />
+
           <span className="cx-edit-field-hint">
             {form.firstName.length}/10 characters
           </span>
         </section>
 
         <section className="cx-edit-profile-row">
-          <label htmlFor="profile-lastName">Last Name</label>
+          <label htmlFor="profile-lastName">
+            Last Name
+          </label>
+
           <input
             id="profile-lastName"
             value={form.lastName}
@@ -575,6 +743,7 @@ const countryAlpha3 = (code: string) => {
               )
             }
           />
+
           <span className="cx-edit-field-hint">
             {form.lastName.length}/10 characters
           </span>
@@ -584,9 +753,13 @@ const countryAlpha3 = (code: string) => {
           type="button"
           className="cx-edit-profile-row cx-edit-select-row"
           disabled={countryLocked}
-          onClick={() => navigate('/profile/select-country')}
+          onClick={() =>
+            navigate('/profile/select-country')
+          }
         >
-          <span className="cx-edit-row-label">Country</span>
+          <span className="cx-edit-row-label">
+            Country
+          </span>
 
           <span className="cx-edit-country-value">
             <span>{displayCountry}</span>
@@ -604,7 +777,10 @@ const countryAlpha3 = (code: string) => {
         </button>
 
         <section className="cx-edit-profile-row">
-          <label htmlFor="profile-location">Location</label>
+          <label htmlFor="profile-location">
+            Location
+          </label>
+
           <input
             id="profile-location"
             value={form.location}
@@ -674,6 +850,7 @@ const countryAlpha3 = (code: string) => {
             </button>
 
             <h2>Adjust Profile Photo</h2>
+
             <p>
               Adjust your image inside the square crop area.
               It will appear as a circle on your profile.
@@ -779,7 +956,18 @@ const countryAlpha3 = (code: string) => {
               PROFILE PREVIEW
             </span>
 
-            <div className="cx-profile-preview-cover" />
+            <div
+              className="cx-profile-preview-cover"
+              style={
+                form.coverPhoto
+                  ? {
+                      backgroundImage: `url("${form.coverPhoto}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }
+                  : undefined
+              }
+            />
 
             <div className="cx-profile-preview-identity">
               <div
@@ -801,6 +989,7 @@ const countryAlpha3 = (code: string) => {
                   {`${form.firstName} ${form.lastName}`.trim() ||
                     'Player Name'}
                 </h2>
+
                 <p>{form.username || '@username'}</p>
               </div>
             </div>
