@@ -499,137 +499,368 @@ function AchievementCards() {
 
 export function EditProfilePage() {
   const navigate = useNavigate()
-  const [form, setForm] = useState<ProfileData>(readProfile)
+
+  const getInitialForm = (): ProfileData => {
+    const profile = readProfile()
+    const savedFlair = localStorage.getItem('cx-profile-flair')
+    const savedCountry = localStorage.getItem('cx-profile-country')
+
+    return {
+      ...profile,
+      flair: savedFlair ?? profile.flair,
+      country: savedCountry ?? (
+        profile.country === 'Philippines' ? 'PH' : profile.country
+      ),
+    }
+  }
+
+  const [original] = useState<ProfileData>(getInitialForm)
+  const [form, setForm] = useState<ProfileData>(getInitialForm)
   const [preview, setPreview] = useState(false)
   const [privacy, setPrivacy] = useState('Public')
-  const [saved, setSaved] = useState(false)
+
+  const countryName = (code: string) => {
+    if (code.length !== 2) return code
+    try {
+      return new Intl.DisplayNames(['en'], { type: 'region' }).of(code) || code
+    } catch {
+      return code
+    }
+  }
+
+  const countryFlag = (code: string) => {
+    if (code.length !== 2) return ''
+    return String.fromCodePoint(
+      ...code.toUpperCase().split('').map(
+        (letter) => 127397 + letter.charCodeAt(0)
+      )
+    )
+  }
+
+  const countryAlpha3 = (code: string) => {
+    const commonCodes: Record<string, string> = {
+      PH: 'PHL',
+      US: 'USA',
+      GB: 'GBR',
+      CA: 'CAN',
+      IN: 'IND',
+      SG: 'SGP',
+      AU: 'AUS',
+    }
+
+    return commonCodes[code] || code.toUpperCase()
+  }
+
+  const hasChanges = (
+    Object.keys(form) as (keyof ProfileData)[]
+  ).some((key) => form[key] !== original[key])
+
   const update = (key: keyof ProfileData, value: string) => {
     setForm((current) => ({ ...current, [key]: value }))
-    setSaved(false)
   }
-
-const save = () => {
-  const nextProfile = {
-    ...form,
-    accountName:
-      `${form.firstName} ${form.lastName}`.trim() || form.username,
-  }
-
-  localStorage.setItem(
-    'cx-profile-preview',
-    JSON.stringify(nextProfile)
-  )
-
-  setSaved(true)
-  navigate('/profile')
-}
 
   const photoChange = (file?: File) => {
     if (!file) return
+
     const reader = new FileReader()
-    reader.onload = () => update('profilePhoto', String(reader.result || ''))
+    reader.onload = () => {
+      update('profilePhoto', String(reader.result || ''))
+    }
     reader.readAsDataURL(file)
   }
 
-  const flairOptions = ['None', 'Tactical Mind', 'Puzzle Master', 'Opening Expert', 'Endgame Specialist', 'CCC Supporter']
-  const flairValue = form.flair || 'None'
+  const save = () => {
+    if (!hasChanges) return
+
+    const nextProfile: ProfileData = {
+      ...form,
+      accountName:
+        `${form.firstName} ${form.lastName}`.trim() || form.username,
+    }
+
+    localStorage.setItem(
+      'cx-profile-preview',
+      JSON.stringify(nextProfile)
+    )
+
+    localStorage.removeItem('cx-profile-flair')
+    localStorage.removeItem('cx-profile-country')
+
+    navigate('/profile')
+  }
+
+  const cancel = () => {
+    if (!hasChanges) return
+
+    localStorage.removeItem('cx-profile-flair')
+    localStorage.removeItem('cx-profile-country')
+    navigate('/profile')
+  }
+
+  const displayCountry = countryName(form.country)
+  const displayFlag = countryFlag(form.country)
+  const displayAlpha3 = countryAlpha3(form.country)
 
   return (
     <div className="cx-profile-subpage">
       <PageHeader title="Edit Profile" />
+
       <main className="cx-profile-edit-content">
         <section className="cx-edit-profile-row">
           <label>Profile Picture</label>
+
           <div className="cx-edit-picture-control">
             <div className="cx-edit-picture-preview">
-              {form.profilePhoto ? <img src={form.profilePhoto} alt="Profile preview" /> : <CircleUserRound size={46} />}
+              {form.profilePhoto ? (
+                <img src={form.profilePhoto} alt="Profile preview" />
+              ) : (
+                <CircleUserRound size={46} />
+              )}
             </div>
+
             <label className="cx-profile-upload-button">
-              <Camera size={16} /> Change Photo
-              <input type="file" accept="image/*" onChange={(event) => photoChange(event.target.files?.[0])} />
+              <Camera size={16} />
+              Change Photo
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(event) =>
+                  photoChange(event.target.files?.[0])
+                }
+              />
             </label>
           </div>
         </section>
 
-        <section className="cx-edit-profile-row">
-          <label htmlFor="profile-flair">Flair</label>
-          <select id="profile-flair" value={flairValue} onChange={(event) => update('flair', event.target.value === 'None' ? '' : event.target.value)}>
-            {flairOptions.map((item) => <option key={item}>{item}</option>)}
-          </select>
-          <span className="cx-edit-field-hint">Preview: {form.flair || 'No flair selected'}</span>
-        </section>
+        <button
+          type="button"
+          className="cx-edit-profile-row cx-edit-select-row"
+          onClick={() => navigate('/profile/select-flair')}
+        >
+          <span className="cx-edit-row-label">Flair</span>
+          <span className="cx-edit-row-value">
+            {form.flair ? <Sparkles size={23} /> : null}
+          </span>
+        </button>
 
         <section className="cx-edit-profile-row">
           <label htmlFor="profile-bio">Bio</label>
-          <textarea id="profile-bio" maxLength={160} value={form.bio} onChange={(event) => update('bio', event.target.value)} placeholder="Tell others about yourself..." />
-          <span className="cx-edit-field-hint">{form.bio.length}/160 characters</span>
+          <textarea
+            id="profile-bio"
+            maxLength={20}
+            value={form.bio}
+            onChange={(event) => update('bio', event.target.value)}
+            placeholder="Tell others about yourself..."
+          />
+          <span className="cx-edit-field-hint">
+            {form.bio.length}/20 characters
+          </span>
         </section>
 
         {([
           ['username', 'Username'],
           ['firstName', 'First Name'],
           ['lastName', 'Last Name'],
-          ['country', 'Country'],
-          ['location', 'Location'],
         ] as [keyof ProfileData, string][]).map(([key, label]) => (
           <section className="cx-edit-profile-row" key={key}>
             <label htmlFor={`profile-${key}`}>{label}</label>
-            {key === 'country' ? (
-              <select id={`profile-${key}`} value={form.country} onChange={(event) => update(key, event.target.value)}>
-                {['Philippines', 'United States', 'United Kingdom', 'Canada', 'India', 'Singapore', 'Australia', 'Other'].map((country) => <option key={country}>{country}</option>)}
-              </select>
-            ) : (
-              <input id={`profile-${key}`} value={form[key]} onChange={(event) => update(key, event.target.value)} />
-            )}
+            <input
+              id={`profile-${key}`}
+              value={String(form[key])}
+              onChange={(event) => update(key, event.target.value)}
+            />
           </section>
         ))}
 
+        <button
+          type="button"
+          className="cx-edit-profile-row cx-edit-select-row"
+          onClick={() => navigate('/profile/select-country')}
+        >
+          <span className="cx-edit-row-label">Country</span>
+          <span className="cx-edit-country-value">
+            <span>{displayCountry}</span>
+            <small>{displayAlpha3}</small>
+            <strong>{displayFlag}</strong>
+          </span>
+        </button>
+
+        <section className="cx-edit-profile-row">
+          <label htmlFor="profile-location">Location</label>
+          <input
+            id="profile-location"
+            value={form.location}
+            onChange={(event) => update('location', event.target.value)}
+            placeholder="City or region"
+          />
+        </section>
+
         <section className="cx-edit-profile-row">
           <label htmlFor="favorite-opening">Favorite Opening</label>
-          <input id="favorite-opening" value={form.favoriteOpening} onChange={(event) => update('favoriteOpening', event.target.value)} />
+          <input
+            id="favorite-opening"
+            value={form.favoriteOpening}
+            onChange={(event) =>
+              update('favoriteOpening', event.target.value)
+            }
+          />
         </section>
 
         <section className="cx-edit-profile-row">
           <label htmlFor="pinned-game">Pinned Game</label>
-          <input id="pinned-game" value={form.pinnedGame} onChange={(event) => update('pinnedGame', event.target.value)} />
+          <input
+            id="pinned-game"
+            value={form.pinnedGame}
+            onChange={(event) =>
+              update('pinnedGame', event.target.value)
+            }
+          />
         </section>
 
         <section className="cx-edit-profile-row">
-          <label>Profile Visibility</label>
-          <select value={privacy} onChange={(event) => setPrivacy(event.target.value)}>
-            <option>Public</option><option>Friends Only</option><option>Private</option>
+          <label htmlFor="profile-privacy">Profile Visibility</label>
+          <select
+            id="profile-privacy"
+            value={privacy}
+            onChange={(event) => setPrivacy(event.target.value)}
+          >
+            <option>Public</option>
+            <option>Friends Only</option>
+            <option>Private</option>
           </select>
-          <span className="cx-edit-field-hint"><Lock size={12} /> Preview setting only. Backend privacy enforcement is not active.</span>
+          <span className="cx-edit-field-hint">
+            <Lock size={12} />
+            Preview setting only. Backend privacy enforcement is not active.
+          </span>
         </section>
 
         <div className="cx-profile-edit-actions">
-          <button type="button" className="cx-profile-secondary-button" onClick={() => setPreview(true)}><Eye size={16} /> Preview Profile</button>
-          <button type="button" className="cx-profile-primary-button" onClick={save}><Check size={16} /> Save Changes</button>
+          <button
+            type="button"
+            className="cx-profile-secondary-button"
+            onClick={() => setPreview(true)}
+          >
+            <Eye size={16} />
+            Preview Profile
+          </button>
+
+          <button
+            type="button"
+            className="cx-profile-primary-button"
+            onClick={save}
+            disabled={!hasChanges}
+          >
+            <Check size={16} />
+            Save Changes
+          </button>
         </div>
-        {saved && <p className="cx-profile-saved-note">Changes saved in this browser preview.</p>}
-        <button className="cx-profile-cancel-button" type="button" onClick={() => navigate(-1)}>Cancel</button>
+
+        <button
+          className="cx-profile-cancel-button"
+          type="button"
+          onClick={cancel}
+          disabled={!hasChanges}
+        >
+          Cancel
+        </button>
+
+        {!hasChanges && (
+          <p className="cx-edit-field-hint cx-edit-no-changes">
+            No changes to save.
+          </p>
+        )}
       </main>
 
       {preview && (
-        <div className="cx-profile-modal-backdrop" onClick={() => setPreview(false)}>
-          <section className="cx-profile-preview-modal" onClick={(event) => event.stopPropagation()}>
-            <button className="cx-profile-modal-close" type="button" onClick={() => setPreview(false)}><X size={19} /></button>
-            <h2>Profile Preview</h2>
-            <div className="cx-edit-picture-preview">
-              {form.profilePhoto ? <img src={form.profilePhoto} alt="" /> : <CircleUserRound size={42} />}
+        <div
+          className="cx-profile-modal-backdrop"
+          onClick={() => setPreview(false)}
+        >
+          <section
+            className="cx-profile-preview-modal cx-profile-live-preview"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              className="cx-profile-modal-close"
+              type="button"
+              onClick={() => setPreview(false)}
+              aria-label="Close preview"
+            >
+              <X size={19} />
+            </button>
+
+            <span className="cx-profile-preview-label">
+              PROFILE PREVIEW
+            </span>
+
+            <div className="cx-profile-preview-cover" />
+
+            <div className="cx-profile-preview-identity">
+              <div className="cx-edit-picture-preview">
+                {form.profilePhoto ? (
+                  <img src={form.profilePhoto} alt="Profile" />
+                ) : (
+                  <CircleUserRound size={42} />
+                )}
+              </div>
+
+              <div>
+                <h2>
+                  {`${form.firstName} ${form.lastName}`.trim() ||
+                    'Player Name'}
+                </h2>
+                <p>{form.username || '@username'}</p>
+              </div>
             </div>
-            <h3>{form.firstName} {form.lastName}</h3>
-            <p>{form.username}</p>
-            <p>{form.bio || 'No bio added yet.'}</p>
-            <span>{form.flair || 'No flair'} · {form.country} · {form.location}</span>
-            <small>Visibility preview: {privacy}</small>
-            <button type="button" className="cx-profile-primary-button" onClick={() => setPreview(false)}>Close Preview</button>
+
+            {form.flair && (
+              <div className="cx-profile-preview-flair">
+                <Sparkles size={16} />
+                <span>{form.flair}</span>
+              </div>
+            )}
+
+            <p className="cx-profile-preview-bio">
+              {form.bio || 'No bio added yet.'}
+            </p>
+
+            <div className="cx-profile-preview-information">
+              <div>
+                <span>Country</span>
+                <strong>{displayFlag} {displayCountry}</strong>
+              </div>
+              <div>
+                <span>Location</span>
+                <strong>{form.location || 'Not specified'}</strong>
+              </div>
+              <div>
+                <span>Favorite Opening</span>
+                <strong>{form.favoriteOpening || 'Not specified'}</strong>
+              </div>
+              <div>
+                <span>Pinned Game</span>
+                <strong>{form.pinnedGame || 'Not specified'}</strong>
+              </div>
+            </div>
+
+            <p className="cx-profile-preview-visibility">
+              Profile Visibility: {privacy}
+            </p>
+
+            <button
+              type="button"
+              className="cx-profile-primary-button"
+              onClick={() => setPreview(false)}
+            >
+              Close Preview
+            </button>
           </section>
         </div>
       )}
     </div>
   )
 }
+          
 
 function ProfileDetailPage({ type }: { type: 'ratings' | 'games' | 'friends' | 'achievements' }) {
   const titles = {
