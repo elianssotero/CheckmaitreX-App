@@ -198,7 +198,7 @@ function readCurrentAvatar() {
   try {
     const staged = localStorage.getItem('cx-profile-avatar')
 
-    if (staged) return staged
+    if (staged !== null) return staged
 
     const saved = localStorage.getItem('cx-profile-preview')
 
