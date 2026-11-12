@@ -27,6 +27,7 @@ import {
   BookOpen,
 } from 'lucide-react'
 import { playerProfile } from '../data/playerProfile'
+import { alpha3 } from './ProfileSelectionPages'
 import StreakBadge from '../components/StreakBadge'
 import './ProfilePage.css'
 
@@ -538,7 +539,10 @@ export function EditProfilePage() {
   }
 
   const countryAlpha3 = (code: string) => {
-    const commonCodes: Record<string, string> = {
+  const normalizedCode = code.toUpperCase()
+
+  return alpha3[normalizedCode] || normalizedCode
+  }
       PH: 'PHL',
       US: 'USA',
       GB: 'GBR',
