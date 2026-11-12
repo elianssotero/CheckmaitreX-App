@@ -200,8 +200,10 @@ export default function EditProfilePage() {
     )
   }
 
-  const countryAlpha3 = (code: string) => {
-    const normalizedCode = code.toUpperCase()
+const countryAlpha3 = (code: string) => {
+  const normalizedCode = code.toUpperCase()
+  return alpha3[normalizedCode] || normalizedCode
+}
 
     try {
       const displayNames = new Intl.DisplayNames(
