@@ -392,6 +392,13 @@ const countryAlpha3 = (code: string) => {
       localStorage.removeItem('cx-profile-country')
 
       navigate('/profile')
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'auto',
+        })
+      })
     } catch {
       alert(
         'Unable to save your profile. Your changes may exceed the available browser storage.'
