@@ -537,9 +537,10 @@ export function EditProfilePage() {
       )
     )
   }
-
   const countryAlpha3 = (code: string) => {
-  const normalizedCode = code.toUpperCase()
+    const normalizedCode = code.toUpperCase()
+    return alpha3[normalizedCode] || normalizedCode
+  }
 
   const hasChanges = (
     Object.keys(form) as (keyof ProfileData)[]
