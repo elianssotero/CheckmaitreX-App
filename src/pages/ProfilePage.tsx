@@ -1,5 +1,6 @@
 
 import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft,
@@ -8,17 +9,12 @@ import {
   Check,
   ChevronRight,
   CircleUserRound,
-  Copy,
   Crown,
-  Flame,
   Gamepad2,
-  Globe2,
-  Heart,
   MapPin,
   Pencil,
   QrCode,
   Share2,
-  ShieldCheck,
   Sparkles,
   Star,
   Trophy,
@@ -33,6 +29,7 @@ import {
 } from 'lucide-react'
 import { playerProfile } from '../data/playerProfile'
 import StreakBadge from '../components/StreakBadge'
+import './ProfilePage.css'
 
 type ProfileData = {
   accountName: string
@@ -177,7 +174,7 @@ function QRPreview({ onClose }: { onClose: () => void }) {
 
 function ProfilePage() {
   const navigate = useNavigate()
-  const [profile, setProfile] = useState<ProfileData>(readProfile)
+  const [profile] = useState<ProfileData>(readProfile)
   const [activeTab, setActiveTab] = useState('Overview')
   const [showQR, setShowQR] = useState(false)
   const [featured, setFeatured] = useState('First Victory')
@@ -192,10 +189,6 @@ function ProfilePage() {
   const losses = games.filter((game) => game.result === 'Defeat').length
   const draws = games.filter((game) => game.result === 'Draw').length
 
-  const saveProfile = (next: ProfileData) => {
-    setProfile(next)
-    localStorage.setItem('cx-profile-preview', JSON.stringify(next))
-  }
 
   const shareProfile = async () => {
     const url = window.location.href
