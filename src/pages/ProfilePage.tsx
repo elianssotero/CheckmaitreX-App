@@ -67,6 +67,26 @@ function readProfile(): ProfileData {
   }
 }
 
+function countryFlag(country: string) {
+  const code =
+    country.length === 2
+      ? country.toUpperCase()
+      : alpha3[country.toUpperCase()]
+        ? Object.keys(alpha3).find(
+            (key) =>
+              alpha3[key] === country.toUpperCase()
+          ) || ''
+        : ''
+
+  if (!/^[A-Z]{2}$/.test(code)) return ''
+
+  return String.fromCodePoint(
+    ...code.split('').map(
+      (letter) => 127397 + letter.charCodeAt(0)
+    )
+  )
+}
+
 const ratings = [
   { name: 'Bullet', rating: '—', change: 'No rating yet' },
   { name: 'Blitz', rating: '—', change: 'No rating yet' },
@@ -237,7 +257,11 @@ function ProfilePage() {
               <h1>
                 {verifiedTitle && <span className="cx-profile-title">{verifiedTitle}</span>}
                 <span className="cx-profile-account-name">{profile.accountName}</span>
-                <span className="cx-profile-country-flag">🇵🇭</span>
+                {countryFlag(profile.country) && (
+  <span className="cx-profile-country-flag">
+    {countryFlag(profile.country)}
+  </span>
+)}
               </h1>
               <span>{profile.username}</span>
               {profile.location && (
