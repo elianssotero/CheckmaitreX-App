@@ -42,6 +42,7 @@ type ProfileData = {
   location: string
   bio: string
   profilePhoto: string
+ profileAvatar?: string
   flair: string
   borders: string
   coverPhoto: string
@@ -481,16 +482,20 @@ export default function EditProfilePage() {
     }
 
     const nextProfile: ProfileData = {
-      ...form,
-      username,
-      firstName,
-      lastName,
-      bio,
-      accountName:
-        `${firstName} ${lastName}`.trim() || username,
-      borders: form.borders || 'Default Gold',
+  ...form,
+  profileAvatar:
+    localStorage.getItem('cx-profile-avatar') ||
+    (form.profilePhoto === original.profilePhoto
+      ? original.profileAvatar || ''
+      : ''),
+  username,
+  firstName,
+  lastName,
+  bio,
+  accountName:
+    `${firstName} ${lastName}`.trim() || username,
+  borders: form.borders || 'Default Gold',
     }
-
     try {
       localStorage.setItem(
         'cx-profile-preview',
