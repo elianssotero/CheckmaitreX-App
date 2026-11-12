@@ -541,20 +541,6 @@ export function EditProfilePage() {
   const countryAlpha3 = (code: string) => {
   const normalizedCode = code.toUpperCase()
 
-  return alpha3[normalizedCode] || normalizedCode
-  }
-      PH: 'PHL',
-      US: 'USA',
-      GB: 'GBR',
-      CA: 'CAN',
-      IN: 'IND',
-      SG: 'SGP',
-      AU: 'AUS',
-    }
-
-    return commonCodes[code] || code.toUpperCase()
-  }
-
   const hasChanges = (
     Object.keys(form) as (keyof ProfileData)[]
   ).some((key) => form[key] !== original[key])
