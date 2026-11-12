@@ -350,6 +350,7 @@ coverPhoto:
     Object.keys(form) as (keyof ProfileData)[]
   ).some((key) => form[key] !== original[key])
 
+
   const photoChange = (file?: File) => {
     if (!file) return
 
@@ -361,6 +362,28 @@ coverPhoto:
     const reader = new FileReader()
 
     reader.onload = () => {
+      setCropMode('photo')
+      setCropSource(String(reader.result || ''))
+      setCropZoom(1)
+      setCropX(50)
+      setCropY(50)
+    }
+
+    reader.readAsDataURL(file)
+  }
+
+  const coverChange = (file?: File) => {
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image.')
+      return
+    }
+
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      setCropMode('cover')
       setCropSource(String(reader.result || ''))
       setCropZoom(1)
       setCropX(50)
@@ -376,26 +399,34 @@ coverPhoto:
     const image = new Image()
 
     image.onload = () => {
-      const size =
-        Math.min(
-          image.naturalWidth,
-          image.naturalHeight
-        ) / cropZoom
+      const outputWidth = cropMode === 'cover' ? 1200 : 512
+      const outputHeight = cropMode === 'cover' ? 400 : 512
+      const aspectRatio = outputWidth / outputHeight
 
-      const maxX = image.naturalWidth - size
-      const maxY = image.naturalHeight - size
+      let cropWidth = Math.min(
+        image.naturalWidth,
+        image.naturalHeight * aspectRatio
+      )
+
+      let cropHeight = cropWidth / aspectRatio
+
+      cropWidth /= cropZoom
+      cropHeight /= cropZoom
+
+      const maxX = image.naturalWidth - cropWidth
+      const maxY = image.naturalHeight - cropHeight
 
       const sourceX = maxX * (cropX / 100)
       const sourceY = maxY * (cropY / 100)
 
       const canvas = document.createElement('canvas')
-      canvas.width = 512
-      canvas.height = 512
+      canvas.width = outputWidth
+      canvas.height = outputHeight
 
       const context = canvas.getContext('2d')
 
       if (!context) {
-        alert('Unable to process this photo.')
+        alert('Unable to process this image.')
         return
       }
 
@@ -403,88 +434,32 @@ coverPhoto:
         image,
         sourceX,
         sourceY,
-        size,
-        size,
+        cropWidth,
+        cropHeight,
         0,
         0,
-        512,
-        512
+        outputWidth,
+        outputHeight
       )
 
-      update(
-        'profilePhoto',
-        canvas.toDataURL('image/jpeg', 0.9)
-      )
+      const croppedImage = canvas.toDataURL('image/jpeg', 0.9)
 
-      setCropSource('')
-    }
-
-    image.onerror = () => {
-      alert('Unable to load this photo.')
-    }
-
-    image.src = cropSource
-  }
-
-  const removePhoto = () => {
-    update('profilePhoto', '')
-  }
-const coverChange = (file?: File) => {
-  if (!file) return
-
-  if (!file.type.startsWith('image/')) {
-    alert('Please select a valid image.')
-    return
-  }
-
-  const reader = new FileReader()
-
-  reader.onload = () => {
-    const image = new Image()
-
-    image.onload = () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = 1200
-      canvas.height = 400
-
-      const context = canvas.getContext('2d')
-
-      if (!context) {
-        alert('Unable to process this cover.')
-        return
+      if (cropMode === 'cover') {
+        update('coverPhoto', croppedImage)
+      } else {
+        update('profilePhoto', croppedImage)
       }
 
-      const ratio = Math.max(
-        1200 / image.width,
-        400 / image.height
-      )
-
-      const width = image.width * ratio
-      const height = image.height * ratio
-
-      context.drawImage(
-        image,
-        (1200 - width) / 2,
-        (400 - height) / 2,
-        width,
-        height
-      )
-
-      update(
-        'coverPhoto',
-        canvas.toDataURL('image/jpeg', 0.85)
-      )
+      setCropSource('')
     }
 
     image.onerror = () => {
       alert('Unable to load this image.')
     }
 
-    image.src = String(reader.result || '')
+    image.src = cropSource
   }
 
-  reader.readAsDataURL(file)
-}
 
 const removeCover = () => {
   update('coverPhoto', '')
