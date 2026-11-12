@@ -897,6 +897,24 @@ const nextProfile = {
             {form.lastName.length}/10 characters
           </span>
         </section>
+        <button
+          type="button"
+          className="cx-edit-profile-row cx-edit-select-row"
+          onClick={() => navigate('/profile/title-application')}
+        >
+          <span className="cx-edit-row-label">
+            Title
+          </span>
+
+          <span className="cx-edit-row-value">
+            <span>Title Application</span>
+            <ChevronRight size={17} />
+          </span>
+
+          <span className="cx-edit-field-hint">
+            Apply for an official chess title
+          </span>
+        </button>
 
         <button
           type="button"
