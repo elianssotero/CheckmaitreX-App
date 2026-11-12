@@ -460,10 +460,14 @@ coverPhoto:
     image.src = cropSource
   }
 
+   const removePhoto = () => {
+    update('profilePhoto', '')
+    update('profileAvatar', '')
+  }
 
-const removeCover = () => {
-  update('coverPhoto', '')
-}
+  const removeCover = () => {
+    update('coverPhoto', '')
+  }
   
   const save = () => {
     if (!hasChanges) return
