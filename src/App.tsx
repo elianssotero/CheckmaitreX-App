@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Navigate,
@@ -15,17 +16,21 @@ import AppLayout from './layouts/AppLayout'
 import HomePage from './pages/HomePage'
 import NotificationsPage from './pages/NotificationsPage'
 import StreakPage from './pages/StreakPage'
+
 import ProfilePage, {
-  EditProfilePage,
   ProfileRatingsPage,
   ProfileGamesPage,
   ProfileFriendsPage,
   ProfileAchievementsPage,
 } from './pages/ProfilePage'
+
+import EditProfilePage from './pages/EditProfilePage'
+
 import {
   FlairSelectionPage,
   CountrySelectionPage,
 } from './pages/ProfileSelectionPages'
+
 import MorePage from './pages/MorePage'
 import CorporatePage from './pages/CorporatePage'
 import MaitronXPage from './pages/MaitronXPage'
@@ -42,35 +47,78 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AppLayout />}>
-<Route
-  path="notifications"
-  element={<NotificationsPage />}
-/>
-<Route
-  path="profile/select-flair"
-  element={<FlairSelectionPage />}
-/>
-<Route
-  path="profile/select-country"
-  element={<CountrySelectionPage />}
-/>
- <Route path="profile/edit" element={<EditProfilePage />} />
-<Route path="profile/ratings" element={<ProfileRatingsPage />} />
-<Route path="profile/games" element={<ProfileGamesPage />} />
-<Route path="profile/friends" element={<ProfileFriendsPage />} />
-<Route path="profile/achievements" element={<ProfileAchievementsPage />} />          
-         <Route
-  path="streak"
-  element={<StreakPage />}
-/>
+          <Route
+            path="notifications"
+            element={<NotificationsPage />}
+          />
+
+          <Route
+            path="profile/select-flair"
+            element={<FlairSelectionPage />}
+          />
+
+          <Route
+            path="profile/select-country"
+            element={<CountrySelectionPage />}
+          />
+
+          <Route
+            path="profile/edit"
+            element={<EditProfilePage />}
+          />
+
+          <Route
+            path="profile/ratings"
+            element={<ProfileRatingsPage />}
+          />
+
+          <Route
+            path="profile/games"
+            element={<ProfileGamesPage />}
+          />
+
+          <Route
+            path="profile/friends"
+            element={<ProfileFriendsPage />}
+          />
+
+          <Route
+            path="profile/achievements"
+            element={<ProfileAchievementsPage />}
+          />
+
+          <Route
+            path="streak"
+            element={<StreakPage />}
+          />
+
           <Route index element={<HomePage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="corporate" element={<CorporatePage />} />
-          <Route path="more" element={<MorePage />} />
-          <Route path="maitronx" element={<MaitronXPage />} />
+
+          <Route
+            path="profile"
+            element={<ProfilePage />}
+          />
+
+          <Route
+            path="corporate"
+            element={<CorporatePage />}
+          />
+
+          <Route
+            path="more"
+            element={<MorePage />}
+          />
+
+          <Route
+            path="maitronx"
+            element={<MaitronXPage />}
+          />
 
           {/* PLAY SECTION */}
-          <Route path="play" element={<PlayPage />} />
+          <Route
+            path="play"
+            element={<PlayPage />}
+          />
 
           <Route
             path="play/now"
@@ -87,10 +135,11 @@ function App() {
             element={<PlayFriendPage />}
           />
 
-         <Route
+          <Route
             path="search"
-           element={<SearchPage />}
+            element={<SearchPage />}
           />
+
           <Route
             path="invite/:inviteCode"
             element={<PlayDestinationPage title="Friend Invite" />}
@@ -122,33 +171,31 @@ function App() {
             element={<PuzzlesPage />}
           />
 
-          {/* DIRECT PLAY PUZZLES PAGE */}
           <Route
             path="puzzles/play"
             element={<PlayPuzzlesPage />}
           />
 
-          {/* INDIVIDUAL LEVEL PAGE */}
           <Route
             path="puzzles/area/:areaId/level/:level"
             element={<PuzzleLevelPage />}
           />
 
-          {/* OTHER PUZZLE DESTINATIONS */}
           <Route
             path="puzzles/:section"
             element={<PuzzleDestinationPage />}
           />
 
-          <Route 
+          <Route
             path="learn"
-            element={<LearnPage />} />
+            element={<LearnPage />}
+          />
 
-         <Route
-           path="watch"
-           element={<WatchPage />}
-             />
-          
+          <Route
+            path="watch"
+            element={<WatchPage />}
+          />
+
           <Route
             path="*"
             element={<Navigate to="/" replace />}
