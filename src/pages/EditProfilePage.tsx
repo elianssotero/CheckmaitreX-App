@@ -243,9 +243,11 @@ export default function EditProfilePage() {
   const [form, setForm] = useState<ProfileData>(() => {
     const profile = normalizeProfile(readProfile())
 
-    const selectedAvatar = avatarIdToImage(
-      localStorage.getItem('cx-profile-avatar') || ''
-    )
+    const stagedAvatar = localStorage.getItem('cx-profile-avatar')
+const selectedAvatar =
+  stagedAvatar !== null
+    ? avatarIdToImage(stagedAvatar)
+    : ''
 
     return {
       ...profile,
@@ -255,11 +257,14 @@ export default function EditProfilePage() {
       country:
         localStorage.getItem('cx-profile-country') ??
         profile.country,
-      profilePhoto:
-        selectedAvatar || profile.profilePhoto,
-      coverPhoto:
-        localStorage.getItem('cx-profile-cover') ||
-        profile.coverPhoto,
+profilePhoto:
+  stagedAvatar !== null
+    ? selectedAvatar
+    : profile.profilePhoto,
+coverPhoto:
+  localStorage.getItem('cx-profile-cover') !== null
+    ? localStorage.getItem('cx-profile-cover')!
+    : profile.coverPhoto,
     }
   })
 
