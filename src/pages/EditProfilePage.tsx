@@ -277,7 +277,8 @@ coverPhoto:
   const [cropZoom, setCropZoom] = useState(1)
   const [cropX, setCropX] = useState(50)
   const [cropY, setCropY] = useState(50)
-
+  const [cropMode, setCropMode] = useState<'photo' | 'cover'>('photo')
+  
   const usernameChangedAt = Number(
     localStorage.getItem('cx-username-changed-at') || 0
   )
