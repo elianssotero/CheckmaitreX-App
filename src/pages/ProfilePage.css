@@ -2026,3 +2026,32 @@
   font-weight: 500;
   white-space: nowrap;
 }
+/* Profile Metadata - Single Horizontal Scroll Row */
+
+.cx-profile-meta-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cx-profile-meta-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-width: max-content;
+}
+
+.cx-profile-meta-item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
