@@ -245,15 +245,61 @@
   font-size: 10px !important;
 }
 
+
 .cx-profile-highlight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
+  min-width: 0;
+  min-height: 70px;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
   text-align: left;
   cursor: pointer;
 }
 
-.cx-profile-highlight .cx-shared-streak-badge--compact {
-  transform: scale(0.82);
+.cx-profile-highlight-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  overflow: hidden;
+  border-radius: 10px;
 }
+
+.cx-profile-highlight .cx-shared-streak-badge--compact {
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  transform: none;
+}
+
+.cx-profile-highlight .cx-shared-streak-badge--compact
+.cx-shared-streak-art {
+  transform: translate(calc(-50% + 2px), calc(-50% + 1px)) scale(0.2);
+}
+
+.cx-profile-highlight > div:last-child {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cx-profile-highlight strong {
+  font-size: 12px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.cx-profile-highlight span {
+  font-size: 10px;
+}
+
 
 /* Profile completion */
 
