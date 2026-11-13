@@ -378,8 +378,9 @@ function RatingIcon({ name }: { name: string }) {
 >
   View all <ChevronRight size={15} />
 </button>
+</div>
 
-          <div className="cx-rating-track">
+<div className="cx-rating-track">
             {ratings.map((rating) => (
               <article className="cx-rating-card" key={rating.name}>
                 <div className="cx-rating-icon">
