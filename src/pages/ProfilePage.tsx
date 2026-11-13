@@ -176,11 +176,21 @@ const friends = [
 
 
 const achievements = [
-  { name: 'First Victory', description: 'Win your first chess game', date: 'Sample achievement', rarity: 'Common' },
-  { name: 'Tactical Mind', description: 'Complete a chess puzzle', date: 'Sample achievement', rarity: 'Rare' },
-  { name: 'Consistent Player', description: 'Build your playing streak', date: 'Sample achievement', rarity: 'Epic' },
-  { name: 'Chess Explorer', description: 'Explore different chess modes', date: 'Sample achievement', rarity: 'Rare' },
+  { name: 'First Victory', description: 'Win your first chess game', rarity: 'Common', category: 'Games', achieved: true, date: 'Sample date', unlock: 'Win your first chess game' },
+  { name: 'Tactical Mind', description: 'Complete a chess puzzle', rarity: 'Rare', category: 'Puzzles', achieved: true, date: 'Sample date', unlock: 'Complete a chess puzzle' },
+  { name: 'Consistent Player', description: 'Build your playing streak', rarity: 'Epic', category: 'Streaks', achieved: true, date: 'Sample date', unlock: 'Build a playing streak' },
+  { name: 'Chess Explorer', description: 'Explore different chess modes', rarity: 'Rare', category: 'Games', achieved: true, date: 'Sample date', unlock: 'Play different chess modes' },
+  { name: 'Lesson Graduate', description: 'Complete a chess lesson', rarity: 'Common', category: 'Lessons', achieved: false, date: '', unlock: 'Complete your first chess lesson' },
+  { name: 'Puzzle Master', description: 'Solve multiple chess puzzles', rarity: 'Epic', category: 'Puzzles', achieved: false, date: '', unlock: 'Solve 100 chess puzzles' },
+  { name: 'Tournament Debut', description: 'Join your first tournament', rarity: 'Rare', category: 'Tournaments', achieved: false, date: '', unlock: 'Join a chess tournament' },
+  { name: 'Social Player', description: 'Connect with other players', rarity: 'Common', category: 'Social', achieved: false, date: '', unlock: 'Add your first friend' },
+  { name: 'Winning Streak', description: 'Win consecutive games', rarity: 'Epic', category: 'Games', achieved: false, date: '', unlock: 'Win 5 games in a row' },
+  { name: 'Dedicated Learner', description: 'Complete multiple lessons', rarity: 'Rare', category: 'Lessons', achieved: false, date: '', unlock: 'Complete 10 chess lessons' },
+  { name: 'Daily Champion', description: 'Maintain a long playing streak', rarity: 'Epic', category: 'Streaks', achieved: false, date: '', unlock: 'Reach a 30-day streak' },
+  { name: 'Tournament Champion', description: 'Win a tournament', rarity: 'Legendary', category: 'Tournaments', achieved: false, date: '', unlock: 'Win a chess tournament' },
 ]
+
+const achievementCategories = ['All', 'Games', 'Puzzles', 'Lessons', 'Streaks', 'Tournaments', 'Social']
 
 const tabs = ['Overview', 'Games', 'Achievements', 'Activity']
 // Frontend preview only. Backend presence integration will come later.
@@ -261,7 +271,6 @@ function ProfilePage() {
   const [profile] = useState<ProfileData>(readProfile)
   const [activeTab, setActiveTab] = useState('Overview')
   const [showQR, setShowQR] = useState(false)
-  const [featured, setFeatured] = useState('First Victory')
 
   const profileCompletion = calculateProfileCompletion(profile)
   const subscriptionTier = 'Standard'
@@ -677,32 +686,25 @@ function ProfilePage() {
               </div>
             </section>
 
-            <section className="cx-profile-section">
-              <div className="cx-profile-section-heading">
-                <h2>Featured Achievement</h2>
-                <button className="cx-profile-view-all" onClick={() => navigate('/profile/achievements')} type="button">View All <ChevronRight size={15} /></button>
-              </div>
-              <div className="cx-profile-featured-achievement">
-                <Trophy size={29} />
-                <div><strong>{featured}</strong><span>Selected featured achievement</span></div>
-                <Star size={18} />
-              </div>
-              <div className="cx-profile-achievement-track">
-                {achievements.map((achievement) => (
-                  <button
-                    className={`cx-profile-achievement-card ${featured === achievement.name ? 'selected' : ''}`}
-                    type="button"
-                    key={achievement.name}
-                    onClick={() => setFeatured(achievement.name)}
-                  >
-                    <span className="cx-profile-achievement-card-icon"><Trophy size={22} /></span>
-                    <strong>{achievement.name}</strong>
-                    <small>{achievement.rarity}</small>
-                    <span>{achievement.description}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
+<section className="cx-profile-section">
+  <div className="cx-profile-section-heading">
+    <h2>Achievements</h2>
+    <button
+      className="cx-profile-view-all"
+      onClick={() => navigate('/profile/achievements')}
+      type="button"
+    >
+      View All <ChevronRight size={15} />
+    </button>
+  </div>
+
+  <AchievementCards
+    items={achievements.filter((achievement) => achievement.achieved)}
+    locked={false}
+    rows={1}
+    preview
+  />
+</section>
 
             <section className="cx-profile-section cx-profile-extra-details">
               <h2>Player Details</h2>
@@ -784,16 +786,38 @@ function GameRows() {
   )
 }
 
-function AchievementCards() {
+function AchievementCards({
+  items,
+  locked,
+  rows,
+  preview = false,
+}: {
+  items: (typeof achievements)[number][]
+  locked: boolean
+  rows: number
+  preview?: boolean
+}) {
   return (
-    <div className="cx-profile-achievement-track">
-      {achievements.map((achievement) => (
-        <article className="cx-profile-achievement-card" key={achievement.name}>
-          <span className="cx-profile-achievement-card-icon"><Trophy size={22} /></span>
+    <div
+      className={`cx-achievement-list ${preview ? 'preview' : ''}`}
+      style={{ gridTemplateRows: `repeat(${rows}, minmax(160px, auto))` }}
+    >
+      {items.map((achievement) => (
+        <article
+          className={`cx-profile-achievement-card ${locked ? 'locked' : 'unlocked'}`}
+          key={achievement.name}
+        >
+          <span className="cx-profile-achievement-card-icon">
+            {locked ? <Lock size={21} /> : <Trophy size={22} />}
+          </span>
           <strong>{achievement.name}</strong>
           <small>{achievement.rarity}</small>
           <span>{achievement.description}</span>
-          <small>{achievement.date}</small>
+          {locked ? (
+            <small>{achievement.unlock}</small>
+          ) : (
+            <small>{achievement.date}</small>
+          )}
         </article>
       ))}
     </div>
@@ -1623,18 +1647,9 @@ function ProfileDetailPage({
           </>
         )}
 
-        {type === 'achievements' && (
-          <>
-            <div className="cx-profile-detail-intro">
-              <Trophy size={24} />
-              <div>
-                <strong>Player Achievements</strong>
-                <span>Sample achievement collection</span>
-              </div>
-            </div>
-            <AchievementCards />
-          </>
-        )}
+{type === 'achievements' && (
+  <AchievementsPage />
+)}
 
         <button
           className="cx-profile-secondary-button cx-profile-detail-back"
