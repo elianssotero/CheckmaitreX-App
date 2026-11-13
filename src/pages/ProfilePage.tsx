@@ -654,12 +654,27 @@ function ProfilePage() {
                 <button className="cx-profile-view-all" onClick={() => navigate('/profile/friends')} type="button">View All <ChevronRight size={15} /></button>
               </div>
               <div className="cx-profile-friends-track">
-                {friends.map((friend) => (
-                  <article className="cx-profile-friend-card" key={friend}>
-                    <div className="cx-profile-friend-avatar"><CircleUserRound size={29} /></div>
-                    <strong>{friend}</strong>
-                  </article>
-                ))}
+
+{friends.map((friend) => (
+  <article className="cx-profile-friend-card" key={friend.username}>
+    <div className="cx-profile-friend-avatar">
+      <CircleUserRound size={29} />
+    </div>
+    <strong>{friend.name}</strong>
+    <span className="cx-profile-friend-username">@{friend.username}</span>
+    <span className={`cx-profile-friend-status ${friend.status}`}>
+      <i />
+      {friend.status === 'offline'
+        ? `Active ${friend.lastActive} ago`
+        : friend.status === 'online'
+          ? 'Online'
+          : friend.status === 'queue'
+            ? 'Queue'
+            : 'Playing'}
+    </span>
+  </article>
+))}
+
               </div>
             </section>
 
@@ -1581,15 +1596,25 @@ function ProfileDetailPage({
           </>
         )}
 
-        {type === 'friends' && (
-          <>
-            <div className="cx-profile-detail-intro">
-              <Users size={24} />
-              <div>
-                <strong>Friends</strong>
-                <span>Sample friends list · Requests not active</span>
-              </div>
-            </div>
+
+{friends.map((friend) => (
+  <div className="cx-profile-detail-friend" key={friend.username}>
+    <CircleUserRound size={32} />
+    <strong>{friend.name}</strong>
+    <span>@{friend.username}</span>
+    <span className={`cx-profile-friend-status ${friend.status}`}>
+      <i />
+      {friend.status === 'offline'
+        ? `Active ${friend.lastActive} ago`
+        : friend.status === 'online'
+          ? 'Online'
+          : friend.status === 'queue'
+            ? 'Queue'
+            : 'Playing'}
+    </span>
+  </div>
+))}
+
 
             <div className="cx-profile-detail-friends">
               {friends.map((friend) => (
