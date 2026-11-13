@@ -371,10 +371,13 @@ function RatingIcon({ name }: { name: string }) {
               <span className="cx-overline">YOUR CHESS PERFORMANCE</span>
               <h2>Ratings</h2>
             </div>
-            <button className="cx-text-link">
-              View all <ChevronRight size={15} />
-            </button>
-          </div>
+<button
+  className="cx-text-link"
+  type="button"
+  onClick={() => navigate('/profile/ratings')}
+>
+  View all <ChevronRight size={15} />
+</button>
 
           <div className="cx-rating-track">
             {ratings.map((rating) => (
