@@ -309,20 +309,50 @@ function ProfilePage() {
 </div>
 </section>
 
-<section className="cx-profile-stat-track">
-          {[
-            ['128', 'Friends'],
-            ['2,450', 'Views'],
-            ['859', 'Followers'],
-            ['3,841', 'Likes'],
-            ['156', 'Following'],
-          ].map(([value, label]) => (
-            <article className="cx-profile-stat" key={label}>
-              <strong>{value}</strong>
-              <span>{label}</span>
-            </article>
-          ))}
-        </section>
+
+<div className="cx-profile-stat-groups">
+  <div className="cx-profile-stat-group">
+    <h3>Social Statistics</h3>
+    <div className="cx-profile-stat-track">
+      {[
+        ['128', 'Friends'],
+        ['2,450', 'Profile Views'],
+        ['859', 'Followers'],
+        ['3,841', 'Likes'],
+        ['156', 'Following'],
+      ].map(([value, label]) => (
+        <article className="cx-profile-stat" key={label}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div className="cx-profile-stat-group">
+    <h3>Chess Statistics</h3>
+    <div className="cx-profile-stat-track">
+      {[
+        ['156', 'Total Games'],
+        ['92', 'Wins'],
+        ['42', 'Losses'],
+        ['22', 'Draws'],
+        ['58.97%', 'Win Rate'],
+        ['320', 'Puzzles Solved'],
+        ['12', 'Trophies'],
+        ['18', 'Achievements'],
+        ['25', 'Lessons Completed'],
+        ['8', 'Tournaments Played'],
+      ].map(([value, label]) => (
+        <article className="cx-profile-stat" key={label}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </article>
+      ))}
+    </div>
+  </div>
+</div>
+
 
         <section className="cx-profile-actions">
           <button className="cx-profile-add-friend" type="button" onClick={() => navigate('/profile/friends')}>
