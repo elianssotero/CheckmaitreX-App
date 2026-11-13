@@ -783,9 +783,8 @@
   font-size: 11px;
 }
 
-.cx-profile-detail-friend span {
-  color: var(--cx-muted);
-  font-size: 9px;
+.cx-profile-detail-friend .cx-profile-friend-status {
+  margin-top: 2px;
 }
 
 .cx-profile-detail-back {
