@@ -68,6 +68,63 @@ function readProfile(): ProfileData {
   }
 }
 
+
+function calculateProfileCompletion(profile: ProfileData): number {
+  const country = profile.country.trim()
+  const countryName = /^[A-Z]{2}$/i.test(country)
+    ? new Intl.DisplayNames(['en'], { type: 'region' }).of(country.toUpperCase()) || country
+    : country
+
+  const location = profile.location.trim()
+
+  const completedItems = [
+    // 1. Profile Picture
+    Boolean(profile.profilePhoto.trim()),
+
+    // 2. Cover Photo
+    Boolean(profile.coverPhoto.trim()),
+
+    // 3. Bio
+    Boolean(
+      profile.bio.trim() &&
+      profile.bio.trim().toLowerCase() !== 'add your bio here.'
+    ),
+
+    // 4. Username
+    Boolean(
+      profile.username.trim() &&
+      profile.username.trim().replace(/^@/, '').toLowerCase() !== 'playername'
+    ),
+
+    // 5. First Name
+    Boolean(
+      profile.firstName.trim() &&
+      profile.firstName.trim().toLowerCase() !== 'player'
+    ),
+
+    // 6. Last Name
+    Boolean(
+      profile.lastName.trim() &&
+      profile.lastName.trim().toLowerCase() !== 'name'
+    ),
+
+    // 7. Country
+    Boolean(country),
+
+    // 8. Location
+    Boolean(
+      location &&
+      location.toLowerCase() !== 'philippines' &&
+      location.toLowerCase() !== countryName.toLowerCase()
+    ),
+  ]
+
+  const completedCount = completedItems.filter(Boolean).length
+
+  return Math.round((completedCount / completedItems.length) * 100)
+}
+
+
 function countryFlag(country: string) {
   const normalized = country.trim().toUpperCase()
   const displayNames = new Intl.DisplayNames(
