@@ -307,6 +307,7 @@ function ProfilePage() {
       <span>Member Since</span>
   </div>
 </div>
+</div>
 </section>
 
 
