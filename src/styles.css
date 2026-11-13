@@ -2042,6 +2042,51 @@ svg {
   white-space: nowrap;
 }
 
+
+.cx-profile-friend-username {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--cx-muted);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cx-profile-friend-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--cx-muted);
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.cx-profile-friend-status i {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cx-muted);
+}
+
+.cx-profile-friend-status.online i {
+  background: var(--cx-green);
+}
+
+.cx-profile-friend-status.playing i {
+  background: var(--cx-gold);
+}
+
+.cx-profile-friend-status.queue i {
+  background: #e89b45;
+}
+
+.cx-profile-friend-status.offline i {
+  background: var(--cx-muted);
+}
+
+
 .cx-profile-achievement-list {
   display: flex;
   flex-direction: column;
