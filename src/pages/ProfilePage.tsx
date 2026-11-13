@@ -305,11 +305,11 @@ function ProfilePage() {
     <div>
       <strong>Not available yet</strong>
       <span>Member Since</span>
-    </div>
   </div>
+</div>
 </section>
 
-        <section className="cx-profile-stat-track">
+<section className="cx-profile-stat-track">
           {[
             ['128', 'Friends'],
             ['2,450', 'Views'],
