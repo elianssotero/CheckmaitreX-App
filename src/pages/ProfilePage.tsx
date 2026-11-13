@@ -823,6 +823,99 @@ function AchievementCards({
     </div>
   )
 }
+
+
+function AchievementsPage() {
+  const [selectedCategory, setSelectedCategory] = useState('All')
+
+  const achievedItems = achievements.filter(
+    (achievement) =>
+      achievement.achieved &&
+      (selectedCategory === 'All' || achievement.category === selectedCategory)
+  )
+
+  const lockedItems = achievements.filter(
+    (achievement) =>
+      !achievement.achieved &&
+      (selectedCategory === 'All' || achievement.category === selectedCategory)
+  )
+
+  const achievedCount = achievements.filter(
+    (achievement) => achievement.achieved
+  ).length
+
+  const achievementProgress = Math.round(
+    (achievedCount / achievements.length) * 100
+  )
+
+  return (
+    <div className="cx-achievements-page">
+      <section className="cx-achievement-progress">
+        <div>
+          <strong>Overall Progress</strong>
+          <span>{achievedCount} / {achievements.length} Achieved</span>
+        </div>
+        <div className="cx-achievement-progress-track">
+          <span style={{ width: `${achievementProgress}%` }} />
+        </div>
+        <small>{achievementProgress}% completed</small>
+      </section>
+
+      <div className="cx-achievement-categories">
+        {achievementCategories.map((category) => (
+          <button
+            key={category}
+            type="button"
+            className={selectedCategory === category ? 'active' : ''}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <section className="cx-achievement-group">
+        <div className="cx-achievement-group-heading">
+          <h2>Achieved</h2>
+          <span>{achievedItems.length}</span>
+        </div>
+
+        {achievedItems.length > 0 ? (
+          <AchievementCards
+            items={achievedItems}
+            locked={false}
+            rows={2}
+          />
+        ) : (
+          <p className="cx-achievement-empty">
+            No achieved items in this category.
+          </p>
+        )}
+      </section>
+
+      <section className="cx-achievement-group">
+        <div className="cx-achievement-group-heading">
+          <h2>Achievements</h2>
+          <span>{lockedItems.length}</span>
+        </div>
+
+        {lockedItems.length > 0 ? (
+          <AchievementCards
+            items={lockedItems}
+            locked
+            rows={3}
+          />
+        ) : (
+          <p className="cx-achievement-empty">
+            No remaining achievements in this category.
+          </p>
+        )}
+      </section>
+    </div>
+  )
+}
+
+
 export function EditProfilePage() {
   const navigate = useNavigate()
 
