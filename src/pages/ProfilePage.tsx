@@ -423,7 +423,7 @@ function ProfilePage() {
     </div>
   </div>
 </div>
-
+</section>
 
 <div className="cx-profile-stat-groups">
   <div className="cx-profile-stat-group">
