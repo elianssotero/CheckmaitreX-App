@@ -316,11 +316,17 @@ function ProfilePage() {
     <h3>Social Statistics</h3>
     <div className="cx-profile-stat-track">
       {[
-        ['128', 'Friends'],
-        ['2,450', 'Profile Views'],
-        ['859', 'Followers'],
-        ['3,841', 'Likes'],
-        ['156', 'Following'],
+      {[
+        ['—', 'Friends'],
+        ['—', 'Profile Views'],
+        ['—', 'Followers'],
+        ['—', 'Likes'],
+        ['—', 'Following'],
+        ['—', 'Clubs Joined'],
+        ['—', 'Posts'],
+        ['—', 'Comments'],
+        ['—', 'Shares'],
+        ['—', 'Visitors'],
       ].map(([value, label]) => (
         <article className="cx-profile-stat" key={label}>
           <strong>{value}</strong>
