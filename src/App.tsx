@@ -25,7 +25,7 @@ import ProfilePage, {
 } from './pages/ProfilePage'
 
 import EditProfilePage from './pages/EditProfilePage'
-
+import TitleApplicationPage from './pages/TitleApplicationPage'
 import {
   FlairSelectionPage,
   CountrySelectionPage,
@@ -80,6 +80,11 @@ function App() {
             element={<EditProfilePage />}
           />
 
+         <Route
+             path="profile/title-application"
+            element={<TitleApplicationPage />}
+           />
+          
           <Route
             path="profile/ratings"
             element={<ProfileRatingsPage />}
