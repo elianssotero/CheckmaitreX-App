@@ -2502,3 +2502,78 @@
   font-size: 12px;
   text-align: center;
 }
+/* Ratings - Standard and Variant Formats */
+
+.cx-ratings-format-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cx-ratings-format-section .cx-ratings-section-heading {
+  margin: 0;
+}
+
+.cx-ratings-format-section .cx-ratings-section-heading h3 {
+  margin: 0;
+  color: var(--cx-text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.cx-ratings-variant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  min-width: 0;
+}
+
+.cx-ratings-variant-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  min-height: 88px;
+  padding: 12px;
+  border: 1px solid var(--cx-border);
+  border-radius: 10px;
+  color: var(--cx-text);
+  background: var(--cx-surface);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.cx-ratings-variant-button strong {
+  color: var(--cx-text);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.cx-ratings-variant-button span {
+  color: var(--cx-muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.cx-ratings-variant-button.active {
+  border-color: rgba(217, 180, 91, 0.75);
+  background: rgba(217, 180, 91, 0.09);
+}
+
+.cx-ratings-variant-button.active strong {
+  color: var(--cx-gold);
+}
+
+@media (max-width: 380px) {
+  .cx-ratings-variant-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .cx-ratings-variant-button {
+    padding: 10px;
+  }
+}
