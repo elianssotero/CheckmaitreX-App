@@ -1858,7 +1858,7 @@ const ranges = ['7D', '30D', '90D', '1Y', 'All']
           <article className="cx-ratings-value-card">
             <span>Current Rating</span>
             <strong>—</strong>
-            <small>{selectedFormat}</small>
+            <small>{selectedVariant ? 'Variant Rating' : selectedFormat}</small>
           </article>
 
           <article className="cx-ratings-value-card">
@@ -1872,7 +1872,7 @@ const ranges = ['7D', '30D', '90D', '1Y', 'All']
           <div className="cx-ratings-section-heading">
             <div>
               <h3>Rating History</h3>
-              <p>{selectedFormat} rating over time</p>
+              <p>{selectedVariant ? selectedVariant.description : `${selectedFormat} rating over time`}</p>
             </div>
             <ChartNoAxesCombined size={19} />
           </div>
@@ -1897,7 +1897,7 @@ const ranges = ['7D', '30D', '90D', '1Y', 'All']
               <ChartNoAxesCombined size={25} />
               <strong>No rating history yet</strong>
               <span>
-                Rating progress for {selectedFormat} will appear here
+                Rating progress for {selectedVariant ? selectedVariant.name : selectedFormat} will appear here
                 once rated games are recorded.
               </span>
             </div>
