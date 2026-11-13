@@ -319,6 +319,13 @@ function ProfilePage() {
   </div>
 </div>
 
+<div className="cx-profile-location-status">
+  {profile.location && (
+    <span className="cx-profile-location">
+      <MapPin size={12} /> {profile.location}
+    </span>
+  )}
+
   <div
     className={`cx-profile-presence cx-profile-presence-${profilePresence}`}
     aria-label={
