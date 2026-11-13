@@ -1911,6 +1911,7 @@
 /* Compact Profile Statistics */
 
 
+
 .cx-profile-stat-groups {
   display: flex;
   flex-direction: column;
@@ -1932,15 +1933,16 @@
   text-transform: uppercase;
 }
 
-
 .cx-profile-stat-track {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-auto-flow: row;
-  gap: 5px;
+  column-gap: 5px;
+  row-gap: 3px;
   overflow: visible;
   padding: 0;
 }
+
 
 
 
