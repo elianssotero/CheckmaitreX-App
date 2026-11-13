@@ -1136,7 +1136,18 @@ export function EditProfilePage() {
     const firstName = form.firstName.trim()
     const lastName = form.lastName.trim()
     const bio = form.bio.slice(0, 20)
+    const chessIdentity = form.chessIdentity.trim()
+    const personalMotto = form.personalMotto.trim()
 
+if (chessIdentity.length > 30) {
+  alert('Chess Identity must not exceed 30 characters.')
+  return
+}
+
+if (personalMotto.length > 60) {
+  alert('Personal Motto must not exceed 60 characters.')
+  return
+    }
     if (username.length > 15) {
       alert('Username must not exceed 15 characters.')
       return
@@ -1187,6 +1198,8 @@ export function EditProfilePage() {
       firstName,
       lastName,
       bio,
+    chessIdentity,
+   personalMotto,
       accountName:
         `${firstName} ${lastName}`.trim() || username,
       borders: form.borders || 'Default Gold',
@@ -1431,6 +1444,45 @@ export function EditProfilePage() {
           </span>
         </section>
 
+<section className="cx-edit-profile-player-details">
+  <div className="cx-edit-profile-section-heading">
+    <h2>Player Details</h2>
+    <p>Optional details shown at the bottom of your profile.</p>
+  </div>
+
+  <section className="cx-edit-profile-row">
+    <label htmlFor="profile-chess-identity">Chess Identity</label>
+    <input
+      id="profile-chess-identity"
+      value={form.chessIdentity}
+      maxLength={30}
+      onChange={(event) =>
+        update('chessIdentity', event.target.value.slice(0, 30))
+      }
+      placeholder="e.g. Strategic Thinker"
+    />
+    <span className="cx-edit-field-hint">
+      {form.chessIdentity.length}/30 characters
+    </span>
+  </section>
+
+  <section className="cx-edit-profile-row">
+    <label htmlFor="profile-personal-motto">Personal Motto</label>
+    <input
+      id="profile-personal-motto"
+      value={form.personalMotto}
+      maxLength={60}
+      onChange={(event) =>
+        update('personalMotto', event.target.value.slice(0, 60))
+      }
+      placeholder="Your personal motto"
+    />
+    <span className="cx-edit-field-hint">
+      {form.personalMotto.length}/60 characters
+    </span>
+  </section>
+</section>
+        
         <section className="cx-edit-profile-row">
           <label htmlFor="profile-privacy">Profile Visibility</label>
           <select
@@ -1636,6 +1688,24 @@ export function EditProfilePage() {
               {form.bio || 'No bio added yet.'}
             </p>
 
+{(form.chessIdentity || form.personalMotto) && (
+  <div className="cx-profile-preview-player-details">
+    {form.chessIdentity && (
+      <div>
+        <span>Chess Identity</span>
+        <strong>{form.chessIdentity}</strong>
+      </div>
+    )}
+
+    {form.personalMotto && (
+      <div>
+        <span>Personal Motto</span>
+        <strong>{form.personalMotto}</strong>
+      </div>
+    )}
+  </div>
+)}
+            
             <div className="cx-profile-preview-information">
               <div>
                 <span>Country</span>
