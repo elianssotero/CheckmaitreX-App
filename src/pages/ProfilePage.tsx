@@ -9,6 +9,7 @@ import {
   CircleUserRound,
   Crown,
   Gamepad2,
+  Gem, 
   MapPin,
   Pencil,
   QrCode,
@@ -262,7 +263,8 @@ function ProfilePage() {
   const [featured, setFeatured] = useState('First Victory')
 
   const profileCompletion = calculateProfileCompletion(profile)
-
+  const subscriptionTier = 'Standard'
+  const subscriptionSince = 'November 2026'
   const verifiedTitle =
     playerProfile.chessTitle?.verificationStatus === 'verified'
       ? playerProfile.chessTitle.value
@@ -414,6 +416,13 @@ function ProfilePage() {
 </div>
 </section>
 
+  <div className="cx-profile-meta-item">
+    <Gem size={16} />
+    <div>
+      <strong>{subscriptionSince}</strong>
+      <span>{`CMX ${subscriptionTier} Since`}</span>
+    </div>
+  </div>        
 
 <div className="cx-profile-stat-groups">
   <div className="cx-profile-stat-group">
@@ -486,11 +495,24 @@ function ProfilePage() {
               <span>Current streak</span>
             </div>
           </button>
+
           <article className="cx-profile-highlight">
-            <div className="cx-profile-highlight-icon"><Crown size={21} /></div>
+            <div className="cx-profile-highlight-icon">
+              <Crown size={21} />
+            </div>
             <div>
               <strong>CCC Member</strong>
               <span>Membership</span>
+            </div>
+          </article>
+
+          <article className="cx-profile-highlight">
+            <div className="cx-profile-highlight-icon">
+              <Gem size={21} />
+            </div>
+            <div>
+              <strong>{`CMX ${subscriptionTier}`}</strong>
+              <span>Subscription</span>
             </div>
           </article>
         </section>
