@@ -22,9 +22,6 @@ import {
   ChartNoAxesCombined,
   Eye,
   Lock,
-  ChartNoAxesCombined,
-  Eye,
-  Lock,
   WifiOff,
 } from 'lucide-react'
 import { playerProfile } from '../data/playerProfile'
