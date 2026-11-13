@@ -425,32 +425,6 @@ function ProfilePage() {
 </div>
 
 
-  <div className="cx-profile-meta-item">
-    <CircleUserRound size={16} />
-    <div>
-      <strong>CMX-P-000001</strong>
-      <span>Player ID</span>
-    </div>
-  </div>
-
-  <div className="cx-profile-meta-item">
-    <Crown size={16} />
-    <div>
-      <strong>Not available yet</strong>
-      <span>Member Since</span>
-  </div>
-</div>
-</div>
-</section>
-
-  <div className="cx-profile-meta-item">
-    <Gem size={16} />
-    <div>
-      <strong>{subscriptionSince}</strong>
-      <span>{`CMX ${subscriptionTier} Since`}</span>
-    </div>
-  </div>        
-
 <div className="cx-profile-stat-groups">
   <div className="cx-profile-stat-group">
     <h3>Social Statistics</h3>
