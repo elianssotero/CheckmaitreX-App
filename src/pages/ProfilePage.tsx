@@ -340,16 +340,16 @@ function ProfilePage() {
     <h3>Chess Statistics</h3>
     <div className="cx-profile-stat-track">
       {[
-        ['156', 'Total Games'],
-        ['92', 'Wins'],
-        ['42', 'Losses'],
-        ['22', 'Draws'],
-        ['58.97%', 'Win Rate'],
-        ['320', 'Puzzles Solved'],
-        ['12', 'Trophies'],
-        ['18', 'Achievements'],
-        ['25', 'Lessons Completed'],
-        ['8', 'Tournaments Played'],
+        ['—', 'Total Games'],
+        ['—', 'Wins'],
+        ['—', 'Losses'],
+        ['—', 'Draws'],
+        ['—', 'Win Rate'],
+        ['—', 'Puzzles Solved'],
+        ['—', 'Trophies'],
+        ['—', 'Achievements'],
+        ['—', 'Lessons Completed'],
+        ['—', 'Tournaments Played'],
       ].map(([value, label]) => (
         <article className="cx-profile-stat" key={label}>
           <strong>{value}</strong>
