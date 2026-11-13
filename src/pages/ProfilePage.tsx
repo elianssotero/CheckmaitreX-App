@@ -278,7 +278,6 @@ function ProfilePage() {
               </h1>
               <span>{profile.username}</span>
 <div className="cx-profile-location-status">
-<div className="cx-profile-location-status">
   {profile.location && (
     <span className="cx-profile-location">
       <MapPin size={12} /> {profile.location}
