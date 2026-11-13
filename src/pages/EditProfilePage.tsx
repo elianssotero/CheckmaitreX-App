@@ -623,11 +623,9 @@ const nextProfile = {
   firstName,
   lastName,
   bio,
+  chessIdentity,
+  personalMotto,
   accountName:
-    `${firstName} ${lastName}`.trim() || username,
-  borders: form.borders || 'Default Gold',
-  profileVisibility: privacy,
-}
     
     try {
       localStorage.setItem(
