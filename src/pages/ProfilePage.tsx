@@ -1596,36 +1596,26 @@ function ProfileDetailPage({
           </>
         )}
 
-
-{friends.map((friend) => (
-  <div className="cx-profile-detail-friend" key={friend.username}>
-    <CircleUserRound size={32} />
-    <strong>{friend.name}</strong>
-    <span>@{friend.username}</span>
-    <span className={`cx-profile-friend-status ${friend.status}`}>
-      <i />
-      {friend.status === 'offline'
-        ? `Active ${friend.lastActive} ago`
-        : friend.status === 'online'
-          ? 'Online'
-          : friend.status === 'queue'
-            ? 'Queue'
-            : 'Playing'}
-    </span>
-  </div>
-))}
-
-
-            <div className="cx-profile-detail-friends">
-              {friends.map((friend) => (
-                <div className="cx-profile-detail-friend" key={friend}>
-                  <CircleUserRound size={32} />
-                  <strong>{friend}</strong>
-                  <span>CCC Player</span>
-                </div>
-              ))}
-            </div>
-
+<div className="cx-profile-detail-friends">
+  {friends.map((friend) => (
+    <div className="cx-profile-detail-friend" key={friend.username}>
+      <CircleUserRound size={32} />
+      <strong>{friend.name}</strong>
+      <span>@{friend.username}</span>
+      <span className={`cx-profile-friend-status ${friend.status}`}>
+        <i />
+        {friend.status === 'offline'
+          ? `Active ${friend.lastActive} ago`
+          : friend.status === 'online'
+            ? 'Online'
+            : friend.status === 'queue'
+              ? 'Queue'
+              : 'Playing'}
+      </span>
+    </div>
+  ))}
+</div>
+        
             <p className="cx-profile-preview-note">
               Friend search and friend requests will be implemented
               during the backend phase.
