@@ -2072,9 +2072,12 @@ svg {
     font-size: 10px;
   }
 
+
+@media (max-width: 420px) {
   .cx-profile-stat-track {
-    gap: 20px;
+    gap: 5px;
   }
+}
 
   .cx-profile-highlight {
     min-height: 65px;
