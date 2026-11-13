@@ -40,6 +40,8 @@ type ProfileData = {
   flair: string
   borders: string
   coverPhoto: string
+  chessIdentity: string
+  personalMotto: string
 }
 
 const defaultProfile: ProfileData = {
@@ -54,6 +56,8 @@ const defaultProfile: ProfileData = {
   flair: playerProfile.flair || '',
   borders: 'Default Gold',
   coverPhoto: '',
+  chessIdentity: '',
+  personalMotto: '',
 }
 
 function readProfile(): ProfileData {
@@ -713,21 +717,31 @@ function ProfilePage() {
   />
 </section>
 
-            <section className="cx-profile-section cx-profile-extra-details">
-              <h2>Player Details</h2>
-              <div>
-                <Sparkles size={17} />
-                <span>Flair</span>
-                <strong>{profile.flair || 'No Flair'}</strong>
-              </div>
-              <div>
-                <CircleUserRound size={17} />
-                <span>Profile Border</span>
-                <strong>{profile.borders || 'Default Gold'}</strong>
-              </div>
-            </section>
-          </>
-        )}
+<section className="cx-profile-section cx-profile-extra-details">
+  <div className="cx-profile-extra-details-heading">
+    <h2>Player Details</h2>
+    <button
+      type="button"
+      onClick={() => navigate('/profile/edit')}
+      aria-label="Edit Player Details"
+      title="Edit Player Details"
+    >
+      <Pencil size={16} />
+    </button>
+  </div>
+
+  <div>
+    <Crown size={17} />
+    <span>Chess Identity</span>
+    <strong>{profile.chessIdentity || 'Not set yet'}</strong>
+  </div>
+
+  <div>
+    <Sparkles size={17} />
+    <span>Personal Motto</span>
+    <strong>{profile.personalMotto || 'Not set yet'}</strong>
+  </div>
+</section>
 
         {activeTab === 'Games' && (
           <section className="cx-profile-section">
