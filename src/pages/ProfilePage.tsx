@@ -15,7 +15,6 @@ import {
   QrCode,
   Share2,
   Sparkles,
-  Star,
   Trophy,
   UserPlus,
   X,
@@ -750,7 +749,12 @@ function ProfilePage() {
                 View All <ChevronRight size={15} />
               </button>
             </div>
-            <AchievementCards />
+            <AchievementCards
+  items={achievements.filter((achievement) => achievement.achieved)}
+  locked={false}
+  rows={1}
+  preview
+/>
           </section>
         )}
 
