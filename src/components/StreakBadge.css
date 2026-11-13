@@ -105,6 +105,14 @@
   filter: drop-shadow(0 0 12px var(--badge-glow));
 }
 
+
+/* Fine alignment for compact streak badge */
+.cx-shared-streak-badge--compact .cx-shared-streak-flame {
+  left: calc(50% - 18px);
+  top: calc(50% - 18px);
+}
+
+
 .cx-shared-streak-flame-icon {
   width: 126px;
   height: 145px;
