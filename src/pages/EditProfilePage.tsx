@@ -46,6 +46,9 @@ type ProfileData = {
   flair: string
   borders: string
   coverPhoto: string
+  chessIdentity: string
+  personalMotto: string
+  profileVisibility: string
 }
 
 const defaultProfile: ProfileData = {
@@ -60,6 +63,9 @@ const defaultProfile: ProfileData = {
   flair: '',
   borders: 'Default Gold',
   coverPhoto: '',
+  chessIdentity: '',
+  personalMotto: '',
+  profileVisibility: 'Public',
 }
 
 const flairIcons: Record<string, typeof Sparkles> = {
@@ -234,6 +240,9 @@ export default function EditProfilePage() {
         ? 'PH'
         : profile.country,
     borders: profile.borders || 'Default Gold',
+  chessIdentity: profile.chessIdentity || '',
+  personalMotto: profile.personalMotto || '',
+  profileVisibility: profile.profileVisibility || 'Public',
   })
 
   const [original] = useState<ProfileData>(() =>
