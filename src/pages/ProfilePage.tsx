@@ -22,6 +22,10 @@ import {
   ChartNoAxesCombined,
   Eye,
   Lock,
+  ChartNoAxesCombined,
+  Eye,
+  Lock,
+  WifiOff,
 } from 'lucide-react'
 import { playerProfile } from '../data/playerProfile'
 import { alpha3 } from './ProfileSelectionPages'
@@ -123,6 +127,11 @@ const achievements = [
 ]
 
 const tabs = ['Overview', 'Games', 'Achievements', 'Activity']
+// Frontend preview only. Backend presence integration will come later.
+type ProfilePresence = 'online' | 'queue' | 'playing' | 'offline'
+
+const profilePresence: ProfilePresence = 'online'
+const profileLastActive = '15m ago'
 
 function PageHeader({ title }: { title: string }) {
   const navigate = useNavigate()
@@ -247,15 +256,50 @@ function ProfilePage() {
       <main className="cx-profile-content">
         <section className="cx-profile-identity">
           <div className="cx-profile-identity-top">
-            <div
-              className="cx-profile-photo"
-              data-border={profile.borders || 'Default Gold'}
-            >
-              {profile.profilePhoto ? (
-                <img src={profile.profilePhoto} alt="Profile" />
-              ) : (
-                <CircleUserRound size={54} />
-              )}
+            <div className="cx-profile-avatar-column">
+              <div
+                className="cx-profile-photo"
+                data-border={profile.borders || 'Default Gold'}
+              >
+                {profile.profilePhoto ? (
+                  <img src={profile.profilePhoto} alt="Profile" />
+                ) : (
+                  <CircleUserRound size={54} />
+                )}
+              </div>
+
+              <div
+                className={`cx-profile-presence cx-profile-presence-${profilePresence}`}
+                aria-label={
+                  profilePresence === 'offline'
+                    ? `Offline · Active ${profileLastActive}`
+                    : profilePresence === 'queue'
+                      ? 'Queue'
+                      : profilePresence === 'playing'
+                        ? 'Playing'
+                        : 'Online'
+                }
+              >
+                {profilePresence === 'offline' ? (
+                  <>
+                    <WifiOff size={12} />
+                    <span>Offline</span>
+                    <span className="cx-profile-presence-separator">•</span>
+                    <span>Active {profileLastActive}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="cx-profile-presence-dot" />
+                    <span>
+                      {profilePresence === 'queue'
+                        ? 'Queue'
+                        : profilePresence === 'playing'
+                          ? 'Playing'
+                          : 'Online'}
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
             <div className="cx-profile-name-area">
               <h1>
