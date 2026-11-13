@@ -742,6 +742,8 @@ function ProfilePage() {
     <strong>{profile.personalMotto || 'Not set yet'}</strong>
   </div>
 </section>
+          </>
+        )}
 
         {activeTab === 'Games' && (
           <section className="cx-profile-section">
