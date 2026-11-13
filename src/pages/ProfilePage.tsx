@@ -1595,9 +1595,10 @@ function ProfileDetailPage({
             <GameRows />
           </>
         )}
-
-<div className="cx-profile-detail-friends">
-  {friends.map((friend) => (
+{type === 'friends' && (
+  <>
+    <div className="cx-profile-detail-friends">
+      {friends.map((friend) => (
     <div className="cx-profile-detail-friend" key={friend.username}>
       <CircleUserRound size={32} />
       <strong>{friend.name}</strong>
