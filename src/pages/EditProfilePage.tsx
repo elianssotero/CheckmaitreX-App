@@ -550,7 +550,9 @@ coverPhoto:
     const firstName = form.firstName.trim()
     const lastName = form.lastName.trim()
     const bio = form.bio.slice(0, 20)
-
+    const chessIdentity = form.chessIdentity.trim()
+    const personalMotto = form.personalMotto.trim()
+    
     if (username.length > 15) {
       alert('Username must not exceed 15 characters.')
       return
@@ -967,6 +969,59 @@ const nextProfile = {
           />
         </section>
 
+<section className="cx-edit-profile-player-details">
+  <div className="cx-edit-profile-section-heading">
+    <h2>Player Details</h2>
+    <p>Optional details shown at the bottom of your profile.</p>
+  </div>
+
+  <section className="cx-edit-profile-row">
+    <label htmlFor="profile-chess-identity">
+      Chess Identity
+    </label>
+
+    <input
+      id="profile-chess-identity"
+      value={form.chessIdentity}
+      maxLength={30}
+      onChange={(event) =>
+        update(
+          'chessIdentity',
+          event.target.value.slice(0, 30)
+        )
+      }
+      placeholder="e.g. Strategic Thinker"
+    />
+
+    <span className="cx-edit-field-hint">
+      {form.chessIdentity.length}/30 characters
+    </span>
+  </section>
+
+  <section className="cx-edit-profile-row">
+    <label htmlFor="profile-personal-motto">
+      Personal Motto
+    </label>
+
+    <input
+      id="profile-personal-motto"
+      value={form.personalMotto}
+      maxLength={60}
+      onChange={(event) =>
+        update(
+          'personalMotto',
+          event.target.value.slice(0, 60)
+        )
+      }
+      placeholder="Your personal motto"
+    />
+
+    <span className="cx-edit-field-hint">
+      {form.personalMotto.length}/60 characters
+    </span>
+  </section>
+</section>
+        
         <ProfileBorderSelector
           value={form.borders as ProfileBorder}
           onChange={(value) => update('borders', value)}
@@ -1216,6 +1271,22 @@ const nextProfile = {
               {form.bio || 'No bio added yet.'}
             </p>
 
+<div className="cx-profile-preview-player-details">
+  <div>
+    <span>Chess Identity</span>
+    <strong>
+      {form.chessIdentity.trim() || 'Not set yet'}
+    </strong>
+  </div>
+
+  <div>
+    <span>Personal Motto</span>
+    <strong>
+      {form.personalMotto.trim() || 'Not set yet'}
+    </strong>
+  </div>
+</div>
+            
             <div className="cx-profile-preview-information">
               <div>
                 <span>Country</span>
