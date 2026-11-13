@@ -571,6 +571,81 @@
   background: var(--cx-surface);
 }
 
+.cx-profile-extra-details-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+
+.cx-profile-extra-details-heading h2 {
+  margin: 0;
+}
+
+.cx-profile-extra-details-heading button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--cx-border);
+  border-radius: 9px;
+  color: var(--cx-gold);
+  background: var(--cx-surface-2);
+  cursor: pointer;
+}
+
+.cx-profile-extra-details-heading button:hover {
+  border-color: var(--cx-gold);
+}
+
+.cx-edit-profile-player-details {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--cx-border);
+}
+
+.cx-edit-profile-section-heading {
+  margin-bottom: 18px;
+}
+
+.cx-edit-profile-section-heading h2 {
+  margin: 0 0 5px;
+  font-size: 15px;
+}
+
+.cx-edit-profile-section-heading p {
+  margin: 0;
+  color: var(--cx-muted);
+  font-size: 11px;
+}
+
+.cx-profile-preview-player-details {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--cx-border);
+  border-radius: 10px;
+  text-align: left;
+}
+
+.cx-profile-preview-player-details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cx-profile-preview-player-details span {
+  color: var(--cx-muted);
+  font-size: 10px;
+}
+
+.cx-profile-preview-player-details strong {
+  color: var(--cx-text);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
 .cx-profile-extra-details h2 {
   margin: 0 0 13px;
   font-size: 15px;
