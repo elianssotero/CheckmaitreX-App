@@ -319,46 +319,46 @@ function ProfilePage() {
   </div>
 </div>
 
-<div className="cx-profile-location-status">
-  {profile.location && (
-    <span className="cx-profile-location">
-      <MapPin size={12} /> {profile.location}
-    </span>
-  )}
+              <div className="cx-profile-location-status">
+                {profile.location && (
+                  <span className="cx-profile-location">
+                    <MapPin size={12} /> {profile.location}
+                  </span>
+                )}
 
-  <div
-    className={`cx-profile-presence cx-profile-presence-${profilePresence}`}
-    aria-label={
-      profilePresence === 'offline'
-        ? `Offline · Active ${profileLastActive}`
-        : profilePresence === 'queue'
-          ? 'Queue'
-          : profilePresence === 'playing'
-            ? 'Playing'
-            : 'Online'
-    }
-  >
-    {profilePresence === 'offline' ? (
-      <>
-        <WifiOff size={12} />
-        <span>Offline</span>
-        <span className="cx-profile-presence-separator">•</span>
-        <span>Active {profileLastActive}</span>
-      </>
-    ) : (
-      <>
-        <span className="cx-profile-presence-dot" />
-        <span>
-          {profilePresence === 'queue'
-            ? 'Queue'
-            : profilePresence === 'playing'
-              ? 'Playing'
-              : 'Online'}
-        </span>
-      </>
-    )}
-  </div>
-</div>
+                <div
+                  className={`cx-profile-presence cx-profile-presence-${profilePresence}`}
+                  aria-label={
+                    profilePresence === 'offline'
+                      ? `Offline · Active ${profileLastActive}`
+                      : profilePresence === 'queue'
+                        ? 'Queue'
+                        : profilePresence === 'playing'
+                          ? 'Playing'
+                          : 'Online'
+                  }
+                >
+                  {profilePresence === 'offline' ? (
+                    <>
+                      <WifiOff size={12} />
+                      <span>Offline</span>
+                      <span className="cx-profile-presence-separator">•</span>
+                      <span>Active {profileLastActive}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="cx-profile-presence-dot" />
+                      <span>
+                        {profilePresence === 'queue'
+                          ? 'Queue'
+                          : profilePresence === 'playing'
+                            ? 'Playing'
+                            : 'Online'}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
               {profile.flair && (
                 <span className="cx-profile-flair-label">
                   <Sparkles size={13} /> {profile.flair}
