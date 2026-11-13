@@ -18,7 +18,6 @@ import {
   Star,
   Trophy,
   UserPlus,
-  Users,
   X,
   ChartNoAxesCombined,
   Eye,
