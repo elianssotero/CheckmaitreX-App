@@ -279,8 +279,10 @@ coverPhoto:
 
   const [preview, setPreview] = useState(false)
 
-  const [privacy, setPrivacy] =
-    useState<ProfileVisibility>('Public')
+const [privacy, setPrivacy] =
+  useState<ProfileVisibility>(
+    form.profileVisibility as ProfileVisibility
+  )
 
   const [cropSource, setCropSource] = useState('')
   const [cropZoom, setCropZoom] = useState(1)
@@ -420,9 +422,11 @@ coverPhoto:
     }))
   }
 
-  const hasChanges = (
-    Object.keys(form) as (keyof ProfileData)[]
-  ).some((key) => form[key] !== original[key])
+const hasChanges =
+  (Object.keys(form) as (keyof ProfileData)[]).some(
+    (key) => form[key] !== original[key]
+  ) ||
+  privacy !== (original.profileVisibility as ProfileVisibility)
 
 
   const photoChange = (file?: File) => {
@@ -622,6 +626,7 @@ const nextProfile = {
   accountName:
     `${firstName} ${lastName}`.trim() || username,
   borders: form.borders || 'Default Gold',
+  profileVisibility: privacy,
 }
     
     try {
