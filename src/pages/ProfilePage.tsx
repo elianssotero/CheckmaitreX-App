@@ -572,14 +572,42 @@ function ProfilePage() {
                   </article>
                 ))}
               </div>
-              <div className="cx-profile-chart-card">
-                <div><ChartNoAxesCombined size={18} /><strong>Rating Progress</strong></div>
-                <p>Rating history will appear here when game data is connected.</p>
-                <div className="cx-profile-chart-placeholder">
-                  <span /><span /><span /><span /><span /><span /><span />
-                </div>
-                <small>Sample chart preview · No live rating data</small>
-              </div>
+
+<div className="cx-profile-insights-track">
+  <article className="cx-profile-chart-card">
+    <div><ChartNoAxesCombined size={18} /><strong>Rating Progress</strong></div>
+    <p>Rating history will appear here when game data is connected.</p>
+    <div className="cx-profile-chart-placeholder">
+      <span /><span /><span /><span /><span /><span /><span />
+    </div>
+    <small>Sample chart preview · No live rating data</small>
+  </article>
+
+  <article className="cx-profile-chart-card cx-profile-insight-card">
+    <div><ChartNoAxesCombined size={18} /><strong>Rating Distribution</strong></div>
+    <p>Your rating range and consistency will appear here when rating history is available.</p>
+    <div className="cx-profile-insight-placeholder">
+      <span>Rating range</span>
+      <strong>—</strong>
+      <span>Consistency</span>
+      <strong>—</strong>
+    </div>
+    <small>Requires rating history · No live data</small>
+  </article>
+
+  <article className="cx-profile-chart-card cx-profile-insight-card">
+    <div><Trophy size={18} /><strong>Rating Milestones</strong></div>
+    <p>Your reached rating milestones and personal bests will appear here.</p>
+    <div className="cx-profile-insight-placeholder">
+      <span>Highest rating</span>
+      <strong>—</strong>
+      <span>Milestones reached</span>
+      <strong>—</strong>
+    </div>
+    <small>Requires rating history · No live data</small>
+  </article>
+</div>
+
             </section>
 
             <section className="cx-profile-section">
