@@ -616,18 +616,29 @@ function ProfilePage() {
                 <button className="cx-profile-view-all" onClick={() => navigate('/profile/games')} type="button">View All <ChevronRight size={15} /></button>
               </div>
               <div className="cx-profile-game-list">
-                {games.slice(0, 3).map((game, index) => (
-                  <article className="cx-profile-game-row" key={`${game.opponent}-${index}`}>
-                    <div className={`cx-profile-game-result ${game.result.toLowerCase()}`}>
-                      {game.result === 'Victory' ? '+' : game.result === 'Defeat' ? '−' : '='}
-                    </div>
-                    <div className="cx-profile-game-info">
-                      <strong>{game.opponent}</strong><span>{game.mode} · {game.date}</span>
-                    </div>
-                    <strong className={`cx-profile-game-rating ${game.result.toLowerCase()}`}>{game.rating}</strong>
-                    <ChevronRight size={17} />
-                  </article>
-                ))}
+
+{games.slice(0, 3).map((game, index) => (
+  <article className="cx-profile-game-row" key={`${game.opponent}-${index}`}>
+    <div className={`cx-profile-game-result ${game.result.toLowerCase()}`}>
+      {game.result === 'Victory' ? '+' : game.result === 'Defeat' ? '−' : '='}
+    </div>
+
+    <div className="cx-profile-game-avatar">
+      <CircleUserRound size={21} />
+    </div>
+
+    <div className="cx-profile-game-info">
+      <strong>{game.opponent}</strong>
+      <span>{game.mode} · {game.date}</span>
+    </div>
+
+    <strong className={`cx-profile-game-rating ${game.result.toLowerCase()}`}>
+      {game.rating}
+    </strong>
+    <ChevronRight size={17} />
+  </article>
+))}
+
               </div>
               <div className="cx-profile-stat-summary">
                 <span><strong>{totalGames}</strong> Games</span>
