@@ -58,7 +58,7 @@
 }
 
 .cx-shared-streak-badge--compact .cx-shared-streak-art {
-  transform: translate(-50%, -50%) scale(0.2);
+  transform: translate(calc(-50% + 2px), calc(-50% + 1px)) scale(0.2);
 }
 
 .cx-shared-streak-aura {
