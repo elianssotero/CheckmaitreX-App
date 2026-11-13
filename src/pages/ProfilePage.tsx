@@ -316,7 +316,6 @@ function ProfilePage() {
     <h3>Social Statistics</h3>
     <div className="cx-profile-stat-track">
       {[
-      {[
         ['—', 'Friends'],
         ['—', 'Profile Views'],
         ['—', 'Followers'],
