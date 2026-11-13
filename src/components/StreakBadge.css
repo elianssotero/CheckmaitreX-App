@@ -108,8 +108,8 @@
 
 /* Fine alignment for compact streak badge */
 .cx-shared-streak-badge--compact .cx-shared-streak-flame {
-  left: calc(50% - 18px);
-  top: calc(50% - 18px);
+  left: 50%;
+  top: 50%;
 }
 
 
