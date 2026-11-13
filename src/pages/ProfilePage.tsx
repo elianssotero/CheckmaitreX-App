@@ -187,6 +187,14 @@ const achievements = [
   { name: 'Dedicated Learner', description: 'Complete multiple lessons', rarity: 'Rare', category: 'Lessons', achieved: false, date: '', unlock: 'Complete 10 chess lessons' },
   { name: 'Daily Champion', description: 'Maintain a long playing streak', rarity: 'Epic', category: 'Streaks', achieved: false, date: '', unlock: 'Reach a 30-day streak' },
   { name: 'Tournament Champion', description: 'Win a tournament', rarity: 'Legendary', category: 'Tournaments', achieved: false, date: '', unlock: 'Win a chess tournament' },
+  { name: 'Chess960 Explorer', description: 'Explore randomized starting positions', rarity: 'Rare', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Chess960 games' },
+  { name: 'King of the Hill Victor', description: 'Claim the center with your king', rarity: 'Epic', category: 'Games', achieved: false, date: '', unlock: 'Win 10 King of the Hill games' },
+  { name: 'Three-Check Finisher', description: 'Deliver the decisive third check', rarity: 'Epic', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Three-Check games' },
+  { name: 'Crazyhouse Tactician', description: 'Master drops and piece coordination', rarity: 'Epic', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Crazyhouse games' },
+  { name: 'Anti-Chess Strategist', description: 'Master the art of giving up your pieces', rarity: 'Rare', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Anti-Chess games' },
+  { name: 'Atomic Specialist', description: 'Master explosive captures', rarity: 'Epic', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Atomic games' },
+  { name: 'Horde Commander', description: 'Lead the pawn army to victory', rarity: 'Epic', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Horde games' },
+  { name: 'Racing Kings Racer', description: 'Race your king to the finish', rarity: 'Rare', category: 'Games', achieved: false, date: '', unlock: 'Win 10 Racing Kings games' },
 ]
 
 const achievementCategories = ['All', 'Games', 'Puzzles', 'Lessons', 'Streaks', 'Tournaments', 'Social']
@@ -1766,8 +1774,26 @@ export function ProfileRatingsPage() {
   const [selectedFormat, setSelectedFormat] = useState('Bullet')
   const [selectedRange, setSelectedRange] = useState('30D')
 
-  const formats = ['Bullet', 'Blitz', 'Rapid', 'Classical', 'Daily']
-  const ranges = ['7D', '30D', '90D', '1Y', 'All']
+
+const standardFormats = ['Bullet', 'Blitz', 'Rapid', 'Classical', 'Daily']
+
+const variantFormats = [
+  { name: 'Chess960', description: 'A randomized starting position for a different opening challenge.' },
+  { name: 'King of the Hill', description: 'Win by bringing your king to one of the four center squares.' },
+  { name: 'Three-Check', description: 'The first player to give three checks wins.' },
+  { name: 'Crazyhouse', description: 'Captured pieces can be returned to the board as your own.' },
+  { name: 'Anti-Chess', description: 'Try to lose all your pieces or leave yourself without legal moves.' },
+  { name: 'Atomic', description: 'Captures create explosions that affect nearby pieces.' },
+  { name: 'Horde', description: 'One side starts with a large army of pawns.' },
+  { name: 'Racing Kings', description: 'Race your king to the opposite side of the board.' },
+]
+
+const selectedVariant = variantFormats.find(
+  (variant) => variant.name === selectedFormat
+)
+
+const ranges = ['7D', '30D', '90D', '1Y', 'All']
+
 
   return (
     <div className="cx-profile-subpage cx-ratings-page">
@@ -1782,19 +1808,51 @@ export function ProfileRatingsPage() {
           <p>Select a format to view its rating and history.</p>
         </div>
 
-        <div className="cx-ratings-format-list" role="group" aria-label="Rating format">
-          {formats.map((format) => (
-            <button
-              key={format}
-              type="button"
-              className={`cx-ratings-format-button ${selectedFormat === format ? 'active' : ''}`}
-              aria-pressed={selectedFormat === format}
-              onClick={() => setSelectedFormat(format)}
-            >
-              {format}
-            </button>
-          ))}
-        </div>
+
+<section className="cx-ratings-format-section">
+  <div className="cx-ratings-section-heading">
+    <h3>Standard Ratings</h3>
+  </div>
+
+  <div className="cx-ratings-format-list" role="group" aria-label="Standard rating formats">
+    {standardFormats.map((format) => (
+      <button
+        key={format}
+        type="button"
+        className={`cx-ratings-format-button ${selectedFormat === format ? 'active' : ''}`}
+        aria-pressed={selectedFormat === format}
+        onClick={() => setSelectedFormat(format)}
+      >
+        {format}
+      </button>
+    ))}
+  </div>
+</section>
+
+<section className="cx-ratings-format-section">
+  <div className="cx-ratings-section-heading">
+    <div>
+      <h3>Variant Ratings</h3>
+      <p>Separate ratings for each supported game mode.</p>
+    </div>
+  </div>
+
+  <div className="cx-ratings-variant-grid" role="group" aria-label="Variant rating formats">
+    {variantFormats.map((variant) => (
+      <button
+        key={variant.name}
+        type="button"
+        className={`cx-ratings-variant-button ${selectedFormat === variant.name ? 'active' : ''}`}
+        aria-pressed={selectedFormat === variant.name}
+        onClick={() => setSelectedFormat(variant.name)}
+      >
+        <strong>{variant.name}</strong>
+        <span>{variant.description}</span>
+      </button>
+    ))}
+  </div>
+</section>
+
 
         <section className="cx-ratings-primary-grid">
           <article className="cx-ratings-value-card">
