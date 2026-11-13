@@ -261,6 +261,8 @@ function ProfilePage() {
   const [showQR, setShowQR] = useState(false)
   const [featured, setFeatured] = useState('First Victory')
 
+  const profileCompletion = calculateProfileCompletion(profile)
+
   const verifiedTitle =
     playerProfile.chessTitle?.verificationStatus === 'verified'
       ? playerProfile.chessTitle.value
@@ -493,15 +495,32 @@ function ProfilePage() {
           </article>
         </section>
 
-        <section className="cx-profile-completion">
-          <div className="cx-profile-section-heading">
-            <h2>Profile Completion</h2>
-            <strong>75%</strong>
-          </div>
-          <div className="cx-profile-progress-track"><span style={{ width: '75%' }} /></div>
-          <p>Complete your profile to introduce yourself to the CCC community.</p>
-          <button type="button" onClick={() => navigate('/profile/edit')}>Complete Profile <ChevronRight size={15} /></button>
-        </section>
+        {profileCompletion < 100 && (
+          <section className="cx-profile-completion">
+            <div className="cx-profile-section-heading">
+              <h2>Profile Completion</h2>
+              <strong>{profileCompletion}%</strong>
+            </div>
+
+            <div className="cx-profile-progress-track">
+              <span
+                style={{ width: `${profileCompletion}%` }}
+              />
+            </div>
+
+            <p>
+              Complete your profile to introduce yourself
+              to the CCC community.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => navigate('/profile/edit')}
+            >
+              Complete Profile <ChevronRight size={15} />
+            </button>
+          </section>
+        )}
 
         <nav className="cx-profile-tabs" aria-label="Profile sections">
           {tabs.map((tab) => (
