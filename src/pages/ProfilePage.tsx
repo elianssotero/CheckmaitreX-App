@@ -1595,9 +1595,117 @@ function ProfileDetailPage({
   )
 }
 
+
 export function ProfileRatingsPage() {
-  return <ProfileDetailPage type="ratings" />
+  const [selectedFormat, setSelectedFormat] = useState('Bullet')
+  const [selectedRange, setSelectedRange] = useState('30D')
+
+  const formats = ['Bullet', 'Blitz', 'Rapid', 'Classical', 'Daily']
+  const ranges = ['7D', '30D', '90D', '1Y', 'All']
+
+  return (
+    <div className="cx-profile-subpage cx-ratings-page">
+      <PageHeader title="Ratings" />
+
+      <main className="cx-profile-detail-content cx-ratings-content">
+        <div className="cx-ratings-heading">
+          <span className="cx-ratings-overline">
+            YOUR CHESS PERFORMANCE
+          </span>
+          <h2>Rating Dashboard</h2>
+          <p>Select a format to view its rating and history.</p>
+        </div>
+
+        <div className="cx-ratings-format-list" role="group" aria-label="Rating format">
+          {formats.map((format) => (
+            <button
+              key={format}
+              type="button"
+              className={`cx-ratings-format-button ${selectedFormat === format ? 'active' : ''}`}
+              aria-pressed={selectedFormat === format}
+              onClick={() => setSelectedFormat(format)}
+            >
+              {format}
+            </button>
+          ))}
+        </div>
+
+        <section className="cx-ratings-primary-grid">
+          <article className="cx-ratings-value-card">
+            <span>Current Rating</span>
+            <strong>—</strong>
+            <small>{selectedFormat}</small>
+          </article>
+
+          <article className="cx-ratings-value-card">
+            <span><Trophy size={13} /> Highest Rating</span>
+            <strong>—</strong>
+            <small>No peak recorded yet</small>
+          </article>
+        </section>
+
+        <section className="cx-ratings-history-card">
+          <div className="cx-ratings-section-heading">
+            <div>
+              <h3>Rating History</h3>
+              <p>{selectedFormat} rating over time</p>
+            </div>
+            <ChartNoAxesCombined size={19} />
+          </div>
+
+          <div className="cx-ratings-range-list" role="group" aria-label="Rating history timeframe">
+            {ranges.map((range) => (
+              <button
+                key={range}
+                type="button"
+                className={`cx-ratings-range-button ${selectedRange === range ? 'active' : ''}`}
+                aria-pressed={selectedRange === range}
+                onClick={() => setSelectedRange(range)}
+              >
+                {range}
+              </button>
+            ))}
+          </div>
+
+          <div className="cx-ratings-chart-empty">
+            <div className="cx-ratings-chart-grid" aria-hidden="true" />
+            <div className="cx-ratings-empty-message">
+              <ChartNoAxesCombined size={25} />
+              <strong>No rating history yet</strong>
+              <span>
+                Rating progress for {selectedFormat} will appear here
+                once rated games are recorded.
+              </span>
+            </div>
+          </div>
+
+          <small className="cx-ratings-chart-note">
+            Highest-rating marker will appear when rating history is available.
+          </small>
+        </section>
+
+        <section className="cx-ratings-progress-card">
+          <h3>Performance Summary</h3>
+
+          <div className="cx-ratings-stat-grid">
+            <div><span>Rating Change</span><strong>—</strong></div>
+            <div><span>Games Played</span><strong>—</strong></div>
+            <div><span>Wins</span><strong>—</strong></div>
+            <div><span>Draws</span><strong>—</strong></div>
+            <div><span>Losses</span><strong>—</strong></div>
+            <div><span>Win Rate</span><strong>—</strong></div>
+          </div>
+
+          <p>
+            Statistics will be calculated from actual game records
+            when the backend is connected.
+          </p>
+        </section>
+      </main>
+    </div>
+  )
 }
+
 
 export function ProfileGamesPage() {
   return <ProfileDetailPage type="games" />
