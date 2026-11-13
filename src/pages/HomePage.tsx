@@ -2,6 +2,7 @@ import { playerProfile } from '../data/playerProfile'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MaitronXAssistant from '../components/MaitronXAssistant'
+import StreakBadge from '../components/StreakBadge'
 import {
   ChevronRight,
   Bell,
@@ -266,7 +267,7 @@ function RatingIcon({ name }: { name: string }) {
   aria-label="Open CheckmaîtréXStreak"
   onClick={() => navigate('/streak')}
 >
-  <span>🔥</span>
+  <StreakBadge days={playerProfile.streak} size="compact" />
   <strong>{playerProfile.streak}</strong>
 </button>
             </div>
