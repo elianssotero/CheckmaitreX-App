@@ -3004,3 +3004,50 @@ svg {
     padding: 13px;
   }
 }
+/* Profile location and presence layout */
+.cx-profile-location-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 9px;
+  row-gap: 5px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 4px;
+}
+
+.cx-profile-name-area .cx-profile-location {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 !important;
+  font-size: 11px !important;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.cx-profile-name-area .cx-profile-location svg {
+  flex: 0 0 auto;
+}
+
+.cx-profile-name-area .cx-profile-presence {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 2px 6px;
+  white-space: nowrap;
+  transform: none;
+}
+
+.cx-profile-name-area .cx-profile-presence span {
+  display: inline;
+  margin: 0;
+  font-size: inherit;
+  color: inherit;
+}
