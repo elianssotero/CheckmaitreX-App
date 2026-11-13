@@ -389,6 +389,7 @@ function ProfilePage() {
 
           <p className="cx-profile-bio">{profile.bio || 'No bio added yet.'}</p>
 
+
 <div className="cx-profile-meta-row">
   <div className="cx-profile-meta-item">
     <CalendarDays size={16} />
@@ -397,6 +398,32 @@ function ProfilePage() {
       <span>Joined</span>
     </div>
   </div>
+
+  <div className="cx-profile-meta-item">
+    <CircleUserRound size={16} />
+    <div>
+      <strong>CMX-P-000001</strong>
+      <span>Player ID</span>
+    </div>
+  </div>
+
+  <div className="cx-profile-meta-item">
+    <Crown size={16} />
+    <div>
+      <strong>Not available yet</strong>
+      <span>Member Since</span>
+    </div>
+  </div>
+
+  <div className="cx-profile-meta-item">
+    <Gem size={16} />
+    <div>
+      <strong>{subscriptionSince}</strong>
+      <span>{`CMX ${subscriptionTier} Since`}</span>
+    </div>
+  </div>
+</div>
+
 
   <div className="cx-profile-meta-item">
     <CircleUserRound size={16} />
