@@ -166,13 +166,15 @@ const games = [
   { opponent: 'Opponent Five', mode: 'Blitz', result: 'Victory', rating: '+8', date: 'Sample game' },
 ]
 
+
 const friends = [
-  'PlayerOne',
-  'KnightMaster',
-  'ChessFan',
-  'QueenSide',
-  'EndgamePro',
+  { name: 'PlayerOne', username: 'playerone', status: 'online', lastActive: '' },
+  { name: 'KnightMaster', username: 'knightmaster', status: 'playing', lastActive: '' },
+  { name: 'ChessFan', username: 'chessfan', status: 'offline', lastActive: '2h' },
+  { name: 'QueenSide', username: 'queenside', status: 'queue', lastActive: '' },
+  { name: 'EndgamePro', username: 'endgamepro', status: 'online', lastActive: '' },
 ]
+
 
 const achievements = [
   { name: 'First Victory', description: 'Win your first chess game', date: 'Sample achievement', rarity: 'Common' },
