@@ -488,9 +488,7 @@ function ProfilePage() {
 
         <section className="cx-profile-highlight-row">
           <button className="cx-profile-highlight" type="button" onClick={() => navigate('/streak')}>
-            <div className="cx-profile-highlight-icon">
-              <StreakBadge days={playerProfile.streak} size="compact" />
-            </div>
+<StreakBadge days={playerProfile.streak} size="compact" />
             <div>
               <strong>{playerProfile.streak} Day Streak</strong>
               <span>Current streak</span>
