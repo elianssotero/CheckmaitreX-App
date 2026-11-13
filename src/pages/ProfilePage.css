@@ -1910,10 +1910,11 @@
 
 /* Compact Profile Statistics */
 
-..cx-profile-stat-groups {
+
+.cx-profile-stat-groups {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   margin: 0 0 8px;
 }
 
@@ -1922,10 +1923,11 @@
 }
 
 .cx-profile-stat-group h3 {
-  margin: 0 0 5px;
+  margin: 0 0 2px;
   color: var(--cx-muted);
   font-size: 9px;
   font-weight: 700;
+  line-height: 1.1;
   letter-spacing: 0.8px;
   text-transform: uppercase;
 }
@@ -1936,11 +1938,12 @@
   grid-auto-columns: calc((100% - 20px) / 5);
   gap: 5px;
   overflow-x: auto;
-  padding: 2px 1px 5px;
+  padding: 0 1px 4px;
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
   scrollbar-color: var(--cx-border) transparent;
 }
+
 
 .cx-profile-stat {
   display: flex;
