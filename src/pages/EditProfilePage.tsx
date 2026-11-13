@@ -606,8 +606,7 @@ const hasChanges =
       return
     }
 
-const nextProfile = {
-    const nextProfile = {
+        const nextProfile = {
       ...form,
       profileAvatar:
         localStorage.getItem('cx-profile-avatar') !== null &&
@@ -630,14 +629,7 @@ const nextProfile = {
         `${firstName} ${lastName}`.trim() || username,
       borders: form.borders || 'Default Gold',
       profileVisibility: privacy,
-    }
-  username,
-  firstName,
-  lastName,
-  bio,
-  chessIdentity,
-  personalMotto,
-  accountName:
+        }
     
     try {
       localStorage.setItem(
