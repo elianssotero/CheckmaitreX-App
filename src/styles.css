@@ -389,11 +389,6 @@ svg {
   font-size: 12px;
 }
 
-.cx-home .cx-user-streak span {
-  color: var(--cx-muted);
-  font-size: 11px;
-}
-
 .cx-home .cx-top-actions {
   display: flex;
   align-items: center;
