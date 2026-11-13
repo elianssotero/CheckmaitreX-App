@@ -1910,11 +1910,11 @@
 
 /* Compact Profile Statistics */
 
-.cx-profile-stat-groups {
+..cx-profile-stat-groups {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 6px 0 10px;
+  margin: 0 0 8px;
 }
 
 .cx-profile-stat-group {
