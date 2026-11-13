@@ -1,6 +1,6 @@
 
 import { useState } from 'react'
-import { ArrowLeft, Award, ChevronDown, FileText, ShieldCheck, Upload } from 'lucide-react'
+import { ArrowLeft, Award, FileText, ShieldCheck, Upload } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 type Category = 'FIDE' | 'NATIONAL' | 'FOA'
