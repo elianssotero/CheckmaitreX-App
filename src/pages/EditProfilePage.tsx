@@ -607,18 +607,30 @@ const hasChanges =
     }
 
 const nextProfile = {
-  ...form,
-  profileAvatar:
-    localStorage.getItem('cx-profile-avatar') !== null &&
-    form.profilePhoto ===
-      avatarIdToImage(
-        localStorage.getItem('cx-profile-avatar') || ''
-      )
-      ? localStorage.getItem('cx-profile-avatar') || ''
-      : localStorage.getItem('cx-profile-avatar') === null &&
-          form.profilePhoto === original.profilePhoto
-        ? original.profileAvatar || ''
-        : '',
+    const nextProfile = {
+      ...form,
+      profileAvatar:
+        localStorage.getItem('cx-profile-avatar') !== null &&
+        form.profilePhoto ===
+          avatarIdToImage(
+            localStorage.getItem('cx-profile-avatar') || ''
+          )
+          ? localStorage.getItem('cx-profile-avatar') || ''
+          : localStorage.getItem('cx-profile-avatar') === null &&
+              form.profilePhoto === original.profilePhoto
+            ? original.profileAvatar || ''
+            : '',
+      username,
+      firstName,
+      lastName,
+      bio,
+      chessIdentity,
+      personalMotto,
+      accountName:
+        `${firstName} ${lastName}`.trim() || username,
+      borders: form.borders || 'Default Gold',
+      profileVisibility: privacy,
+    }
   username,
   firstName,
   lastName,
