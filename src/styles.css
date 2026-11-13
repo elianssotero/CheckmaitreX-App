@@ -311,6 +311,7 @@ svg {
   display: flex;
   align-items: center;
   gap: 13px;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -332,13 +333,18 @@ svg {
 .cx-home .cx-user-details {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
   gap: 5px;
 }
+
 .cx-home .cx-player-name-line {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 9px;
+  width: 100%;
+  min-width: 0;
 }
 
 .cx-home .cx-player-title {
@@ -352,6 +358,11 @@ svg {
   color: var(--cx-text);
   font-size: 13px;
   font-weight: 750;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cx-home .cx-player-flair {
@@ -362,6 +373,16 @@ svg {
   background: rgba(217, 180, 91, 0.09);
   font-size: 9px;
   font-weight: 800;
+}
+
+.cx-home .cx-player-title,
+.cx-home .cx-player-flair,
+.cx-home .cx-user-streak-button {
+  flex-shrink: 0;
+}
+
+.cx-home .cx-top-actions {
+  flex-shrink: 0;
 }
 
 .cx-home .cx-user-streak {
