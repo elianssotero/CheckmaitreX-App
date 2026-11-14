@@ -49,4 +49,13 @@ export const chessStrategyCalculationsQuotes: ChessQuote[] = [
     sourceUrl: 'https://www.chesshistory.com/winter/extra/mason.html',
     verificationStatus: 'verified',
   },
+  {
+    id: 6,
+    quote: 'Tempo is the soul of chess.',
+    author: 'Siegbert Tarrasch',
+    category: 'Chess Strategy & Calculations',
+    source: 'Schachzeitung, 15 November 1933, page 56; English rendering of the original German statement',
+    sourceUrl: 'https://www.chesshistory.com/winter/extra/tempotempi.html',
+    verificationStatus: 'verified',
+  },
 ]
