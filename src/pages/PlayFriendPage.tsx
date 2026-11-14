@@ -256,9 +256,10 @@ function PlayFriendPage() {
       <div className="cx-friend-content">
         <section className="cx-friend-intro">
           <div>
-            <span className="cx-friend-eyebrow">CHECKMAÎTRÉX CHESS CLUB</span>
-            <h2>Challenge your friends.</h2>
-            <p>Play a friendly match or invite someone to the board.</p>
+<span className="cx-friend-eyebrow">CHECKMAÎTRÉX</span>
+<h2>Play with Friends</h2>
+<p>Challenge your friends to a chess match.</p>
+<p>Invite players, send match challenges, and play chess together.</p>
           </div>
           <div className="cx-friend-intro-icon">
             <Swords size={30} />
@@ -479,7 +480,7 @@ function PlayFriendPage() {
         <section className="cx-friend-list-section">
           <div className="cx-friend-list-heading">
             <div>
-              <span className="cx-friend-eyebrow">YOUR COMMUNITY</span>
+              <span className="cx-friend-eyebrow">YOUR NETWORK</span>
               <h2>Friend Lists</h2>
               <p>Find a friend and send a challenge.</p>
             </div>
