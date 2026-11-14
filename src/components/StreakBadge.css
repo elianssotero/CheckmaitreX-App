@@ -1,3 +1,4 @@
+
 .cx-shared-streak-badge {
   position: relative;
   display: inline-grid;
@@ -19,15 +20,15 @@
   width: 38px;
   height: 38px;
   margin: 0;
+  overflow: hidden;
   vertical-align: middle;
 }
 
-.cx-shared-streak-badge--compact {
-  width: 38px;
-  height: 38px;
-  margin: 0;
-  overflow: hidden;
-  vertical-align: middle;
+/* BADGE TIERS */
+
+.cx-shared-streak-awakened {
+  --badge-color: #e7bd62;
+  --badge-glow: rgba(231, 189, 98, 0.4);
 }
 
 .cx-shared-streak-advanced {
@@ -50,6 +51,28 @@
   --badge-glow: rgba(255, 210, 90, 0.6);
 }
 
+.cx-shared-streak-mythic {
+  --badge-color: #a9e7ff;
+  --badge-glow: rgba(80, 200, 255, 0.55);
+}
+
+.cx-shared-streak-transcendent {
+  --badge-color: #d9e5ff;
+  --badge-glow: rgba(150, 190, 255, 0.6);
+}
+
+.cx-shared-streak-legacy {
+  --badge-color: #fff0b5;
+  --badge-glow: rgba(255, 215, 115, 0.7);
+}
+
+.cx-shared-streak-eternal {
+  --badge-color: #fff9df;
+  --badge-glow: rgba(255, 235, 165, 0.85);
+}
+
+/* ARTWORK */
+
 .cx-shared-streak-art {
   position: absolute;
   top: 50%;
@@ -64,15 +87,46 @@
   transform: translate(-50%, -50%) scale(0.2);
 }
 
+/* AURA */
+
 .cx-shared-streak-aura {
   position: absolute;
-  z-index: -2;
+  z-index: -3;
   inset: 12px;
   border-radius: 50%;
   background: var(--badge-glow);
   filter: blur(25px);
   animation: cx-shared-streak-aura-pulse 3s ease-in-out infinite;
 }
+
+/* OUTER RADIANCE */
+
+.cx-shared-streak-legacy-radiance {
+  position: absolute;
+  z-index: -2;
+  inset: 9px;
+  border: 1px solid var(--badge-color);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow:
+    0 0 15px var(--badge-glow),
+    inset 0 0 12px var(--badge-glow);
+}
+
+.cx-shared-streak-legacy .cx-shared-streak-legacy-radiance,
+.cx-shared-streak-eternal .cx-shared-streak-legacy-radiance {
+  opacity: 0.65;
+}
+
+.cx-shared-streak-eternal .cx-shared-streak-legacy-radiance {
+  inset: 5px;
+  border-width: 2px;
+  box-shadow:
+    0 0 20px var(--badge-glow),
+    inset 0 0 18px var(--badge-glow);
+}
+
+/* ORBITS */
 
 .cx-shared-streak-orbit {
   position: absolute;
@@ -94,6 +148,35 @@
   animation: cx-shared-streak-orbit 20s linear infinite reverse;
 }
 
+.cx-shared-streak-legacy .cx-shared-streak-orbit-two,
+.cx-shared-streak-eternal .cx-shared-streak-orbit-two {
+  border-style: solid;
+  opacity: 0.55;
+}
+
+/* 100-DAY EVOLUTION MARKS */
+
+.cx-shared-streak-evolution-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cx-shared-streak-evolution-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 9px;
+  margin: -4.5px 0 0 -2px;
+  border-radius: 5px;
+  background: var(--badge-color);
+  box-shadow: 0 0 8px var(--badge-glow);
+  opacity: 0.85;
+}
+
+/* FLAME */
+
 .cx-shared-streak-flame {
   position: absolute;
   top: 50%;
@@ -108,22 +191,75 @@
   filter: drop-shadow(0 0 12px var(--badge-glow));
 }
 
-
-/* Center flame in compact badge */
-.cx-shared-streak-badge--compact .cx-shared-streak-flame {
-  left: 50%;
-  top: 50%;
-  animation: none;
-}
-
-
 .cx-shared-streak-flame-icon {
+  position: relative;
+  z-index: 2;
   width: 126px;
   height: 145px;
   stroke-width: 1.5;
   fill: rgba(217, 100, 35, 0.18);
   animation: cx-shared-streak-flame-flicker 1.8s ease-in-out infinite;
 }
+
+.cx-shared-streak-flame-layer {
+  position: absolute;
+  width: 126px;
+  height: 145px;
+  stroke-width: 1.1;
+  fill: none;
+  opacity: 0;
+}
+
+.cx-shared-streak-flame-outer {
+  width: 158px;
+  height: 174px;
+  transform: scale(1.08);
+}
+
+.cx-shared-streak-flame-inner {
+  width: 140px;
+  height: 158px;
+  transform: scale(1.04);
+}
+
+/* GRADUAL FLAME EVOLUTION */
+
+.cx-shared-streak-advanced .cx-shared-streak-flame-inner,
+.cx-shared-streak-master .cx-shared-streak-flame-inner {
+  opacity: 0.22;
+}
+
+.cx-shared-streak-royal .cx-shared-streak-flame-inner,
+.cx-shared-streak-legendary .cx-shared-streak-flame-inner,
+.cx-shared-streak-mythic .cx-shared-streak-flame-inner,
+.cx-shared-streak-transcendent .cx-shared-streak-flame-inner,
+.cx-shared-streak-legacy .cx-shared-streak-flame-inner,
+.cx-shared-streak-eternal .cx-shared-streak-flame-inner {
+  opacity: 0.45;
+}
+
+.cx-shared-streak-royal .cx-shared-streak-flame-outer,
+.cx-shared-streak-legendary .cx-shared-streak-flame-outer,
+.cx-shared-streak-mythic .cx-shared-streak-flame-outer,
+.cx-shared-streak-transcendent .cx-shared-streak-flame-outer,
+.cx-shared-streak-legacy .cx-shared-streak-flame-outer,
+.cx-shared-streak-eternal .cx-shared-streak-flame-outer {
+  opacity: 0.28;
+}
+
+.cx-shared-streak-mythic .cx-shared-streak-flame-outer,
+.cx-shared-streak-transcendent .cx-shared-streak-flame-outer,
+.cx-shared-streak-legacy .cx-shared-streak-flame-outer,
+.cx-shared-streak-eternal .cx-shared-streak-flame-outer {
+  opacity: 0.48;
+}
+
+.cx-shared-streak-legacy .cx-shared-streak-flame-outer,
+.cx-shared-streak-eternal .cx-shared-streak-flame-outer {
+  opacity: 0.7;
+}
+
+/* SPARKS */
 
 .cx-shared-streak-sparks {
   position: absolute;
@@ -156,6 +292,36 @@
   width: 11px;
   animation-delay: 1.5s;
 }
+
+/* ANNIVERSARY RECOGNITION */
+
+.cx-shared-streak-anniversary .cx-shared-streak-aura {
+  filter: blur(30px);
+  opacity: 0.9;
+}
+
+.cx-shared-streak-anniversary .cx-shared-streak-spark {
+  filter: drop-shadow(0 0 5px var(--badge-glow));
+}
+
+.cx-shared-streak-legacy.cx-shared-streak-anniversary .cx-shared-streak-orbit,
+.cx-shared-streak-eternal.cx-shared-streak-anniversary .cx-shared-streak-orbit {
+  opacity: 0.8;
+}
+
+/* COMPACT HOMEPAGE BADGE */
+
+.cx-shared-streak-badge--compact .cx-shared-streak-flame {
+  left: 50%;
+  top: 50%;
+  animation: none;
+}
+
+.cx-shared-streak-badge--compact .cx-shared-streak-flame-icon {
+  animation: none;
+}
+
+/* ANIMATIONS */
 
 @keyframes cx-shared-streak-aura-pulse {
   0%, 100% {
@@ -213,12 +379,16 @@
   }
 }
 
+/* SMALL SCREENS */
+
 @media (max-width: 380px) {
   .cx-shared-streak-badge--large {
     width: 170px;
     height: 170px;
   }
 }
+
+/* ACCESSIBILITY */
 
 @media (prefers-reduced-motion: reduce) {
   .cx-shared-streak-badge *,
