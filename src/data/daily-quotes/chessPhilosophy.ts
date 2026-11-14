@@ -97,4 +97,22 @@ export const chessPhilosophyQuotes: ChessQuote[] = [
     verificationStatus: 'verified',
     sourceNote: 'Contextual excerpt. The original passage describes the essential tendency of chess.',
   },
+  {
+    id: 11,
+    quote: 'I think my way goes to show that there are several ways to obtain a goal.',
+    author: 'Magnus Carlsen',
+    category: 'Chess Philosophy',
+    source: 'FIDE World Rapid and Blitz press conference, 26 December 2022',
+    sourceUrl: 'https://www.fide.com/carlsen-on-ambitions-in-almaty-and-the-greatest-lesson-learnt-from-chess/',
+    verificationStatus: 'verified',
+  },
+  {
+    id: 12,
+    quote: 'The most helpful thing I learnt from chess is to make good decisions on incomplete data in a limited amount of time.',
+    author: 'Magnus Carlsen',
+    category: 'Chess Philosophy',
+    source: 'FIDE World Rapid and Blitz press conference, 26 December 2022',
+    sourceUrl: 'https://www.fide.com/carlsen-on-ambitions-in-almaty-and-the-greatest-lesson-learnt-from-chess/',
+    verificationStatus: 'verified',
+  },
 ]
