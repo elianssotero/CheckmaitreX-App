@@ -2,13 +2,17 @@
 export const STREAK_MILESTONES = [
   30,
   60,
-  100,
-  200,
-  300,
-  400,
-  500,
-  ...Array.from({ length: 100 }, (_, index) => 600 + index * 100),
-]
+  ...Array.from(
+    { length: 36 },
+    (_, index) => (index + 1) * 100,
+  ),
+  ...Array.from(
+    { length: 10 },
+    (_, index) => (index + 1) * 365,
+  ),
+].filter((value, index, array) => (
+  array.indexOf(value) === index
+)).sort((a, b) => a - b)
 
 export const STREAK_GRACE_PERIOD_DAYS = 1
 
@@ -52,24 +56,34 @@ export type StreakData = {
   streakHistory: StreakHistoryEntry[]
 }
 
-
 export function getNextMilestone(days: number): number {
   if (days < 30) return 30
   if (days < 60) return 60
-  if (days < 100) return 100
 
-  return (Math.floor(days / 100) + 1) * 100
+  const nextHundred =
+    (Math.floor(days / 100) + 1) * 100
+
+  const nextAnniversary =
+    (Math.floor(days / 365) + 1) * 365
+
+  return Math.min(nextHundred, nextAnniversary)
 }
 
 export function getCurrentMilestone(days: number): number {
-  if (days >= 100) {
-    return Math.floor(days / 100) * 100
-  }
+  if (days < 30) return 0
+  if (days < 60) return 30
 
-  if (days >= 60) return 60
-  if (days >= 30) return 30
+  const currentHundred =
+    Math.floor(days / 100) * 100
 
-  return 0
+  const currentAnniversary =
+    Math.floor(days / 365) * 365
+
+  return Math.max(
+    60,
+    currentHundred,
+    currentAnniversary,
+  )
 }
 
 export function getMilestoneProgress(days: number) {
@@ -106,4 +120,3 @@ export function getBadgePiece(days: number): string {
 
   return legendaryPieces[variation % legendaryPieces.length]
 }
-
