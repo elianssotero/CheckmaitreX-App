@@ -568,21 +568,10 @@ function PlayFriendPage() {
 
   </div>
 )}
-                <div className="cx-friend-setting-summary">
-                  <span>Synced from Play</span>
-                  <strong>{selectedTime}</strong>
-                  <strong>{selectedVariant} · {selectedMode}</strong>
-                  <small>Rating: -{lowerRating} / +{upperRating}</small>
-                </div>
-              </div>
-            )}
-
-            {notice && (
-              <div className="cx-friend-notice" role="status">
-                {notice}
-              </div>
-            )}
-          </section>
+        {notice && (
+          <div className="cx-friend-notice" role="status">
+            {notice}
+          </div>
         )}
 
         <button
