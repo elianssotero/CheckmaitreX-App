@@ -795,12 +795,6 @@ svg {
   height: 25px;
 }
 
-.cx-home .cx-feature-image-icon {
-  width: 23px;
-  height: 23px;
-  object-fit: contain;
-  mix-blend-mode: screen;
-}
 .cx-home .cx-rating-name {
   color: var(--cx-muted);
   font-size: 11px;
