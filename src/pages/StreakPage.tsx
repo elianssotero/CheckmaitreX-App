@@ -130,7 +130,8 @@ function StreakPage() {
           </div>
 
           <p className="cx-streak-description">
-            Complete an eligible activity to keep your streak going.
+            Your progress grows through the chess activities you enjoy.
+            Move at your own pace.
           </p>
         </section>
 
