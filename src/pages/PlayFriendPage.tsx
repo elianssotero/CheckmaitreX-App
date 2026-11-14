@@ -565,15 +565,6 @@ const handleChallenge = (friend: Friend) => {
           <span>Pass &amp; Play</span>
           <small>Play locally on one device</small>
         </button>
-        <button
-          type="button"
-          className="cx-friend-pass-button"
-          onClick={() => navigate('/play/friend/pass-and-play')}
-        >
-          <Users size={20} />
-          <span>Pass &amp; Play</span>
-          <small>Play locally on one device</small>
-        </button>
 
         <section className="cx-friend-list-section">
           <div className="cx-friend-list-heading">
