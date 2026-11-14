@@ -532,7 +532,6 @@ function PlayFriendPage() {
         </label>
       </div>
     </div>
-
     {/* SETTINGS SUMMARY */}
     <div className="cx-friend-setting-summary">
       <div className="cx-friend-setting-summary-heading">
@@ -554,10 +553,21 @@ function PlayFriendPage() {
         <div className="cx-friend-setting-summary-item">
           <small>Rating</small>
           <strong>-{lowerRating} / +{upperRating}</strong>
+        </div>
+      </div>
     </div>
   </div>
 )}
 
+        <button
+          type="button"
+          className="cx-friend-pass-button"
+          onClick={() => navigate('/play/friend/pass-and-play')}
+        >
+          <Users size={20} />
+          <span>Pass &amp; Play</span>
+          <small>Play locally on one device</small>
+        </button>
         <button
           type="button"
           className="cx-friend-pass-button"
