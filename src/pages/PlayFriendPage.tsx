@@ -553,10 +553,10 @@ function PlayFriendPage() {
 
         <div className="cx-friend-setting-summary-item">
           <small>Rating</small>
-          <strong>Rating: -{lowerRating} / +{upperRating}</strong>
-        </div>
-      </div>
+          <strong>-{lowerRating} / +{upperRating}</strong>
     </div>
+  </div>
+)}
 
         <button
           type="button"
