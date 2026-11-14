@@ -1,5 +1,5 @@
 
-import { useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowLeft,
@@ -39,10 +39,13 @@ type SearchResult = {
   description: string
   category: Exclude<SearchCategory, 'All'>
   tags: string[]
-  destination: string
+  destination?: string
   icon: LucideIcon
   meta: string
 }
+
+const HISTORY_KEY = 'cx-search-history'
+const MAX_RECENT_SEARCHES = 6
 
 const categories: SearchCategory[] = [
   'All',
@@ -63,7 +66,6 @@ const searchResults: SearchResult[] = [
     description: 'Sample chess player profile.',
     category: 'Players',
     tags: ['Online', 'Blitz', 'Rapid'],
-    destination: '/profile',
     icon: Users,
     meta: 'Online · 1842 Rating',
   },
@@ -74,7 +76,6 @@ const searchResults: SearchResult[] = [
     description: 'Sample chess player profile.',
     category: 'Players',
     tags: ['Online', 'Intermediate'],
-    destination: '/profile',
     icon: Users,
     meta: 'Online · 1720 Rating',
   },
@@ -117,7 +118,7 @@ const searchResults: SearchResult[] = [
     subtitle: 'Chess Lesson',
     description: 'Explore fundamental endgame concepts.',
     category: 'Lessons',
-    tags: ['Intermediate', 'Endgames'],
+    tags: ['Intermediate', 'Endgames', 'Strategy'],
     destination: '/learn',
     icon: GraduationCap,
     meta: 'Intermediate · Endgames',
@@ -139,7 +140,7 @@ const searchResults: SearchResult[] = [
     subtitle: 'Club Events',
     description: 'Explore chess events and club activities.',
     category: 'Events',
-    tags: ['Upcoming', 'Competition'],
+    tags: ['Upcoming', 'Competition', 'Tournaments'],
     destination: '/play/tournaments',
     icon: CalendarDays,
     meta: 'Events',
@@ -151,7 +152,6 @@ const searchResults: SearchResult[] = [
     description: 'A sample article about chess strategy.',
     category: 'Articles',
     tags: ['Strategy', 'Education'],
-    destination: '/watch',
     icon: Newspaper,
     meta: 'Chess articles',
   },
@@ -165,13 +165,7 @@ const trendingSearches = [
   'CCC videos',
 ]
 
-const initialRecentSearches = [
-  'PlayerOne',
-  'Chess openings',
-  'Endgame strategy',
-]
-
-const suggestions = [
+const suggestionSeeds = [
   'PlayerOne',
   'KnightMaster',
   'Chess openings',
@@ -181,15 +175,73 @@ const suggestions = [
   'CCC videos',
 ]
 
-const filterOptions: Record<SearchCategory, string[]> = {
-  All: ['All'],
-  Players: ['All', 'Online', 'Intermediate'],
-  Games: ['All', 'Classical', 'Master Games'],
-  Puzzles: ['All', 'Intermediate', 'Tactics'],
-  Lessons: ['All', 'Beginner', 'Intermediate', 'Openings', 'Endgames'],
-  Videos: ['All', 'Strategy', 'Highlights'],
-  Events: ['All', 'Upcoming', 'Competition'],
-  Articles: ['All', 'Strategy', 'Education'],
+function normalizeText(value: string) {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s@]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function normalizeToken(value: string) {
+  if (value.length > 4 && value.endsWith('ies')) {
+    return `${value.slice(0, -3)}y`
+  }
+
+  if (
+    value.length > 4 &&
+    value.endsWith('s') &&
+    !value.endsWith('ss')
+  ) {
+    return value.slice(0, -1)
+  }
+
+  return value
+}
+
+function getSearchTokens(value: string) {
+  return normalizeText(value)
+    .split(' ')
+    .filter(Boolean)
+    .map(normalizeToken)
+}
+
+function matchesSearch(text: string, query: string) {
+  const queryTokens = getSearchTokens(query)
+
+  if (!queryTokens.length) return true
+
+  const searchableTokens = getSearchTokens(text)
+
+  return queryTokens.every((queryToken) =>
+    searchableTokens.some((token) =>
+      token.includes(queryToken) ||
+      queryToken.includes(token)
+    )
+  )
+}
+
+function readRecentSearches(): string[] {
+  try {
+    const saved = localStorage.getItem(HISTORY_KEY)
+
+    if (!saved) return []
+
+    const parsed: unknown = JSON.parse(saved)
+
+    if (!Array.isArray(parsed)) return []
+
+    return parsed
+      .filter(
+        (item): item is string =>
+          typeof item === 'string' && item.trim().length > 0
+      )
+      .slice(0, MAX_RECENT_SEARCHES)
+  } catch {
+    return []
+  }
 }
 
 function SearchPage() {
@@ -199,12 +251,35 @@ function SearchPage() {
   const [activeCategory, setActiveCategory] =
     useState<SearchCategory>('All')
   const [recentSearches, setRecentSearches] =
-    useState(initialRecentSearches)
+    useState<string[]>(readRecentSearches)
   const [showFilters, setShowFilters] = useState(false)
-  const [activeFilter, setActiveFilter] = useState('All')
+  const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [hasSearched, setHasSearched] = useState(false)
 
-  const normalizedQuery = query.trim().toLowerCase()
+  const normalizedQuery = normalizeText(query)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(recentSearches)
+      )
+    } catch {
+      // Search history remains available for the current session.
+    }
+  }, [recentSearches])
+
+  const availableFilters = useMemo(() => {
+    if (activeCategory === 'All') return []
+
+    const matchingCategory = searchResults.filter(
+      (result) => result.category === activeCategory
+    )
+
+    return Array.from(
+      new Set(matchingCategory.flatMap((result) => result.tags))
+    ).sort((a, b) => a.localeCompare(b))
+  }, [activeCategory])
 
   const filteredResults = useMemo(() => {
     return searchResults.filter((result) => {
@@ -218,41 +293,62 @@ function SearchPage() {
         result.description,
         result.category,
         ...result.tags,
-      ].join(' ').toLowerCase()
+      ].join(' ')
 
       const matchesQuery =
-        !normalizedQuery || searchableText.includes(normalizedQuery)
+        !normalizedQuery ||
+        matchesSearch(searchableText, normalizedQuery)
 
-      const matchesFilter =
-        activeFilter === 'All' ||
-        result.tags.some(
-          (tag) => tag.toLowerCase() === activeFilter.toLowerCase()
+      const matchesFilters =
+        activeFilters.length === 0 ||
+        activeFilters.some((filter) =>
+          result.tags.some(
+            (tag) =>
+              normalizeText(tag) === normalizeText(filter)
+          )
         )
 
-      return matchesCategory && matchesQuery && matchesFilter
+      return (
+        matchesCategory &&
+        matchesQuery &&
+        matchesFilters
+      )
     })
-  }, [activeCategory, activeFilter, normalizedQuery])
+  }, [activeCategory, activeFilters, normalizedQuery])
 
   const matchingSuggestions = useMemo(() => {
     if (!normalizedQuery) return []
 
-    return suggestions
-      .filter((item) =>
-        item.toLowerCase().includes(normalizedQuery)
+    const resultSuggestions = searchResults.flatMap((result) => [
+      result.title,
+      ...result.tags,
+    ])
+
+    const candidates = Array.from(
+      new Set([...suggestionSeeds, ...resultSuggestions])
+    )
+
+    return candidates
+      .filter((item) => matchesSearch(item, normalizedQuery))
+      .filter(
+        (item) =>
+          normalizeText(item) !== normalizedQuery
       )
       .slice(0, 5)
   }, [normalizedQuery])
 
   const addRecentSearch = (value: string) => {
     const cleanValue = value.trim()
+
     if (!cleanValue) return
 
     setRecentSearches((current) => [
       cleanValue,
       ...current.filter(
-        (item) => item.toLowerCase() !== cleanValue.toLowerCase()
+        (item) =>
+          normalizeText(item) !== normalizeText(cleanValue)
       ),
-    ].slice(0, 6))
+    ].slice(0, MAX_RECENT_SEARCHES))
 
     setQuery(cleanValue)
     setHasSearched(true)
@@ -268,7 +364,19 @@ function SearchPage() {
 
   const handleCategoryChange = (category: SearchCategory) => {
     setActiveCategory(category)
-    setActiveFilter('All')
+    setActiveFilters([])
+  }
+
+  const toggleFilter = (filter: string) => {
+    setActiveFilters((current) =>
+      current.includes(filter)
+        ? current.filter((item) => item !== filter)
+        : [...current, filter]
+    )
+  }
+
+  const resetFilters = () => {
+    setActiveFilters([])
   }
 
   const handleClearSearch = () => {
@@ -276,13 +384,29 @@ function SearchPage() {
     setHasSearched(false)
   }
 
+  const clearAllSearchData = () => {
+    setRecentSearches([])
+  }
+
   const handleResultClick = (result: SearchResult) => {
-    addRecentSearch(result.title)
-    navigate(result.destination)
+    addRecentSearch(query || result.title)
+
+    if (result.destination) {
+      navigate(result.destination)
+    }
+  }
+
+  const clearAll = () => {
+    setQuery('')
+    setActiveCategory('All')
+    setActiveFilters([])
+    setHasSearched(false)
   }
 
   const isShowingResults =
-    hasSearched || activeCategory !== 'All' || activeFilter !== 'All'
+    hasSearched ||
+    activeCategory !== 'All' ||
+    activeFilters.length > 0
 
   return (
     <div className="cx-search-page">
@@ -304,9 +428,15 @@ function SearchPage() {
           }`}
           type="button"
           aria-label="Toggle advanced filters"
+          aria-expanded={showFilters}
           onClick={() => setShowFilters((value) => !value)}
         >
           <SlidersHorizontal size={19} />
+          {activeFilters.length > 0 && (
+            <span className="cx-search-filter-count">
+              {activeFilters.length}
+            </span>
+          )}
         </button>
       </header>
 
@@ -329,7 +459,7 @@ function SearchPage() {
           <Search size={20} />
 
           <input
-            type="search"
+            type="text"
             value={query}
             onChange={(event) => {
               setQuery(event.target.value)
@@ -338,6 +468,7 @@ function SearchPage() {
             placeholder="Search players, games, lessons..."
             aria-label="Search CheckmaîtréX"
             autoComplete="off"
+            enterKeyHint="search"
           />
 
           {query && (
@@ -393,6 +524,7 @@ function SearchPage() {
               className={
                 activeCategory === category ? 'active' : ''
               }
+              aria-pressed={activeCategory === category}
               onClick={() => handleCategoryChange(category)}
             >
               {category}
@@ -410,34 +542,50 @@ function SearchPage() {
 
               <button
                 type="button"
-                onClick={() => setActiveFilter('All')}
+                onClick={resetFilters}
+                disabled={activeFilters.length === 0}
               >
                 Reset
               </button>
             </div>
 
-            <label htmlFor="cx-search-filter-select">
-              {activeCategory === 'All'
-                ? 'Available filters'
-                : `${activeCategory} filters`}
-            </label>
+            {activeCategory === 'All' ? (
+              <p className="cx-search-filter-guidance">
+                Select a category above to see its available filters.
+              </p>
+            ) : (
+              <>
+                <div className="cx-search-filter-label">
+                  {activeCategory} filters
+                </div>
 
-            <select
-              id="cx-search-filter-select"
-              value={activeFilter}
-              onChange={(event) =>
-                setActiveFilter(event.target.value)
-              }
-            >
-              {filterOptions[activeCategory].map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+                {availableFilters.length > 0 ? (
+                  <div className="cx-search-filter-options">
+                    {availableFilters.map((filter) => (
+                      <button
+                        type="button"
+                        key={filter}
+                        className={
+                          activeFilters.includes(filter) ? 'active' : ''
+                        }
+                        aria-pressed={activeFilters.includes(filter)}
+                        onClick={() => toggleFilter(filter)}
+                      >
+                        {filter}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="cx-search-filter-guidance">
+                    No filters are available for this category yet.
+                  </p>
+                )}
+              </>
+            )}
 
-            <p>
-              Filters are currently applied to sample frontend data.
+            <p className="cx-search-filter-note">
+              Multiple selected filters show results matching any
+              selected option.
             </p>
           </section>
         )}
@@ -450,7 +598,8 @@ function SearchPage() {
                   DISCOVERY RESULTS
                 </span>
                 <h2>
-                  {filteredResults.length} Results
+                  {filteredResults.length}{' '}
+                  {filteredResults.length === 1 ? 'Result' : 'Results'}
                 </h2>
               </div>
 
@@ -459,17 +608,39 @@ function SearchPage() {
               </span>
             </div>
 
+            {activeFilters.length > 0 && (
+              <div className="cx-search-active-filters">
+                {activeFilters.map((filter) => (
+                  <button
+                    type="button"
+                    key={filter}
+                    onClick={() => toggleFilter(filter)}
+                  >
+                    {filter}
+                    <X size={13} />
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className="cx-search-clear-filters"
+                  onClick={resetFilters}
+                >
+                  Clear filters
+                </button>
+              </div>
+            )}
+
             {filteredResults.length > 0 ? (
               <div className="cx-search-results-list">
                 {filteredResults.map((result) => {
                   const ResultIcon = result.icon
 
                   return (
-                    <button
-                      type="button"
-                      className="cx-search-result"
+                    <article
+                      className={`cx-search-result ${
+                        result.destination ? 'is-clickable' : 'is-preview'
+                      }`}
                       key={result.id}
-                      onClick={() => handleResultClick(result)}
                     >
                       <span className="cx-search-result-icon">
                         <ResultIcon size={21} />
@@ -494,11 +665,21 @@ function SearchPage() {
                         </span>
                       </span>
 
-                      <ChevronRight
-                        className="cx-search-result-arrow"
-                        size={18}
-                      />
-                    </button>
+                      {result.destination ? (
+                        <button
+                          type="button"
+                          className="cx-search-result-open"
+                          aria-label={`Open ${result.title}`}
+                          onClick={() => handleResultClick(result)}
+                        >
+                          <ChevronRight size={18} />
+                        </button>
+                      ) : (
+                        <span className="cx-search-preview-label">
+                          Preview
+                        </span>
+                      )}
+                    </article>
                   )
                 })}
               </div>
@@ -511,15 +692,7 @@ function SearchPage() {
                 <p>
                   Try another keyword, category, or filter.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery('')
-                    setActiveCategory('All')
-                    setActiveFilter('All')
-                    setHasSearched(false)
-                  }}
-                >
+                <button type="button" onClick={clearAll}>
                   Clear search
                 </button>
               </div>
@@ -540,7 +713,7 @@ function SearchPage() {
                   <button
                     type="button"
                     className="cx-search-text-button"
-                    onClick={() => setRecentSearches([])}
+                    onClick={clearAllSearchData}
                   >
                     Clear all
                   </button>
@@ -576,7 +749,10 @@ function SearchPage() {
                   </span>
                   <h2>Trending Searches</h2>
                 </div>
-                <TrendingUp size={19} className="cx-search-gold-icon" />
+                <TrendingUp
+                  size={19}
+                  className="cx-search-gold-icon"
+                />
               </div>
 
               <div className="cx-search-trending-list">
