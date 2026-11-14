@@ -540,23 +540,23 @@ function PlayFriendPage() {
         <Check size={15} />
       </div>
 
-      <div className="cx-friend-setting-summary-values">
-        <strong>{selectedTime}</strong>
-        <strong>{selectedVariant} · {selectedMode}</strong>
+      <div className="cx-friend-setting-summary-row">
+        <div className="cx-friend-setting-summary-item">
+          <small>Time Control</small>
+          <strong>{selectedTime}</strong>
+        </div>
+
+        <div className="cx-friend-setting-summary-item">
+          <small>Variant · Mode</small>
+          <strong>{selectedVariant} · {selectedMode}</strong>
+        </div>
+
+        <div className="cx-friend-setting-summary-item">
+          <small>Rating</small>
+          <strong>Rating: -{lowerRating} / +{upperRating}</strong>
+        </div>
       </div>
-
-      <small>
-        Rating: -{lowerRating} / +{upperRating}
-      </small>
     </div>
-
-  </div>
-)}
-        {notice && (
-          <div className="cx-friend-notice" role="status">
-            {notice}
-          </div>
-        )}
 
         <button
           type="button"
