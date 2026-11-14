@@ -1,4 +1,3 @@
-
 .cx-shared-streak-badge {
   position: relative;
   display: inline-grid;
@@ -8,6 +7,7 @@
   border-radius: 50%;
   --badge-color: #d9b45b;
   --badge-glow: rgba(217, 180, 91, 0.35);
+  --evolution-glow: 0px;
 }
 
 .cx-shared-streak-badge--large {
@@ -95,7 +95,7 @@
   inset: 12px;
   border-radius: 50%;
   background: var(--badge-glow);
-  filter: blur(25px);
+  filter: blur(calc(25px + var(--evolution-glow)));
   animation: cx-shared-streak-aura-pulse 3s ease-in-out infinite;
 }
 
@@ -109,8 +109,8 @@
   border-radius: 50%;
   opacity: 0;
   box-shadow:
-    0 0 15px var(--badge-glow),
-    inset 0 0 12px var(--badge-glow);
+    0 0 calc(15px + var(--evolution-glow)) var(--badge-glow),
+    inset 0 0 calc(12px + var(--evolution-glow)) var(--badge-glow);
 }
 
 .cx-shared-streak-legacy .cx-shared-streak-legacy-radiance,
@@ -122,8 +122,8 @@
   inset: 5px;
   border-width: 2px;
   box-shadow:
-    0 0 20px var(--badge-glow),
-    inset 0 0 18px var(--badge-glow);
+    0 0 calc(20px + var(--evolution-glow)) var(--badge-glow),
+    inset 0 0 calc(18px + var(--evolution-glow)) var(--badge-glow);
 }
 
 /* ORBITS */
@@ -188,7 +188,9 @@
   color: var(--badge-color);
   transform: translate(-50%, -50%);
   animation: cx-shared-streak-flame-float 2.4s ease-in-out infinite;
-  filter: drop-shadow(0 0 12px var(--badge-glow));
+  filter: drop-shadow(
+    0 0 calc(12px + var(--evolution-glow)) var(--badge-glow)
+  );
 }
 
 .cx-shared-streak-flame-icon {
@@ -293,10 +295,10 @@
   animation-delay: 1.5s;
 }
 
-/* ANNIVERSARY RECOGNITION */
+/* 365-DAY RECOGNITION */
 
 .cx-shared-streak-anniversary .cx-shared-streak-aura {
-  filter: blur(30px);
+  filter: blur(calc(30px + var(--evolution-glow)));
   opacity: 0.9;
 }
 
@@ -307,6 +309,24 @@
 .cx-shared-streak-legacy.cx-shared-streak-anniversary .cx-shared-streak-orbit,
 .cx-shared-streak-eternal.cx-shared-streak-anniversary .cx-shared-streak-orbit {
   opacity: 0.8;
+}
+
+/* 500-DAY MAJOR MILESTONE */
+
+.cx-shared-streak-major-milestone .cx-shared-streak-aura {
+  opacity: 1;
+  filter: blur(calc(34px + var(--evolution-glow)));
+}
+
+.cx-shared-streak-major-milestone .cx-shared-streak-legacy-radiance {
+  opacity: 0.9;
+  box-shadow:
+    0 0 calc(18px + var(--evolution-glow)) var(--badge-glow),
+    inset 0 0 calc(14px + var(--evolution-glow)) var(--badge-glow);
+}
+
+.cx-shared-streak-major-milestone .cx-shared-streak-orbit {
+  opacity: 0.85;
 }
 
 /* COMPACT HOMEPAGE BADGE */
