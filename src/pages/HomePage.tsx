@@ -431,9 +431,9 @@ function RatingIcon({ name }: { name: string }) {
 >
   View all <ChevronRight size={15} />
 </button>
+</div>
 
-
-          <div className="cx-friends-track">
+<div className="cx-friends-track">
             {visibleFriends.map((friend) => (
               <article className="cx-friend-card" key={friend.username}>
                 <div className="cx-friend-avatar">
@@ -475,8 +475,9 @@ function RatingIcon({ name }: { name: string }) {
 >
   View All Games <ChevronRight size={15} />
 </button>
+</div>
 
-          <div className="cx-history-list">
+<div className="cx-history-list">
             {games.map((game, index) => (
               <article className="cx-game-row" key={`${game.opponent}-${index}`}>
                 <div className={`cx-game-result ${game.color}`}>
