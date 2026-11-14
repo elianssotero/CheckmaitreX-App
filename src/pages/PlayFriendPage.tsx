@@ -7,9 +7,7 @@ import {
   UserPlus,
   Link2,
   Settings2,
-  Users,
   Copy,
-  Check,
   Clock3,
   Gamepad2,
   X,
@@ -180,7 +178,6 @@ function PlayFriendPage() {
  >(null)
   const [lowerRating, setLowerRating] = useState(() => readNumberSetting(LOWER_RATING_KEY, 0))
   const [upperRating, setUpperRating] = useState(() => readNumberSetting(UPPER_RATING_KEY, 500))
-  const [copied, setCopied] = useState(false)
   const [notice, setNotice] = useState('')
   const [challengedFriend, setChallengedFriend] = useState<string | null>(null)
 
@@ -232,19 +229,6 @@ function PlayFriendPage() {
 
     setChallengedFriend(friend.name)
     setNotice(`Challenge preview prepared for ${friend.name}.`)
-  }
-
-  const handleCopyInviteLink = async () => {
-    const inviteLink = `${window.location.origin}/invite/CCC-FRIEND-DEMO`
-
-    try {
-      await navigator.clipboard.writeText(inviteLink)
-      setCopied(true)
-      setNotice('Demo invite link copied. Membership and friendship actions are frontend previews only.')
-      window.setTimeout(() => setCopied(false), 2200)
-    } catch {
-      setNotice(`Copy is unavailable. You can copy this link manually: ${inviteLink}`)
-    }
   }
 
   const statusCounts = {
