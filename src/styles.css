@@ -403,7 +403,10 @@ svg {
 
 .cx-home .cx-user-streak strong {
   color: var(--cx-text);
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .cx-home .cx-top-actions {
