@@ -2,6 +2,7 @@ import { playerProfile } from '../data/playerProfile'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MaitronXAssistant from '../components/MaitronXAssistant'
+import DailyQuote from '../components/DailyQuote'
 import StreakBadge from '../components/StreakBadge'
 import {
   ChevronRight,
@@ -508,6 +509,8 @@ function RatingIcon({ name }: { name: string }) {
           </div>
         </section>
 
+         <DailyQuote/>
+         
         <footer className="cx-home-footer">
           © {new Date().getFullYear()} CheckmaîtréX • All rights reserved.
           <span>Calculate. Conquer. Checkmate.</span>
