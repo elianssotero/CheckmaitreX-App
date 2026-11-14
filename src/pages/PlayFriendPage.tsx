@@ -96,12 +96,27 @@ const sampleFriends: Friend[] = [
   },
 ]
 
-const timeControls = [
-  '1+0', '1+1', '2+0', '2+1',
-  '3+0', '3+1', '5+0', '5+1',
-  '10+0', '10+1', '15+0', '15+1',
-  '30+0', '30+10', '60+0', '60+10',
-  '1 Day', '2 Days', '3 Days',
+const timeControlGroups = [
+  {
+    title: 'Bullet',
+    options: ['1+0', '1+1', '2+0', '2+1'],
+  },
+  {
+    title: 'Blitz',
+    options: ['3+0', '3+1', '5+0', '5+1'],
+  },
+  {
+    title: 'Rapid',
+    options: ['10+0', '10+1', '15+0', '15+1'],
+  },
+  {
+    title: 'Classical',
+    options: ['30+0', '30+10', '60+0', '60+10'],
+  },
+  {
+    title: 'Daily',
+    options: ['1 Day', '2 Days', '3 Days', '4 Days'],
+  },
 ]
 
 const variants = [
