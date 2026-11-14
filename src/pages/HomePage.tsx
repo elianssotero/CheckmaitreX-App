@@ -359,17 +359,7 @@ function RatingIcon({ name }: { name: string }) {
                 >
                   <div className="cx-feature-top">
                     <span>{feature.label}</span>
-{feature.title === 'Puzzles' ? (
-  <img
-    src="/icons/puzzles/puzzle.png"
-    alt="Puzzles"
-    width={23}
-    height={23}
-    className="cx-feature-image-icon"
-  />
-) : (
-  <Icon size={23} />
-)}          
+<Icon size={23} />          
                   </div>
 
                   <div className="cx-feature-bottom">
