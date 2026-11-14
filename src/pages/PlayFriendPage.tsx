@@ -178,7 +178,6 @@ function PlayFriendPage() {
  >(null)
   const [lowerRating, setLowerRating] = useState(() => readNumberSetting(LOWER_RATING_KEY, 0))
   const [upperRating, setUpperRating] = useState(() => readNumberSetting(UPPER_RATING_KEY, 500))
-  const [notice, setNotice] = useState('')
   const [challengedFriend, setChallengedFriend] = useState<string | null>(null)
 
   const filteredFriends = useMemo(() => {
@@ -194,10 +193,9 @@ function PlayFriendPage() {
     })
   }, [search, statusFilter])
 
-  const openPanel = (panel: PanelType) => {
-    setNotice('')
-    setActivePanel((current) => current === panel ? null : panel)
-  }
+const openPanel = (panel: PanelType) => {
+  setActivePanel((current) => current === panel ? null : panel)
+}
 
   const updateTime = (value: string) => {
     setSelectedTime(value)
@@ -224,12 +222,11 @@ function PlayFriendPage() {
     saveSetting(UPPER_RATING_KEY, String(value))
   }
 
-  const handleChallenge = (friend: Friend) => {
-    if (friend.status !== 'Online') return
+const handleChallenge = (friend: Friend) => {
+  if (friend.status !== 'Online') return
 
-    setChallengedFriend(friend.name)
-    setNotice(`Challenge preview prepared for ${friend.name}.`)
-  }
+  setChallengedFriend(friend.name)
+}
 
   const statusCounts = {
     Online: sampleFriends.filter((friend) => friend.status === 'Online').length,
