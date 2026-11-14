@@ -1,13 +1,12 @@
 
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import {
+  import {
   ArrowLeft,
   Search,
   UserPlus,
   Link2,
   Settings2,
-  Copy,
+  Check,
+  Users,
   Clock3,
   Gamepad2,
   X,
