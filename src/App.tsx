@@ -41,6 +41,7 @@ import PlayPage from './pages/PlayPage'
 import PlayDestinationPage from './pages/PlayDestinationPage'
 import PlayComputerPage from './pages/PlayComputerPage'
 import PlayFriendPage from './pages/PlayFriendPage'
+import SendChallengeLinkPage from './pages/SendChallengeLinkPage'
 import PlayCoachPage from './pages/PlayCoachPage'
 import PlayTournamentsPage from './pages/PlayTournamentsPage'
 import SearchPage from './pages/SearchPage'
@@ -164,8 +165,8 @@ function App() {
           />
 
           <Route
-            path="play/friend/challenge"
-            element={<PlayDestinationPage title="Send Challenge Link" />}
+              path="play/friend/challenge"
+             element={<SendChallengeLinkPage />}
           />
 
           <Route
