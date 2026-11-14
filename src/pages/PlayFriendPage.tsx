@@ -175,6 +175,9 @@ function PlayFriendPage() {
   const [selectedTime, setSelectedTime] = useState(() => readSetting(TIME_CONTROL_KEY, '10 min'))
   const [selectedVariant, setSelectedVariant] = useState(() => readSetting(VARIANT_KEY, 'Standard'))
   const [selectedMode, setSelectedMode] = useState(() => readSetting(MODE_KEY, 'Rated'))
+ const [openSetting, setOpenSetting] = useState<
+  'time' | 'variant' | 'mode' | null
+ >(null)
   const [lowerRating, setLowerRating] = useState(() => readNumberSetting(LOWER_RATING_KEY, 0))
   const [upperRating, setUpperRating] = useState(() => readNumberSetting(UPPER_RATING_KEY, 500))
   const [copied, setCopied] = useState(false)
@@ -345,126 +348,226 @@ function PlayFriendPage() {
           </button>
         </section>
 
-        {activePanel && (
-          <section className="cx-friend-panel">
-            <div className="cx-friend-panel-heading">
-              <div>
-                <span className="cx-friend-eyebrow">QUICK ACTION</span>
-                <h3>
-                  {activePanel === 'invite' && 'Invite a Friend'}
-                  {activePanel === 'settings' && 'Game Settings'}
-                </h3>
-              </div>
+{activePanel === 'settings' && (
+  <div className="cx-friend-panel-body cx-friend-settings">
 
-              <button
-                type="button"
-                className="cx-friend-close"
-                onClick={() => setActivePanel(null)}
-                aria-label="Close panel"
-              >
-                <X size={18} />
-              </button>
-            </div>
+    {/* TIME CONTROL */}
+    <div className="cx-friend-setting-field">
+      <label>Time Control</label>
 
-            {activePanel === 'invite' && (
-              <div className="cx-friend-panel-body">
-                <p className="cx-friend-panel-description">
-                  Share one invite link. A new visitor is intended to join the club and become your friend; an existing member is intended to become your friend automatically.
-                </p>
-                <div className="cx-friend-link-preview">
-                  <span>checkmaitrexchessclub.com/invite/...</span>
-                  <button type="button" onClick={handleCopyInviteLink}>
-                    {copied ? <Check size={16} /> : <Copy size={16} />}
-                    {copied ? 'Copied' : 'Copy Invite Link'}
+      <button
+        type="button"
+        className={`cx-friend-setting-trigger ${openSetting === 'time' ? 'expanded' : ''}`}
+        onClick={() =>
+          setOpenSetting((current) => current === 'time' ? null : 'time')
+        }
+        aria-expanded={openSetting === 'time'}
+      >
+        <span className="cx-friend-setting-trigger-icon">
+          <Clock3 size={18} />
+        </span>
+
+        <span className="cx-friend-setting-trigger-copy">
+          <strong>{selectedTime}</strong>
+          <small>Choose time control</small>
+        </span>
+
+        <ChevronDown
+          size={18}
+          className={openSetting === 'time' ? 'rotated' : ''}
+        />
+      </button>
+
+      {openSetting === 'time' && (
+        <div className="cx-friend-setting-options cx-friend-time-options">
+          {timeControlGroups.map((group) => (
+            <div className="cx-friend-time-group" key={group.title}>
+              <span>{group.title}</span>
+
+              <div className="cx-friend-option-grid">
+                {group.options.map((time) => (
+                  <button
+                    type="button"
+                    key={time}
+                    className={selectedTime === time ? 'selected' : ''}
+                    onClick={() => {
+                      updateTime(time)
+                      setOpenSetting(null)
+                    }}
+                  >
+                    {time}
+                    {selectedTime === time && <Check size={14} />}
                   </button>
-                </div>
-                <p className="cx-friend-helper">
-                  Frontend preview only. Automatic registration, membership, and friendship will require backend support.
-                </p>
+                ))}
               </div>
-            )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
 
-            {activePanel === 'settings' && (
-              <div className="cx-friend-panel-body cx-friend-settings">
-                <div className="cx-friend-setting-field">
-                  <label htmlFor="friend-time-control">Time Control</label>
-                  <div className="cx-friend-select-wrap">
-                    <Clock3 size={17} />
-                    <select
-                      id="friend-time-control"
-                      value={selectedTime}
-                      onChange={(event) => updateTime(event.target.value)}
-                    >
-                      {timeControls.map((time) => (
-                        <option key={time} value={time}>{time}</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={16} />
-                  </div>
-                </div>
+    {/* GAME VARIANT */}
+    <div className="cx-friend-setting-field">
+      <label>Game Variant</label>
 
-                <div className="cx-friend-setting-field">
-                  <label htmlFor="friend-variant">Game Variant</label>
-                  <div className="cx-friend-select-wrap">
-                    <Gamepad2 size={17} />
-                    <select
-                      id="friend-variant"
-                      value={selectedVariant}
-                      onChange={(event) => updateVariant(event.target.value)}
-                    >
-                      {variants.map((variant) => (
-                        <option key={variant} value={variant}>{variant}</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={16} />
-                  </div>
-                </div>
+      <button
+        type="button"
+        className={`cx-friend-setting-trigger ${openSetting === 'variant' ? 'expanded' : ''}`}
+        onClick={() =>
+          setOpenSetting((current) => current === 'variant' ? null : 'variant')
+        }
+        aria-expanded={openSetting === 'variant'}
+      >
+        <span className="cx-friend-setting-trigger-icon">
+          <Gamepad2 size={18} />
+        </span>
 
-                <div className="cx-friend-setting-field">
-                  <label htmlFor="friend-game-mode">Game Mode</label>
-                  <div className="cx-friend-select-wrap">
-                    <Swords size={17} />
-                    <select
-                      id="friend-game-mode"
-                      value={selectedMode}
-                      onChange={(event) => updateMode(event.target.value)}
-                    >
-                      {gameModes.map((mode) => (
-                        <option key={mode} value={mode}>{mode}</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={16} />
-                  </div>
-                </div>
+        <span className="cx-friend-setting-trigger-copy">
+          <strong>{selectedVariant}</strong>
+          <small>Choose game rules</small>
+        </span>
 
-                <div className="cx-friend-setting-field">
-                  <label>Rating Filter</label>
-                  <div className="cx-friend-rating-controls">
-                    <label>
-                      <span>Lower: -{lowerRating}</span>
-                      <input
-                        type="range"
-                        min="0"
-                        max="500"
-                        step="10"
-                        value={lowerRating}
-                        onChange={(event) => updateLowerRating(Number(event.target.value))}
-                      />
-                    </label>
-                    <label>
-                      <span>Upper: +{upperRating}</span>
-                      <input
-                        type="range"
-                        min="0"
-                        max="500"
-                        step="10"
-                        value={upperRating}
-                        onChange={(event) => updateUpperRating(Number(event.target.value))}
-                      />
-                    </label>
-                  </div>
-                </div>
+        <ChevronDown
+          size={18}
+          className={openSetting === 'variant' ? 'rotated' : ''}
+        />
+      </button>
 
+      {openSetting === 'variant' && (
+        <div className="cx-friend-setting-options cx-friend-variant-options">
+          {variants.map((variant) => (
+            <button
+              type="button"
+              key={variant}
+              className={selectedVariant === variant ? 'selected' : ''}
+              onClick={() => {
+                updateVariant(variant)
+                setOpenSetting(null)
+              }}
+            >
+              <span>{variant}</span>
+              {selectedVariant === variant && <Check size={15} />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {/* GAME MODE */}
+    <div className="cx-friend-setting-field">
+      <label>Game Mode</label>
+
+      <button
+        type="button"
+        className={`cx-friend-setting-trigger ${openSetting === 'mode' ? 'expanded' : ''}`}
+        onClick={() =>
+          setOpenSetting((current) => current === 'mode' ? null : 'mode')
+        }
+        aria-expanded={openSetting === 'mode'}
+      >
+        <span className="cx-friend-setting-trigger-icon">
+          <Swords size={18} />
+        </span>
+
+        <span className="cx-friend-setting-trigger-copy">
+          <strong>{selectedMode}</strong>
+          <small>Choose match type</small>
+        </span>
+
+        <ChevronDown
+          size={18}
+          className={openSetting === 'mode' ? 'rotated' : ''}
+        />
+      </button>
+
+      {openSetting === 'mode' && (
+        <div className="cx-friend-setting-options cx-friend-mode-options">
+          {gameModes.map((mode) => (
+            <button
+              type="button"
+              key={mode}
+              className={selectedMode === mode ? 'selected' : ''}
+              onClick={() => {
+                updateMode(mode)
+                setOpenSetting(null)
+              }}
+            >
+              <span>{mode}</span>
+              {selectedMode === mode && <Check size={15} />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {/* RATING FILTER */}
+    <div className="cx-friend-setting-field cx-friend-rating-field">
+      <label>Rating Filter</label>
+
+      <div className="cx-friend-rating-controls">
+        <label>
+          <span>
+            Lower Limit
+            <strong>-{lowerRating}</strong>
+          </span>
+
+          <input
+            type="range"
+            min="0"
+            max="500"
+            step="10"
+            value={lowerRating}
+            onChange={(event) =>
+              updateLowerRating(Number(event.target.value))
+            }
+            aria-label="Lower rating limit"
+          />
+
+          <small>0–500 points</small>
+        </label>
+
+        <label>
+          <span>
+            Upper Limit
+            <strong>+{upperRating}</strong>
+          </span>
+
+          <input
+            type="range"
+            min="0"
+            max="500"
+            step="10"
+            value={upperRating}
+            onChange={(event) =>
+              updateUpperRating(Number(event.target.value))
+            }
+            aria-label="Upper rating limit"
+          />
+
+          <small>0–500 points</small>
+        </label>
+      </div>
+    </div>
+
+    {/* SETTINGS SUMMARY */}
+    <div className="cx-friend-setting-summary">
+      <div className="cx-friend-setting-summary-heading">
+        <span>Synced from Play</span>
+        <Check size={15} />
+      </div>
+
+      <div className="cx-friend-setting-summary-values">
+        <strong>{selectedTime}</strong>
+        <strong>{selectedVariant} · {selectedMode}</strong>
+      </div>
+
+      <small>
+        Rating: -{lowerRating} / +{upperRating}
+      </small>
+    </div>
+
+  </div>
+)}
                 <div className="cx-friend-setting-summary">
                   <span>Synced from Play</span>
                   <strong>{selectedTime}</strong>
