@@ -1,4 +1,4 @@
-
+import type { CSSProperties } from 'react'
 import { Flame, Sparkles } from 'lucide-react'
 import './StreakBadge.css'
 
@@ -24,9 +24,8 @@ function getBadgeTier(days: number): string {
 function getEvolutionMarkCount(days: number): number {
   if (days < 100) return 0
 
-  const marks = Math.floor(days / 100) % 10
-
-  return marks === 0 ? 10 : marks
+  // The ring is capped visually, but the glow keeps evolving.
+  return Math.min(Math.floor(days / 100), 36)
 }
 
 function StreakBadge({
@@ -36,8 +35,18 @@ function StreakBadge({
   const safeDays = Math.max(0, Math.floor(days))
   const tier = getBadgeTier(safeDays)
   const evolutionMarks = getEvolutionMarkCount(safeDays)
+
   const isYearlyMilestone =
     safeDays > 0 && safeDays % 365 === 0
+
+  const isFiveHundredMilestone =
+    safeDays >= 500 && safeDays % 500 === 0
+
+  // Slow, continuous visual evolution with no 1,000-day reset.
+  const evolutionGlow = Math.min(
+    Math.log1p(safeDays / 100) * 2,
+    24,
+  )
 
   return (
     <span
@@ -48,11 +57,18 @@ function StreakBadge({
         isYearlyMilestone
           ? 'cx-shared-streak-anniversary'
           : '',
+        isFiveHundredMilestone
+          ? 'cx-shared-streak-major-milestone'
+          : '',
       ].filter(Boolean).join(' ')}
       role="img"
       aria-label={`${safeDays} day ${tier} streak badge`}
       data-tier={tier}
       data-days={safeDays}
+      data-evolution-level={Math.floor(safeDays / 500)}
+      style={{
+        '--evolution-glow': `${evolutionGlow}px`,
+      } as CSSProperties}
     >
       <span className="cx-shared-streak-art">
         <span className="cx-shared-streak-aura" />
