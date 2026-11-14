@@ -9,7 +9,6 @@ import {
   X,
   MessageSquare,
   Sparkles,
-  Trash2,
 } from 'lucide-react'
 
 import MaitronXAssistant from '../components/MaitronXAssistant'
