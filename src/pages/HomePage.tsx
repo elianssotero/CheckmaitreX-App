@@ -190,7 +190,35 @@ function RatingIcon({ name }: { name: string }) {
   const navigate = useNavigate() 
   const featureTrackRef = useRef<HTMLDivElement>(null)
   const [featureIndex, setFeatureIndex] = useState(0)
-  const updateFeatureIndex = () => {
+  const [savedProfile] = useState<{
+    accountName?: string
+    username?: string
+    profilePhoto?: string
+  }>(() => {
+    try {
+      const saved = localStorage.getItem('cx-profile-preview')
+
+      if (!saved) return {}
+
+      const parsed = JSON.parse(saved)
+      return parsed && typeof parsed === 'object' ? parsed : {}
+    } catch {
+      return {}
+    }
+  })
+
+  const displayName =
+    savedProfile.accountName?.trim() ||
+    savedProfile.username?.trim() ||
+    playerProfile.accountName
+
+  const verifiedTitle =
+    playerProfile.chessTitle &&
+    playerProfile.chessTitle.verificationStatus === 'verified' &&
+    !playerProfile.chessTitle.isSample
+      ? playerProfile.chessTitle.value.trim()
+      : ''
+    const updateFeatureIndex = () => {
   const track = featureTrackRef.current
     if (!track) return
 
@@ -234,42 +262,46 @@ function RatingIcon({ name }: { name: string }) {
   return (
     <div className="cx-home">
       <header className="cx-topbar">
-        <div className="cx-user-area">
+                <div className="cx-user-area">
           <button
-  className="cx-avatar"
-  aria-label="Player profile"
-  onClick={() => navigate('/profile')}
->
-  <CircleUserRound size={25} />
-</button>
+            className="cx-avatar"
+            aria-label="Player profile"
+            onClick={() => navigate('/profile')}
+          >
+            {savedProfile.profilePhoto ? (
+              <img
+                src={savedProfile.profilePhoto}
+                alt=""
+              />
+            ) : (
+              <CircleUserRound size={25} />
+            )}
+          </button>
 
           <div className="cx-user-details">
             <div className="cx-player-name-line">
-              {playerProfile.chessTitle && (
-  <span className="cx-player-title">
-    {playerProfile.chessTitle.value}
-  </span>
-)}
-
-<strong className="cx-player-name">
-  {playerProfile.accountName}
-</strong>
-
-              {playerProfile.flair && (
-                <span className="cx-player-flair">
-                  {playerProfile.flair}
+              {verifiedTitle && (
+                <span className="cx-player-title">
+                  {verifiedTitle}
                 </span>
               )}
 
-<button
-  className="cx-user-streak cx-user-streak-button"
-  type="button"
-  aria-label="Open CheckmaîtréXStreak"
-  onClick={() => navigate('/streak')}
->
-  <StreakBadge days={playerProfile.streak} size="compact" />
-  <strong>{playerProfile.streak}</strong>
-</button>
+              <strong className="cx-player-name">
+                {displayName}
+              </strong>
+
+              <button
+                className="cx-user-streak cx-user-streak-button"
+                type="button"
+                aria-label="Open CheckmaîtréXStreak"
+                onClick={() => navigate('/streak')}
+              >
+                <StreakBadge
+                  days={playerProfile.streak}
+                  size="compact"
+                />
+                <strong>{playerProfile.streak}</strong>
+              </button>
             </div>
           </div>
         </div>
