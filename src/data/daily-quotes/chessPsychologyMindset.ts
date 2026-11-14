@@ -92,4 +92,13 @@ export const chessPsychologyMindsetQuotes: ChessQuote[] = [
     sourceUrl: 'https://chesshistory.com/winter/extra/pondering.html',
     verificationStatus: 'verified',
   },
+  {
+    id: 11,
+    quote: 'And so, I appreciate losing. I don’t want to lose, but I appreciate it when it happens.',
+    author: 'Maurice Ashley',
+    category: 'Chess Psychology & Mindset',
+    source: '“Inside Story: An Interview with GM Maurice Ashley,” Chess Life Magazine, April 2024; published by US Chess on 25 April 2024',
+    sourceUrl: 'https://new.uschess.org/news/inside-story-interview-gm-maurice-ashley',
+    verificationStatus: 'verified',
+  },
 ]
