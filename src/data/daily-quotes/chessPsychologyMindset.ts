@@ -3,13 +3,48 @@ import type { ChessQuote } from './types'
 
 export const chessPsychologyMindsetQuotes: ChessQuote[] = [
   {
-    id: 4,
+    id: 1,
     quote: 'The real psychological opponent of every player is himself.',
     author: 'C.J.S. Purdy',
     category: 'Chess Psychology & Mindset',
-    source: 'Psychology in Chess, Chess World, November 1957, pages 230–232',
-    sourceUrl:
-      'https://www.chesshistory.com/winter/extra/psychology.html',
+    source: '“Psychology in Chess,” Chess World, November 1957, pages 230–232',
+    sourceUrl: 'https://chesshistory.com/winter/extra/purdy.html',
+    verificationStatus: 'verified',
+  },
+  {
+    id: 2,
+    quote: 'The history of chess is largely a chronicle of self-imposed intimidation and untimely excitement.',
+    author: 'W.E. Napier',
+    category: 'Chess Psychology & Mindset',
+    source: 'CHESS, February 1939, pages 179–181',
+    sourceUrl: 'https://chesshistory.com/winter/extra/napier.html',
+    verificationStatus: 'verified',
+  },
+  {
+    id: 3,
+    quote: 'A good chess player must have imagination as well as logic in his makeup.',
+    author: 'José Raúl Capablanca',
+    category: 'Chess Psychology & Mindset',
+    source: '“Capablanca: Why Chess Is Popular,” Brooklyn Daily Eagle, 14 February 1930, page 24',
+    sourceUrl: 'https://chesshistory.com/winter/extra/psychology.html',
+    verificationStatus: 'verified',
+  },
+  {
+    id: 4,
+    quote: 'The chessmaster must have full control of himself at all times.',
+    author: 'Harry Nelson Pillsbury',
+    category: 'Chess Psychology & Mindset',
+    source: 'The Independent, 10 May 1900; reproduced in Literary Digest, 19 May 1900, page 622',
+    sourceUrl: 'https://www.chesshistory.com/winter/extra/pillsbury1.html',
+    verificationStatus: 'verified',
+  },
+  {
+    id: 5,
+    quote: 'Those who are over-confident are apt to despise their antagonist.',
+    author: 'William Lewis',
+    category: 'Chess Psychology & Mindset',
+    source: 'A Series of Progressive Lessons on the Game of Chess (London, 1831), page 22',
+    sourceUrl: 'https://chesshistory.com/winter/extra/pondering.html',
     verificationStatus: 'verified',
   },
 ]
