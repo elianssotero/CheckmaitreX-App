@@ -1,4 +1,6 @@
+
 import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Mic,
@@ -73,9 +75,11 @@ function getGreeting(activity?: Activity | null) {
     tournament: 'May recent tournament activity ka. ',
   }
 
-  return greetings[activity.type] +
+  return (
+    greetings[activity.type] +
     activity.summary +
     ' Gusto mo ba itong pag-aralan natin?'
+  )
 }
 
 function getPrompts(activity?: Activity | null) {
@@ -143,21 +147,31 @@ export default function MaitronXAssistant({
   const [status, setStatus] = useState<Status>(
     navigator.onLine ? 'online' : 'offline'
   )
+
   const [message, setMessage] = useState(() =>
     getGreeting(recentActivity)
   )
+
   const [transcript, setTranscript] = useState('')
   const [showPrompts, setShowPrompts] = useState(false)
   const [showPermission, setShowPermission] = useState(false)
   const [permissionError, setPermissionError] = useState('')
   const [sleepMode, setSleepMode] = useState(false)
 
+  // Homepage reaction animation state
+  const [reactionIndex, setReactionIndex] = useState(0)
+  const [reactionKey, setReactionKey] = useState(0)
+
   const recognitionRef = useRef<Recognition | null>(null)
   const activeRef = useRef(false)
+
   const longPressRef = useRef<number | null>(null)
   const singleTapRef = useRef<number | null>(null)
+
   const longPressedRef = useRef(false)
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null)
+
+  const lastReactionAtRef = useRef(0)
 
   useEffect(() => {
     setMessage(getGreeting(recentActivity))
@@ -165,7 +179,9 @@ export default function MaitronXAssistant({
 
   useEffect(() => {
     const handleOnline = () => {
-      if (!activeRef.current && !sleepMode) setStatus('online')
+      if (!activeRef.current && !sleepMode) {
+        setStatus('online')
+      }
     }
 
     const handleOffline = () => {
@@ -199,11 +215,15 @@ export default function MaitronXAssistant({
 
   function stopConversation() {
     activeRef.current = false
+
     recognitionRef.current?.stop()
     recognitionRef.current = null
+
     setStatus(navigator.onLine ? 'online' : 'offline')
     setTranscript('')
-    setMessage('Voice session ended. Nandito ako kapag gusto mong magpatuloy.')
+    setMessage(
+      'Voice session ended. Nandito ako kapag gusto mong magpatuloy.'
+    )
   }
 
   function startRecognition() {
@@ -251,7 +271,9 @@ export default function MaitronXAssistant({
           }
         }
 
-        if (current) setTranscript(current)
+        if (current) {
+          setTranscript(current)
+        }
 
         if (finalText.trim()) {
           const spoken = finalText.trim()
@@ -263,7 +285,9 @@ export default function MaitronXAssistant({
           )
 
           window.setTimeout(() => {
-            if (activeRef.current) setStatus('listening')
+            if (activeRef.current) {
+              setStatus('listening')
+            }
           }, 1200)
         }
       }
@@ -276,6 +300,7 @@ export default function MaitronXAssistant({
           activeRef.current = false
           setStatus('error')
           setMessage('Hindi naibigay ang microphone permission.')
+
           setPermissionError(
             'Hindi pinayagan ang microphone. Maaari mong baguhin ito sa site permissions ng browser.'
           )
@@ -283,7 +308,9 @@ export default function MaitronXAssistant({
           setStatus('listening')
         } else {
           setStatus('error')
-          setMessage('Na-interrupt ang voice input. Maaari mong subukan muli.')
+          setMessage(
+            'Na-interrupt ang voice input. Maaari mong subukan muli.'
+          )
         }
       }
 
@@ -330,6 +357,7 @@ export default function MaitronXAssistant({
       startRecognition()
     } catch {
       setStatus('error')
+
       setPermissionError(
         'Hindi naibigay ang microphone permission. Tingnan ang browser site settings at subukan muli.'
       )
@@ -337,6 +365,7 @@ export default function MaitronXAssistant({
   }
 
   function handleDoubleTap() {
+    // Existing voice behavior is intentionally preserved.
     if (activeRef.current) {
       stopConversation()
       return
@@ -350,10 +379,28 @@ export default function MaitronXAssistant({
     setShowPermission(true)
   }
 
+  function triggerHomepageReaction() {
+    const now = Date.now()
+
+    // Prevent repeated reactions during cooldown.
+    if (now - lastReactionAtRef.current < 1100) {
+      return
+    }
+
+    lastReactionAtRef.current = now
+
+    // Generate 120 animation combinations.
+    setReactionIndex((previous) => (previous + 1) % 120)
+
+    // Remount animated elements to restart their animations.
+    setReactionKey((previous) => previous + 1)
+  }
+
   function handlePointerDown(
     event: React.PointerEvent<HTMLButtonElement>
   ) {
     longPressedRef.current = false
+
     pointerStartRef.current = {
       x: event.clientX,
       y: event.clientY,
@@ -362,46 +409,62 @@ export default function MaitronXAssistant({
     longPressRef.current = window.setTimeout(() => {
       longPressedRef.current = true
 
+      // Cancel pending single-tap action.
+      if (singleTapRef.current !== null) {
+        window.clearTimeout(singleTapRef.current)
+        singleTapRef.current = null
+      }
+
       if (!fullPage) {
         navigate('/maitronx')
       }
     }, 650)
   }
 
-    function handlePointerUp(
+  function handlePointerUp(
     event: React.PointerEvent<HTMLButtonElement>
   ) {
-  if (longPressRef.current !== null) {
-    window.clearTimeout(longPressRef.current)
-    longPressRef.current = null
-  }
+    if (longPressRef.current !== null) {
+      window.clearTimeout(longPressRef.current)
+      longPressRef.current = null
+    }
 
-  if (longPressedRef.current) return
+    if (longPressedRef.current) {
+      return
+    }
 
-  const start = pointerStartRef.current
+    const start = pointerStartRef.current
 
-  if (start) {
-    const distance = Math.hypot(
-      event.clientX - start.x,
-      event.clientY - start.y
-    )
+    if (start) {
+      const distance = Math.hypot(
+        event.clientX - start.x,
+        event.clientY - start.y
+      )
 
-    if (distance > 15) return
-  }
+      if (distance > 15) {
+        return
+      }
+    }
 
-  if (singleTapRef.current !== null) {
-    window.clearTimeout(singleTapRef.current)
-    singleTapRef.current = null
-    handleDoubleTap()
-  } else {
+    // A second tap within the detection window is a double tap.
+    if (singleTapRef.current !== null) {
+      window.clearTimeout(singleTapRef.current)
+      singleTapRef.current = null
+
+      handleDoubleTap()
+      return
+    }
+
+    // Wait briefly before confirming a single tap.
     singleTapRef.current = window.setTimeout(() => {
       singleTapRef.current = null
 
-      if (!homepageMode) {
+      if (homepageMode) {
+        triggerHomepageReaction()
+      } else {
         setShowPrompts((previous) => !previous)
       }
     }, 270)
-  }
   }
 
   function handlePointerCancel() {
@@ -418,17 +481,37 @@ export default function MaitronXAssistant({
   }
 
   function toggleSleepMode() {
-    if (activeRef.current) stopConversation()
+    if (activeRef.current) {
+      stopConversation()
+    }
 
     const next = !sleepMode
+
     setSleepMode(next)
     setStatus(next ? 'sleep' : navigator.onLine ? 'online' : 'offline')
+
     setMessage(
       next
         ? 'Naka-Sleep Mode ako. Maaari mo akong i-activate anumang oras.'
         : getGreeting(recentActivity)
     )
   }
+
+  // Five tilt values x four lift values x three durations
+  // x two glow values = 120 possible combinations.
+  const variation = reactionIndex % 120
+
+  const tiltValues = [-6, -3, 0, 3, 6]
+  const liftValues = [5, 7, 9, 11]
+  const durationValues = [560, 680, 800]
+  const glowValues = [18, 26]
+
+  const reactionStyle = {
+    '--mx-tilt': `${tiltValues[variation % 5]}deg`,
+    '--mx-lift': `${liftValues[Math.floor(variation / 5) % 4]}px`,
+    '--mx-duration': `${durationValues[Math.floor(variation / 20) % 3]}ms`,
+    '--mx-glow': `${glowValues[Math.floor(variation / 60) % 2]}px`,
+  } as CSSProperties
 
   return (
     <section className={`mx-assistant ${fullPage ? 'mx-full-page' : ''}`}>
@@ -439,7 +522,9 @@ export default function MaitronXAssistant({
           font-family: inherit;
         }
 
-        .mx-assistant * { box-sizing: border-box; }
+        .mx-assistant * {
+          box-sizing: border-box;
+        }
 
         .mx-widget {
           display: flex;
@@ -473,6 +558,14 @@ export default function MaitronXAssistant({
           color: #e5bd68;
           font-size: 11px;
           font-weight: 800;
+        }
+
+        .mx-bubble-reacting {
+          animation:
+            mx-bubble-reaction
+            var(--mx-duration)
+            cubic-bezier(.22,.8,.25,1);
+          transform-origin: left bottom;
         }
 
         .mx-prompts {
@@ -526,7 +619,14 @@ export default function MaitronXAssistant({
           user-select: none;
         }
 
-        .mx-head-button:focus { outline: none; }
+        .mx-head-button:focus {
+          outline: none;
+        }
+
+        .mx-head-button:focus-visible .mx-stage {
+          outline: 2px solid #d9b45b;
+          outline-offset: 4px;
+        }
 
         .mx-stage {
           display: grid;
@@ -537,6 +637,20 @@ export default function MaitronXAssistant({
           border-radius: 18px;
           background: radial-gradient(circle,#8a632b44,#161316 70%,#0b0b0d);
           transition: box-shadow .3s, border-color .3s;
+        }
+
+        .mx-stage-reacting {
+          animation:
+            mx-stage-reaction
+            var(--mx-duration)
+            cubic-bezier(.22,.8,.25,1);
+        }
+
+        .mx-stage-reacting .mx-avatar {
+          animation:
+            mx-head-reaction
+            var(--mx-duration)
+            cubic-bezier(.22,.8,.25,1);
         }
 
         .mx-status-listening .mx-stage {
@@ -599,13 +713,33 @@ export default function MaitronXAssistant({
           background: #999;
         }
 
-        .mx-status-online .mx-status-dot { background: #55bd83; }
-        .mx-status-listening .mx-status-dot { background: #d9b45b; }
-        .mx-status-thinking .mx-status-dot { background: #a48be5; }
-        .mx-status-speaking .mx-status-dot { background: #55bd83; }
-        .mx-status-connecting .mx-status-dot { background: #d9b45b; }
-        .mx-status-offline .mx-status-dot { background: #888; }
-        .mx-status-error .mx-status-dot { background: #e16d6d; }
+        .mx-status-online .mx-status-dot {
+          background: #55bd83;
+        }
+
+        .mx-status-listening .mx-status-dot {
+          background: #d9b45b;
+        }
+
+        .mx-status-thinking .mx-status-dot {
+          background: #a48be5;
+        }
+
+        .mx-status-speaking .mx-status-dot {
+          background: #55bd83;
+        }
+
+        .mx-status-connecting .mx-status-dot {
+          background: #d9b45b;
+        }
+
+        .mx-status-offline .mx-status-dot {
+          background: #888;
+        }
+
+        .mx-status-error .mx-status-dot {
+          background: #e16d6d;
+        }
 
         .mx-full-page {
           max-width: 900px;
@@ -650,9 +784,12 @@ export default function MaitronXAssistant({
           background: #1a1712;
           font-size: 10px;
           font-weight: 700;
+          cursor: pointer;
         }
 
-        .mx-tool:disabled { opacity: .5; }
+        .mx-tool:disabled {
+          opacity: .5;
+        }
 
         .mx-permission-backdrop {
           position: fixed;
@@ -714,6 +851,7 @@ export default function MaitronXAssistant({
           background: #d9b45b;
           font-size: 11px;
           font-weight: 800;
+          cursor: pointer;
         }
 
         .mx-permission-actions .mx-cancel {
@@ -730,44 +868,155 @@ export default function MaitronXAssistant({
         }
 
         @keyframes mx-float {
-          0%,100% { transform: translateY(2px); }
-          50% { transform: translateY(-5px); }
+          0%,100% {
+            transform: translateY(2px);
+          }
+
+          50% {
+            transform: translateY(-5px);
+          }
         }
 
         @keyframes mx-eyes {
-          0%,100% { opacity: .8; }
-          50% { opacity: 1; }
+          0%,100% {
+            opacity: .8;
+          }
+
+          50% {
+            opacity: 1;
+          }
         }
 
         @keyframes mx-mouth {
-          0%,100% { transform: scaleY(1); }
-          50% { transform: scaleY(.65); }
+          0%,100% {
+            transform: scaleY(1);
+          }
+
+          50% {
+            transform: scaleY(.65);
+          }
+        }
+
+        @keyframes mx-bubble-reaction {
+          0% {
+            transform: scale(1) translateY(0);
+            box-shadow: 0 7px 24px #0004;
+          }
+
+          35% {
+            transform: scale(1.035) translateY(-3px);
+            box-shadow: 0 0 var(--mx-glow) #d9b45b55;
+          }
+
+          65% {
+            transform: scale(.985) translateY(1px);
+          }
+
+          100% {
+            transform: scale(1) translateY(0);
+            box-shadow: 0 7px 24px #0004;
+          }
+        }
+
+        @keyframes mx-stage-reaction {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 transparent;
+          }
+
+          35% {
+            transform: scale(1.045);
+            box-shadow: 0 0 var(--mx-glow) #d9b45b88;
+          }
+
+          70% {
+            transform: scale(.985);
+          }
+
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 transparent;
+          }
+        }
+
+        @keyframes mx-head-reaction {
+          0% {
+            transform: translateY(0) rotate(0deg) scale(1);
+          }
+
+          30% {
+            transform:
+              translateY(calc(var(--mx-lift) * -1))
+              rotate(var(--mx-tilt))
+              scale(1.045);
+          }
+
+          60% {
+            transform:
+              translateY(2px)
+              rotate(calc(var(--mx-tilt) * -0.5))
+              scale(.985);
+          }
+
+          100% {
+            transform: translateY(0) rotate(0deg) scale(1);
+          }
         }
 
         @media(max-width:600px) {
-          .mx-widget { gap: 10px; }
-          .mx-character { flex-basis: 105px; width: 105px; }
-          .mx-bubble { padding: 11px; font-size: 10px; }
+          .mx-widget {
+            gap: 10px;
+          }
+
+          .mx-character {
+            flex-basis: 105px;
+            width: 105px;
+          }
+
+          .mx-bubble {
+            padding: 11px;
+            font-size: 10px;
+          }
+
           .mx-full-page .mx-widget {
             flex-direction: column-reverse;
             align-items: stretch;
           }
+
           .mx-full-page .mx-character {
             flex-basis: auto;
             width: 145px;
             margin: 0 auto;
           }
-          .mx-full-page .mx-bubble { font-size: 12px; }
+
+          .mx-full-page .mx-bubble {
+            font-size: 12px;
+          }
         }
 
         @media(max-width:380px) {
-          .mx-widget { gap: 7px; }
-          .mx-character { flex-basis: 88px; width: 88px; }
-          .mx-bubble { padding: 9px; font-size: 9px; }
+          .mx-widget {
+            gap: 7px;
+          }
+
+          .mx-character {
+            flex-basis: 88px;
+            width: 88px;
+          }
+
+          .mx-bubble {
+            padding: 9px;
+            font-size: 9px;
+          }
         }
 
         @media(prefers-reduced-motion:reduce) {
-          .mx-avatar,.mx-eyes,.mx-mouth {
+          .mx-avatar,
+          .mx-eyes,
+          .mx-mouth,
+          .mx-bubble-reacting,
+          .mx-stage-reacting,
+          .mx-stage-reacting .mx-avatar {
             animation: none !important;
           }
         }
@@ -775,7 +1024,16 @@ export default function MaitronXAssistant({
 
       <div className="mx-widget">
         <div className="mx-chat">
-          <div className="mx-bubble" aria-live="polite">
+          <div
+            key={reactionKey}
+            className={`mx-bubble ${
+              homepageMode && reactionKey > 0
+                ? 'mx-bubble-reacting'
+                : ''
+            }`}
+            style={reactionStyle}
+            aria-live="polite"
+          >
             <span className="mx-bubble-name">MaîtronX</span>
             {message}
           </div>
@@ -801,7 +1059,7 @@ export default function MaitronXAssistant({
             </div>
           )}
 
-                   <div className="mx-tools">
+          <div className="mx-tools">
             {!homepageMode && (
               activeRef.current ? (
                 <button
@@ -809,7 +1067,8 @@ export default function MaitronXAssistant({
                   className="mx-tool"
                   onClick={stopConversation}
                 >
-                  <MicOff size={14} /> End voice
+                  <MicOff size={14} />
+                  End voice
                 </button>
               ) : (
                 <button
@@ -817,7 +1076,8 @@ export default function MaitronXAssistant({
                   className="mx-tool"
                   onClick={() => setShowPermission(true)}
                 >
-                  <Mic size={14} /> Voice
+                  <Mic size={14} />
+                  Voice
                 </button>
               )
             )}
@@ -834,17 +1094,26 @@ export default function MaitronXAssistant({
             )}
           </div>
         </div>
-                <div className="mx-character">
+
+        <div className="mx-character">
           <button
             type="button"
             className="mx-head-button"
-            aria-label="Tap for prompts, double tap for voice, long press for full page"
+            aria-label="Single tap for animation, double tap for voice, long press for full page"
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerCancel}
             onContextMenu={(event) => event.preventDefault()}
           >
-            <div className="mx-stage">
+            <div
+              key={reactionKey}
+              className={`mx-stage ${
+                homepageMode && reactionKey > 0
+                  ? 'mx-stage-reacting'
+                  : ''
+              }`}
+              style={reactionStyle}
+            >
               <svg
                 className="mx-avatar"
                 viewBox="0 0 240 190"
@@ -857,6 +1126,7 @@ export default function MaitronXAssistant({
                     <stop offset="55%" stopColor="#171419" />
                     <stop offset="100%" stopColor="#08080a" />
                   </linearGradient>
+
                   <linearGradient id="mx-gold" x2="1" y2="1">
                     <stop offset="0%" stopColor="#fff0b0" />
                     <stop offset="50%" stopColor="#d9b45b" />
@@ -890,12 +1160,27 @@ export default function MaitronXAssistant({
                     d="M76 86 Q91 72 108 87 L104 100 Q90 108 78 98 Z"
                     fill="#d9b45b"
                   />
+
                   <path
                     d="M132 87 Q149 72 164 86 L162 98 Q149 108 136 100 Z"
                     fill="#d9b45b"
                   />
-                  <ellipse cx="93" cy="91" rx="5" ry="7" fill="#fff5cf" />
-                  <ellipse cx="147" cy="91" rx="5" ry="7" fill="#fff5cf" />
+
+                  <ellipse
+                    cx="93"
+                    cy="91"
+                    rx="5"
+                    ry="7"
+                    fill="#fff5cf"
+                  />
+
+                  <ellipse
+                    cx="147"
+                    cy="91"
+                    rx="5"
+                    ry="7"
+                    fill="#fff5cf"
+                  />
                 </g>
 
                 <path
@@ -948,7 +1233,9 @@ export default function MaitronXAssistant({
               <ShieldCheck size={25} />
             </div>
 
-            <h3 id="mx-permission-title">Enable Voice Conversation</h3>
+            <h3 id="mx-permission-title">
+              Enable Voice Conversation
+            </h3>
 
             <p>
               Kailangan ni MaîtronX ang microphone access para marinig ang
@@ -957,7 +1244,9 @@ export default function MaitronXAssistant({
             </p>
 
             {permissionError && (
-              <div className="mx-error">{permissionError}</div>
+              <div className="mx-error">
+                {permissionError}
+              </div>
             )}
 
             <div className="mx-permission-actions">
@@ -984,4 +1273,4 @@ export default function MaitronXAssistant({
       )}
     </section>
   )
-                            }
+}
