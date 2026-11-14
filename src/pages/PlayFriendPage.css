@@ -344,69 +344,269 @@
   white-space: nowrap;
 }
 
+/* GAME SETTINGS LAYOUT */
 .cx-friend-settings {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
 }
 
 .cx-friend-setting-field {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
-.cx-friend-select-wrap {
+.cx-friend-setting-field > label {
+  color: #c7c4bc;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* CUSTOM SETTING TRIGGERS */
+.cx-friend-setting-trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: 44px;
-  padding: 0 10px;
-  color: var(--cx-gold, #d9b45b);
+  gap: 12px;
+  width: 100%;
+  min-height: 62px;
+  padding: 10px 13px;
+  color: var(--cx-text, #f3f1eb);
+  text-align: left;
   background: var(--cx-bg, #0b0b0d);
   border: 1px solid var(--cx-border, rgba(255,255,255,.075));
-  border-radius: 9px;
+  border-radius: 11px;
+  transition: border-color .2s ease, background .2s ease;
 }
 
-.cx-friend-select-wrap select {
-  flex: 1;
-  width: 100%;
-  min-width: 0;
-  color: var(--cx-text, #f3f1eb);
-  background: transparent;
-  border: 0;
-  outline: none;
-  font-size: 12px;
+.cx-friend-setting-trigger:hover,
+.cx-friend-setting-trigger.expanded {
+  background: #191815;
+  border-color: rgba(217,180,91,.4);
 }
 
-.cx-friend-select-wrap option {
-  color: #f3f1eb;
-  background: #141417;
+.cx-friend-setting-trigger-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  color: var(--cx-gold, #d9b45b);
+  background: rgba(217,180,91,.09);
+  border: 1px solid rgba(217,180,91,.15);
+  border-radius: 10px;
 }
 
-.cx-friend-setting-summary {
+.cx-friend-setting-trigger-copy {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  grid-column: 1 / -1;
-  padding-top: 12px;
-  border-top: 1px solid var(--cx-border, rgba(255,255,255,.075));
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
-.cx-friend-setting-summary span {
-  width: 100%;
+.cx-friend-setting-trigger-copy strong {
+  overflow: hidden;
+  color: var(--cx-text, #f3f1eb);
+  font-size: 13px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cx-friend-setting-trigger-copy small {
+  color: var(--cx-muted, #929198);
+  font-size: 10px;
+}
+
+.cx-friend-setting-trigger > svg:last-child {
+  flex-shrink: 0;
+  color: var(--cx-muted, #929198);
+  transition: transform .2s ease;
+}
+
+.cx-friend-setting-trigger > svg.rotated {
+  color: var(--cx-gold, #d9b45b);
+  transform: rotate(180deg);
+}
+
+/* CUSTOM OPTION PANELS */
+.cx-friend-setting-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 2px;
+  padding: 13px;
+  background: var(--cx-bg, #0b0b0d);
+  border: 1px solid var(--cx-border, rgba(255,255,255,.075));
+  border-radius: 11px;
+  animation: cx-friend-enter .16s ease-out;
+}
+
+.cx-friend-time-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cx-friend-time-group > span {
+  color: var(--cx-muted, #929198);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+}
+
+.cx-friend-option-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.cx-friend-option-grid button,
+.cx-friend-variant-options button,
+.cx-friend-mode-options button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px;
+  color: #c7c4bc;
+  background: var(--cx-surface, #141417);
+  border: 1px solid var(--cx-border, rgba(255,255,255,.075));
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 650;
+  transition: .18s ease;
+}
+
+.cx-friend-option-grid button:hover,
+.cx-friend-variant-options button:hover,
+.cx-friend-mode-options button:hover {
+  border-color: rgba(217,180,91,.4);
+}
+
+.cx-friend-option-grid button.selected,
+.cx-friend-variant-options button.selected,
+.cx-friend-mode-options button.selected {
+  color: var(--cx-gold-light, #f0d48a);
+  background: rgba(217,180,91,.1);
+  border-color: rgba(217,180,91,.5);
+}
+
+.cx-friend-variant-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cx-friend-variant-options button {
+  justify-content: space-between;
+  text-align: left;
+}
+
+.cx-friend-mode-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cx-friend-mode-options button {
+  justify-content: space-between;
+}
+
+/* RATING FILTER */
+.cx-friend-rating-field {
+  padding: 14px;
+  background: var(--cx-bg, #0b0b0d);
+  border: 1px solid var(--cx-border, rgba(255,255,255,.075));
+  border-radius: 11px;
+}
+
+.cx-friend-rating-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.cx-friend-rating-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cx-friend-rating-controls label > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   color: var(--cx-muted, #929198);
   font-size: 11px;
 }
 
-.cx-friend-setting-summary strong {
-  padding: 6px 9px;
+.cx-friend-rating-controls label > span strong {
   color: var(--cx-gold, #d9b45b);
-  background: rgba(217,180,91,.08);
-  border: 1px solid rgba(217,180,91,.15);
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cx-friend-rating-controls input[type="range"] {
+  width: 100%;
+  height: 5px;
+  accent-color: var(--cx-gold, #d9b45b);
+  cursor: pointer;
+}
+
+.cx-friend-rating-controls small {
+  color: #77767d;
+  font-size: 9px;
+}
+
+/* SETTINGS SUMMARY */
+.cx-friend-setting-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(217,180,91,.055);
+  border: 1px solid rgba(217,180,91,.2);
+  border-radius: 11px;
+}
+
+.cx-friend-setting-summary-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--cx-muted, #929198);
+  font-size: 11px;
+}
+
+.cx-friend-setting-summary-heading svg {
+  color: #65bd87;
+}
+
+.cx-friend-setting-summary-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.cx-friend-setting-summary-values strong {
+  padding: 7px 10px;
+  color: var(--cx-gold, #d9b45b);
+  background: rgba(217,180,91,.09);
+  border: 1px solid rgba(217,180,91,.16);
   border-radius: 7px;
   font-size: 11px;
+}
+
+.cx-friend-setting-summary > small {
+  color: var(--cx-muted, #929198);
+  font-size: 10px;
 }
 
 .cx-friend-notice {
