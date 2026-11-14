@@ -434,10 +434,13 @@ function RatingIcon({ name }: { name: string }) {
               <span className="cx-overline">YOUR NETWORK</span>
               <h2>Friends</h2>
             </div>
-            <button className="cx-text-link">
-              View all <ChevronRight size={15} />
-            </button>
-          </div>
+<button
+  className="cx-text-link"
+  type="button"
+  onClick={() => navigate('/profile/friends')}
+>
+  View all <ChevronRight size={15} />
+</button>
 
 
           <div className="cx-friends-track">
@@ -475,10 +478,13 @@ function RatingIcon({ name }: { name: string }) {
               <span className="cx-overline">YOUR RECENT ACTIVITY</span>
               <h2>Game History</h2>
             </div>
-            <button className="cx-text-link">
-              View All Games <ChevronRight size={15} />
-            </button>
-          </div>
+<button
+  className="cx-text-link"
+  type="button"
+  onClick={() => navigate('/profile/games')}
+>
+  View All Games <ChevronRight size={15} />
+</button>
 
           <div className="cx-history-list">
             {games.map((game, index) => (
