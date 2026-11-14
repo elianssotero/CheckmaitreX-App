@@ -64,7 +64,7 @@ export const chessCompetitionSportsmanshipQuotes: ChessQuote[] = [
     category: 'Chess Competition & Sportsmanship',
     source: 'Maxims and Hints on Angling, Chess, Shooting, and Other Matters (1842 edition); signed R.P., originally dated March 1839',
     sourceUrl: 'https://www.chesshistory.com/winter/extra/advice.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
     sourceNote: 'Corrected bibliographic identification. The earlier repository title and 1833 date were inaccurate.',
   },
   {
@@ -74,7 +74,7 @@ export const chessCompetitionSportsmanshipQuotes: ChessQuote[] = [
     category: 'Chess Competition & Sportsmanship',
     source: 'The Morals of Chess; Works of the Late Doctor Benjamin Franklin (1793), page 179; originally published in The Columbian Magazine, December 1786',
     sourceUrl: 'https://en.wikisource.org/wiki/Page:Works_of_the_Late_Doctor_Benjamin_Franklin_(1793).djvu/189',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 9,
@@ -83,7 +83,7 @@ export const chessCompetitionSportsmanshipQuotes: ChessQuote[] = [
     category: 'Chess Competition & Sportsmanship',
     source: 'A Popular Introduction to the Study and Practice of Chess (London, 1851), page 25',
     sourceUrl: 'https://chesshistory.com/winter/winter145.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
     sourceNote: 'The book was published anonymously; attribution to S.S. Boden is documented by Edward Winter.',
   },
   {
@@ -93,7 +93,7 @@ export const chessCompetitionSportsmanshipQuotes: ChessQuote[] = [
     category: 'Chess Competition & Sportsmanship',
     source: 'New York Times, 1 August 1929, pages 21 and 23',
     sourceUrl: 'https://libarch.nmu.org.ua/bitstream/handle/GenofondUA/3160/1fbf0f5c5b63ba2423a958ce7420610e.pdf?isAllowed=y&sequence=1',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 11,
@@ -102,7 +102,7 @@ export const chessCompetitionSportsmanshipQuotes: ChessQuote[] = [
     category: 'Chess Competition & Sportsmanship',
     source: 'International Chess Magazine, October 1887, page 297',
     sourceUrl: 'https://chesshistory.com/winter/extra/steinitz1.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 12,
@@ -111,7 +111,7 @@ export const chessCompetitionSportsmanshipQuotes: ChessQuote[] = [
     category: 'Chess Competition & Sportsmanship',
     source: 'Lasker’s Chess Magazine, August–September 1906, page 182',
     sourceUrl: 'https://chesshistory.com/winter/extra/lasker1.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
     sourceNote: 'A direct excerpt from Lasker’s account of Steinitz’s gracious conduct after losing the championship. Keep the attribution to Lasker, not Steinitz.',
   },
 ]
