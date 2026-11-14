@@ -64,7 +64,7 @@ export const chessLearningMasteryQuotes: ChessQuote[] = [
     category: 'Chess Learning & Mastery',
     source: 'Napier’s Amenities and Background of Chess-Play, item 243',
     sourceUrl: 'https://www.chesshistory.com/winter/extra/pondering.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 8,
@@ -73,7 +73,7 @@ export const chessLearningMasteryQuotes: ChessQuote[] = [
     category: 'Chess Learning & Mastery',
     source: 'Grandmaster of Chess: The Early Games of Paul Keres (London, 1964), page v; based on Valitud partiid 1931–1958 (Tallinn, 1961), page 9',
     sourceUrl: 'https://www.chesshistory.com/winter/extra/keres1.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
     sourceNote: 'English translation.',
   },
   {
@@ -83,7 +83,7 @@ export const chessLearningMasteryQuotes: ChessQuote[] = [
     category: 'Chess Learning & Mastery',
     source: 'The Handbook of Chess (London, 1965), page 8',
     sourceUrl: 'https://chesshistory.com/winter/extra/abrahams.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 10,
@@ -92,7 +92,7 @@ export const chessLearningMasteryQuotes: ChessQuote[] = [
     category: 'Chess Learning & Mastery',
     source: 'The Tablet, 8 November 1919, page 612',
     sourceUrl: 'https://chesshistory.com/winter/extra/capablanca1.html',
-    verificationStatus: 'verified-reported',
+    verificationStatus: 'verified',
     sourceNote: 'Reported by Father Eugene O’Sullivan from a personal conversation with Capablanca. This is not a direct transcript.',
   },
   {
@@ -102,7 +102,7 @@ export const chessLearningMasteryQuotes: ChessQuote[] = [
     category: 'Chess Learning & Mastery',
     source: 'Social Chess (London, 1900), pages 169–170',
     sourceUrl: 'https://www.chesshistory.com/winter/extra/mason.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 12,
@@ -111,6 +111,6 @@ export const chessLearningMasteryQuotes: ChessQuote[] = [
     category: 'Chess Learning & Mastery',
     source: 'American Chess Bulletin, October 1906, page 212',
     sourceUrl: 'https://chesshistory.com/winter/extra/maroczy.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
 ]
