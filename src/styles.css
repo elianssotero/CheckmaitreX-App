@@ -330,6 +330,13 @@ svg {
   background: var(--cx-surface-2);
 }
 
+.cx-home .cx-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .cx-home .cx-user-details {
   display: flex;
   flex-direction: column;
@@ -365,18 +372,7 @@ svg {
   white-space: nowrap;
 }
 
-.cx-home .cx-player-flair {
-  padding: 4px 8px;
-  border: 1px solid rgba(217, 180, 91, 0.35);
-  border-radius: 20px;
-  color: var(--cx-gold-light);
-  background: rgba(217, 180, 91, 0.09);
-  font-size: 9px;
-  font-weight: 800;
-}
-
 .cx-home .cx-player-title,
-.cx-home .cx-player-flair,
 .cx-home .cx-user-streak-button {
   flex-shrink: 0;
 }
