@@ -54,7 +54,7 @@ export const chessPsychologyMindsetQuotes: ChessQuote[] = [
     category: 'Chess Psychology & Mindset',
     source: '“Psychology in Chess,” Chess World, November 1957, pages 230–232',
     sourceUrl: 'https://chesshistory.com/winter/extra/purdy.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 7,
@@ -63,7 +63,7 @@ export const chessPsychologyMindsetQuotes: ChessQuote[] = [
     category: 'Chess Psychology & Mindset',
     source: 'CHESS, February 1939, pages 179–181',
     sourceUrl: 'https://chesshistory.com/winter/extra/napier.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 8,
@@ -72,7 +72,7 @@ export const chessPsychologyMindsetQuotes: ChessQuote[] = [
     category: 'Chess Psychology & Mindset',
     source: '“Capablanca: Why Chess Is Popular,” Brooklyn Daily Eagle, 14 February 1930, page 24',
     sourceUrl: 'https://chesshistory.com/winter/extra/psychology.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 9,
@@ -81,7 +81,7 @@ export const chessPsychologyMindsetQuotes: ChessQuote[] = [
     category: 'Chess Psychology & Mindset',
     source: 'The Independent, 10 May 1900; reproduced in Literary Digest, 19 May 1900, page 622',
     sourceUrl: 'https://www.chesshistory.com/winter/extra/pillsbury1.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
   {
     id: 10,
@@ -90,6 +90,6 @@ export const chessPsychologyMindsetQuotes: ChessQuote[] = [
     category: 'Chess Psychology & Mindset',
     source: 'A Series of Progressive Lessons on the Game of Chess (London, 1831), page 22',
     sourceUrl: 'https://chesshistory.com/winter/extra/pondering.html',
-    verificationStatus: 'verified-direct',
+    verificationStatus: 'verified',
   },
 ]
