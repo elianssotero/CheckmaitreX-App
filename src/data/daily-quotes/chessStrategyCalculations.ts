@@ -116,4 +116,13 @@ export const chessStrategyCalculationsQuotes: ChessQuote[] = [
     verificationStatus: 'verified',
     sourceNote: 'English rendering of Tarrasch’s original German statement.',
   },
+  {
+    id: 13,
+    quote: 'For me, it’s more about seeing the right possibilities, finding the right ideas and evaluating them correctly.',
+    author: 'Magnus Carlsen',
+    category: 'Chess Strategy & Calculations',
+    source: 'Interview by Nicholas Carlson at the DLD Conference, 6 May 2015; transcript published by Chess.com on 2 June 2015',
+    sourceUrl: 'https://www.chess.com/news/view/magnus-carlsen-i-appreciate-creating-something-unique',
+    verificationStatus: 'verified',
+  },
 ]
