@@ -75,7 +75,7 @@ const timeGroups = [
   },
   {
     title: 'Daily',
-    options: ['1 Day', '2 Days', '3 Days'],
+    options: ['1 Day', '2 Days', '3 Days', '4 Days'],
   },
 ]
 
