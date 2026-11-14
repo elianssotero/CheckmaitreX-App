@@ -1053,6 +1053,170 @@ svg {
 }
 
 /* -------------------------
+   12. DAILY QUOTE
+------------------------- */
+
+.cx-home .cx-daily-quote {
+  margin-top: 40px;
+}
+
+.cx-home .cx-daily-quote-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 25px 27px;
+
+  border: 1px solid rgba(217, 180, 91, 0.25);
+  border-radius: 17px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(217, 180, 91, 0.12),
+      transparent 55%
+    ),
+    var(--cx-surface);
+}
+
+.cx-home .cx-daily-quote-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cx-home .cx-daily-quote-heading > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cx-home .cx-daily-quote-heading .cx-overline {
+  margin: 0;
+}
+
+.cx-home .cx-daily-quote-category {
+  color: var(--cx-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.cx-home .cx-daily-quote-icon {
+  display: grid;
+  place-items: center;
+
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+
+  border: 1px solid rgba(217, 180, 91, 0.2);
+  border-radius: 12px;
+
+  color: var(--cx-gold);
+  background: rgba(217, 180, 91, 0.08);
+}
+
+.cx-home .cx-daily-quote-text {
+  max-width: 850px;
+
+  margin: 25px 0 27px;
+
+  color: var(--cx-text);
+
+  font-size: clamp(19px, 2.5vw, 27px);
+  font-weight: 550;
+  line-height: 1.55;
+  letter-spacing: -0.5px;
+}
+
+.cx-home .cx-daily-quote-author {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.cx-home .cx-daily-quote-author-line {
+  width: 3px;
+  height: 34px;
+  flex-shrink: 0;
+
+  border-radius: 5px;
+  background: var(--cx-gold);
+}
+
+.cx-home .cx-daily-quote-author > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cx-home .cx-daily-quote-author strong {
+  color: var(--cx-gold-light);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.cx-home .cx-daily-quote-author span {
+  color: var(--cx-muted);
+  font-size: 10px;
+}
+
+.cx-home .cx-daily-quote-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-top: 24px;
+  padding-top: 14px;
+
+  border-top: 1px solid var(--cx-border);
+}
+
+.cx-home .cx-daily-quote-footer > span {
+  color: var(--cx-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.cx-home .cx-daily-quote-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: var(--cx-gold);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.cx-home .cx-daily-quote-footer a:hover {
+  color: var(--cx-gold-light);
+}
+
+@media (max-width: 600px) {
+  .cx-home .cx-daily-quote-card {
+    padding: 21px 18px;
+  }
+
+  .cx-home .cx-daily-quote-text {
+    margin: 22px 0 24px;
+    font-size: 20px;
+  }
+
+  .cx-home .cx-daily-quote-footer {
+    align-items: flex-start;
+  }
+
+  .cx-home .cx-daily-quote-footer > span {
+    max-width: 65%;
+    line-height: 1.5;
+  }
+}
+
+/* -------------------------
    12. HOMEPAGE FOOTER
 ------------------------- */
 
